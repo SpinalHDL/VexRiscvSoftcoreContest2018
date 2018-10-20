@@ -83,6 +83,8 @@ object Up5kSpeed {
           regFileReadyKind = plugin.SYNC,
           zeroBoot = false
         ),
+        new DivPlugin,
+        new MulPlugin,
         new IntAluPlugin,
         new SrcPlugin(
           separatedAddSub = false,
@@ -116,9 +118,9 @@ case class SB_SPRAM256KA() extends BlackBox{
   val CHIPSELECT = in Bool()
   val CLOCK = in Bool()
   val DATAOUT = out Bits(16 bits)
-  //  val STANDBY = in Bool()
-  //  val SLEEP = in Bool()
-  //  val POWEROFF = in Bool()
+  val STANDBY = in Bool()
+  val SLEEP = in Bool()
+  val POWEROFF = in Bool()
   mapCurrentClockDomain(CLOCK)
 }
 
@@ -151,8 +153,11 @@ case class Spram(simpleBusConfig : SimpleBusConfig) extends Component{
   mems(1).MASKWREN := cmd.mask(3) ## cmd.mask(3) ## cmd.mask(2) ## cmd.mask(2)
   for(mem <- mems){
     mem.CHIPSELECT := cmd.valid
-    mem.ADDRESS := cmd.address.resized
+    mem.ADDRESS := (cmd.address >> 2).resized
     mem.WREN := cmd.wr
+    mem.STANDBY  := False
+    mem.SLEEP    := False
+    mem.POWEROFF := True
   }
 
   val readData = mems(1).DATAOUT ## mems(0).DATAOUT
@@ -345,9 +350,24 @@ case class Peripherals() extends Component{
   mTime := mTime + 1
   io.mTimeInterrupt := mTime > mTimeCmp
 
+  val serialTx = new Area{
+    val counter = Counter(12)
+    val buffer = Reg(Bits(8 bits))
+    val bitstream = buffer ## "0111"
+    val busy = counter =/= 0
+
+    io.serialTx := RegNext(bitstream(counter)) init(True)
+    val timer = CounterFreeRun(200)
+    when(counter =/= 0 && timer.willOverflow){
+      counter.increment()
+    }
+  }
+
 
   val mapper = new SimpleBusSlaveFactory(io.bus)
-  mapper.drive(io.serialTx, 0x0, 0) init(True)
+  mapper.write(serialTx.buffer, 0x0, 0)
+  when(mapper.isWriting(0x0)) { serialTx.counter.increment() }
+  mapper.read(serialTx.busy, 0x0, 0)
   mapper.driveAndRead(io.leds, 0x4, 0) init(0)
 //  mapper.drive(io.flashSpi.mosi, 0x4, 0)
 //  mapper.drive(io.flashSpi.sclk, 0x4, 1) init(False)
@@ -360,7 +380,6 @@ case class Peripherals() extends Component{
 
 case class Up5kSpeed() extends Component {
   val pipelineDBus = true
-  val iRamSize = 64 kB
 
   val io = new Bundle {
     val leds = out Bits(3 bits)
@@ -391,11 +410,11 @@ case class Up5kSpeed() extends Component {
 
   val iRamArbiter = SimpleBusArbiter(mainBusConfig)
   iRamArbiter.io.masterBus <> iRam.io.bus
-  iBusMapping += iRamArbiter.io.iBus -> (0x80000000l, iRamSize)
-  dBusMapping += iRamArbiter.io.dBus -> (0x80000000l, iRamSize)
+  iBusMapping += iRamArbiter.io.iBus -> (0x80000000l, 64 kB)
+  dBusMapping += iRamArbiter.io.dBus -> (0x80000000l, 64 kB)
 
   val dRam = Spram(mainBusConfig)
-  dBusMapping += dRam.io.bus -> (0x90000000l, iRamSize)
+  dBusMapping += dRam.io.bus -> (0x90000000l, 64 kB)
 
   val slowArbiter = SimpleBusArbiter(mainBusConfig)
   slowArbiter.io.masterBus.resizableAddress() <> slowBus
@@ -405,7 +424,7 @@ case class Up5kSpeed() extends Component {
   val peripherals = Peripherals()
   peripherals.io.serialTx <> io.serialTx
   peripherals.io.leds     <> io.leds
-  slowMapping += peripherals.io.bus -> (0x100000, 256 Byte)
+  slowMapping += peripherals.io.bus -> (0x000000, 256 Byte)
 
 
   val flashXip = FlashXpi(addressWidth = 20)
@@ -413,7 +432,7 @@ case class Up5kSpeed() extends Component {
   RegNext(flashXip.io.flash.sclk).init(False) <> io.flash.sclk
   RegNext(flashXip.io.flash.mosi)             <> io.flash.mosi
   flashXip.io.flash.miso                      <> io.flash.miso
-  slowMapping += flashXip.io.bus -> (0x000000, 1 MB)
+  slowMapping += flashXip.io.bus -> (0x100000, 1 MB)
 
 
 

@@ -39,3 +39,5 @@ bin/
 simWorkspace/
 tmp/
 *.bin
+obj_dir
+.cproject
