@@ -15,14 +15,17 @@ import scala.collection.mutable.ArrayBuffer
 
 object Up5kSpeed {
   def main(args: Array[String]): Unit = {
-    SpinalVerilog(Up5kSpeed())
+    SpinalVerilog(Up5kSpeed(Up5kSpeedParameters(
+      ioClkFrequency = 12 MHz,
+      ioSerialBaudRate = 115200
+    )))
   }
 
   def core() = new VexRiscv(
     config = VexRiscvConfig(
       List(
         new IBusSimplePlugin(
-          resetVector = 0x80000000l,
+          resetVector = 0xF0120000l,
           cmdForkOnSecondStage = false,
           cmdForkPersistence = false,
           prediction = NONE,
@@ -83,8 +86,14 @@ object Up5kSpeed {
           regFileReadyKind = plugin.SYNC,
           zeroBoot = false
         ),
-        new DivPlugin,
-        new MulPlugin,
+//        new DivPlugin,
+//        new MulPlugin,
+        new MulDivIterativePlugin(
+          genMul = true,
+          genDiv = true,
+          mulUnrollFactor = 1,
+          divUnrollFactor = 1
+        ),
         new IntAluPlugin,
         new SrcPlugin(
           separatedAddSub = false,
@@ -259,6 +268,42 @@ class SimpleBusSlaveFactory(bus: SimpleBus) extends BusSlaveFactoryDelayed{
   override def wordAddressInc: Int = busDataWidth / 8
 }
 
+class SimpleBusDecoder(master : SimpleBus, val specification : Seq[(SimpleBus,SizeMapping)]) extends Area{
+  def masterPipelined = master
+
+  val slaveBuses = specification.map(_._1)
+  val memorySpaces = specification.map(_._2)
+
+  val hits = for((slaveBus, memorySpace) <- specification) yield {
+    val hit = memorySpace.hit(masterPipelined.cmd.address)
+    slaveBus.cmd.valid   := masterPipelined.cmd.valid && hit
+    slaveBus.cmd.payload := masterPipelined.cmd.payload.resized
+    hit
+  }
+  val noHit = !hits.orR
+  val cmdTargetId = OHToUInt(hits)
+  masterPipelined.cmd.ready := (hits,slaveBuses).zipped.map(_ && _.cmd.ready).orR || noHit
+
+
+  val rspPending  = RegInit(False) clearWhen(masterPipelined.rsp.valid) setWhen(masterPipelined.cmd.fire && !masterPipelined.cmd.wr)
+  val rspNoHit    = RegNext(False) init(False) setWhen(noHit)
+  val rspSourceId = RegNextWhen(cmdTargetId, masterPipelined.cmd.fire)
+  masterPipelined.rsp.valid   := slaveBuses.map(_.rsp.valid).orR || (rspPending && rspNoHit)
+  masterPipelined.rsp.payload := slaveBuses.map(_.rsp.payload).read(rspSourceId)
+
+  when(rspPending && !masterPipelined.rsp.valid) { //Only one pending read request is allowed
+    masterPipelined.cmd.ready := False
+    slaveBuses.foreach(_.cmd.valid := False)
+  }
+
+//  val cmdWait = masterPipelined.cmd.valid && rspPending && cmdTargetId =/= rspSourceId
+//  when(cmdWait){
+//    masterPipelined.cmd.ready := False
+//    slaveBuses.foreach(_.cmd.valid := False)
+//  }
+}
+
+
 case class FlashXpi(addressWidth : Int) extends Component{
   val io = new Bundle {
     val bus = slave(SimpleBus(addressWidth, 32))
@@ -297,7 +342,7 @@ case class FlashXpi(addressWidth : Int) extends Component{
       io.flash.sclk := counter.lsb
       val bitstream = B"x8183"
       io.flash.mosi := bitstream.asBools.reverse((counter >> 1).resized)
-      when(counter === widthOf(counter >> 1)){
+      when(counter === widthOf(bitstream)*2-1){
         goto(IDLE)
       }
     }
@@ -315,7 +360,7 @@ case class FlashXpi(addressWidth : Int) extends Component{
       io.flash.sclk := counter.lsb
       val bitstream = B"x0B" ## io.bus.cmd.address.resize(24 bits) ## B"x00"
       io.flash.mosi := bitstream.asBools.reverse((counter >> 1).resized)
-      when(counter === widthOf(bitstream)){
+      when(counter === widthOf(bitstream)*2-1){
         io.bus.cmd.ready := True
         goto(PAYLOAD)
       }
@@ -326,29 +371,32 @@ case class FlashXpi(addressWidth : Int) extends Component{
       io.flash.ss(0) := False
       io.flash.sclk := counter.lsb
       buffer.fill setWhen(counter.lsb)
-      when(counter === 32*2){
+      when(counter === 32*2-1){
         goto(IDLE)
       }
     }
-
-
-
   }
 }
 
-case class Peripherals() extends Component{
+case class Peripherals(serialBaudRate : Int) extends Component{
   val io = new Bundle{
     val bus = slave(SimpleBus(6, 32))
     val mTimeInterrupt = out Bool()
     val leds = out Bits(3 bits)
     val serialTx = out Bool()
-//    val flashSpi = master(SpiMaster())
   }
 
-  val mTime = Reg(UInt(64 bits)) init(0)
-  val mTimeCmp = Reg(UInt(64 bits)) init(0)
-  mTime := mTime + 1
-  io.mTimeInterrupt := mTime > mTimeCmp
+  val mapper = new SimpleBusSlaveFactory(io.bus)
+  mapper.driveAndRead(io.leds, 0x4, 0) init(0)
+
+  val mTime = new Area {
+    val counter = Reg(UInt(64 bits)) init(0)
+    val cmp = Reg(UInt(64 bits)) init(0)
+    counter := counter + 1
+    io.mTimeInterrupt := counter > cmp
+    mapper.readMultiWord(counter, 0x10)
+    mapper.writeMultiWord(cmp, 0x18)
+  }
 
   val serialTx = new Area{
     val counter = Counter(12)
@@ -357,142 +405,215 @@ case class Peripherals() extends Component{
     val busy = counter =/= 0
 
     io.serialTx := RegNext(bitstream(counter)) init(True)
-    val timer = CounterFreeRun(200)
+    val timer = CounterFreeRun(ClockDomain.current.frequency.getValue.toInt/serialBaudRate)
     when(counter =/= 0 && timer.willOverflow){
       counter.increment()
     }
+
+    mapper.write(buffer, 0x0, 0)
+    when(mapper.isWriting(0x0)) { counter.increment() }
+    mapper.read(busy, 0x0, 0)
   }
-
-
-  val mapper = new SimpleBusSlaveFactory(io.bus)
-  mapper.write(serialTx.buffer, 0x0, 0)
-  when(mapper.isWriting(0x0)) { serialTx.counter.increment() }
-  mapper.read(serialTx.busy, 0x0, 0)
-  mapper.driveAndRead(io.leds, 0x4, 0) init(0)
-//  mapper.drive(io.flashSpi.mosi, 0x4, 0)
-//  mapper.drive(io.flashSpi.sclk, 0x4, 1) init(False)
-//  mapper.drive(io.flashSpi.ss(0), 0x4, 2) init(True)
-//  mapper.read(io.flashSpi.miso, 0x8, 0)
-  mapper.readMultiWord(mTime, 0x10)
-  mapper.writeMultiWord(mTimeCmp, 0x18)
 }
 
 
-case class Up5kSpeed() extends Component {
-  val pipelineDBus = true
 
+case class Up5kSpeedParameters(ioClkFrequency : HertzNumber,
+                               ioSerialBaudRate : Int)
+
+
+
+case class Up5kSpeed(p : Up5kSpeedParameters) extends Component {
   val io = new Bundle {
+    val clk, reset = in Bool()
     val leds = out Bits(3 bits)
     val serialTx = out Bool()
     val flash = master(SpiMaster())
   }
 
-  val cpu = Up5kSpeed.core()
-  val mainBusConfig = SimpleBusConfig(
-    addressWidth = 32,
-    dataWidth = 32
-  )
-
-  val slowBusConfig = SimpleBusConfig(
-    addressWidth = 21,
-    dataWidth = 32
-  )
-
-  val dBus = SimpleBus(mainBusConfig)
-  val dBusMapping = ArrayBuffer[(SimpleBus,SizeMapping)]()
-  val iBus = SimpleBus(mainBusConfig)
-  val iBusMapping = ArrayBuffer[(SimpleBus,SizeMapping)]()
-  val slowBus = SimpleBus(slowBusConfig)
-  val slowMapping = ArrayBuffer[(SimpleBus,SizeMapping)]()
-
-
-  val iRam = Spram(mainBusConfig)
-
-  val iRamArbiter = SimpleBusArbiter(mainBusConfig)
-  iRamArbiter.io.masterBus <> iRam.io.bus
-  iBusMapping += iRamArbiter.io.iBus -> (0x80000000l, 64 kB)
-  dBusMapping += iRamArbiter.io.dBus -> (0x80000000l, 64 kB)
-
-  val dRam = Spram(mainBusConfig)
-  dBusMapping += dRam.io.bus -> (0x90000000l, 64 kB)
-
-  val slowArbiter = SimpleBusArbiter(mainBusConfig)
-  slowArbiter.io.masterBus.resizableAddress() <> slowBus
-  iBusMapping += slowArbiter.io.iBus -> (0xF0000000l, 2 MB)
-  dBusMapping += slowArbiter.io.dBus -> (0xF0000000l, 2 MB)
-
-  val peripherals = Peripherals()
-  peripherals.io.serialTx <> io.serialTx
-  peripherals.io.leds     <> io.leds
-  slowMapping += peripherals.io.bus -> (0x000000, 256 Byte)
-
-
-  val flashXip = FlashXpi(addressWidth = 20)
-  RegNext(flashXip.io.flash.ss).init(1)       <> io.flash.ss
-  RegNext(flashXip.io.flash.sclk).init(False) <> io.flash.sclk
-  RegNext(flashXip.io.flash.mosi)             <> io.flash.mosi
-  flashXip.io.flash.miso                      <> io.flash.miso
-  slowMapping += flashXip.io.bus -> (0x100000, 1 MB)
-
-
-
-  val iBusDecoder = new MuraxSimpleBusDecoder(
-    master = iBus,
-    specification = iBusMapping,
-    pipelineMaster = false
-  )
-
-  val dBusDecoder = new MuraxSimpleBusDecoder(
-    master = dBus,
-    specification = dBusMapping,
-    pipelineMaster = false
-  )
-
-  val slowDecoder = new MuraxSimpleBusDecoder(
-    master = slowBus,
-    specification = slowMapping,
-    pipelineMaster = false
+  val resetCtrlClockDomain = ClockDomain(
+    clock = io.clk,
+    config = ClockDomainConfig(
+      resetKind = BOOT
+    )
   )
 
 
-  //Map the CPU into the SoC
-  for(plugin <- cpu.plugins) plugin match{
-    case plugin : IBusSimplePlugin =>
-      val cmd = plugin.iBus.cmd.halfPipe() //TODO improve
+  val resetCtrl = new ClockingArea(resetCtrlClockDomain) {
+    val mainClkResetUnbuffered  = False
+
+    //Implement an counter to keep the reset axiResetOrder high 64 cycles
+    // Also this counter will automatically do a reset when the system boot.
+    val systemClkResetCounter = Reg(UInt(6 bits)) init(0)
+    when(systemClkResetCounter =/= U(systemClkResetCounter.range -> true)){
+      systemClkResetCounter := systemClkResetCounter + 1
+      mainClkResetUnbuffered := True
+    }
+    when(BufferCC(io.reset)){
+      systemClkResetCounter := 0
+    }
+
+    //Create all reset used later in the design
+    val systemReset  = RegNext(mainClkResetUnbuffered)
+  }
+
+
+  val systemClockDomain = ClockDomain(
+    clock = io.clk,
+    reset = resetCtrl.systemReset,
+    frequency = FixedFrequency(p.ioClkFrequency)
+  )
+
+  val system = new ClockingArea(systemClockDomain) {
+    val cpu = Up5kSpeed.core()
+    val mainBusConfig = SimpleBusConfig(
+      addressWidth = 32,
+      dataWidth = 32
+    )
+
+    val slowBusConfig = SimpleBusConfig(
+      addressWidth = 21,
+      dataWidth = 32
+    )
+
+    val dBus = SimpleBus(mainBusConfig)
+    val dBusMapping = ArrayBuffer[(SimpleBus, SizeMapping)]()
+
+    val iBus = SimpleBus(mainBusConfig)
+    val iBusMapping = ArrayBuffer[(SimpleBus, SizeMapping)]()
+
+    val slowBus = SimpleBus(slowBusConfig)
+    val slowMapping = ArrayBuffer[(SimpleBus, SizeMapping)]()
+
+
+    val iRam = Spram(mainBusConfig)
+
+    val iRamArbiter = SimpleBusArbiter(mainBusConfig)
+    iRamArbiter.io.masterBus <> iRam.io.bus
+    iBusMapping += iRamArbiter.io.iBus -> (0x80000000l, 64 kB)
+    dBusMapping += iRamArbiter.io.dBus -> (0x80000000l, 64 kB)
+
+    val dRam = Spram(mainBusConfig)
+    dBusMapping += dRam.io.bus -> (0x90000000l, 64 kB)
+
+    val slowArbiter = SimpleBusArbiter(mainBusConfig)
+    slowArbiter.io.masterBus.cmd.halfPipe().addTag(tagAutoResize) >> slowBus.cmd
+    slowArbiter.io.masterBus.rsp << slowBus.rsp.stage()
+    iBusMapping += slowArbiter.io.iBus -> (0xF0000000l, 2 MB)
+    dBusMapping += slowArbiter.io.dBus -> (0xF0000000l, 2 MB)
+
+    val peripherals = Peripherals(serialBaudRate = p.ioSerialBaudRate)
+    peripherals.io.serialTx <> io.serialTx
+    peripherals.io.leds <> io.leds
+    slowMapping += peripherals.io.bus -> (0x000000, 256 Byte)
+
+
+    val flashXip = FlashXpi(addressWidth = 20)
+    RegNext(flashXip.io.flash.ss).init(1) <> io.flash.ss
+    RegNext(flashXip.io.flash.sclk).init(False) <> io.flash.sclk
+    RegNext(flashXip.io.flash.mosi) <> io.flash.mosi
+    flashXip.io.flash.miso <> io.flash.miso
+    slowMapping += flashXip.io.bus -> (0x100000, 1 MB)
+
+
+    val iBusDecoder = new SimpleBusDecoder(
+      master = iBus,
+      specification = iBusMapping
+    )
+
+    val dBusDecoder = new SimpleBusDecoder(
+      master = dBus,
+      specification = dBusMapping
+    )
+
+    val slowDecoder = new SimpleBusDecoder(
+      master = slowBus,
+      specification = slowMapping
+    )
+
+
+    //Map the CPU into the SoC
+    for (plugin <- cpu.plugins) plugin match {
+      case plugin: IBusSimplePlugin =>
+        val cmd = plugin.iBus.cmd.halfPipe() //TODO improve
       val rsp = plugin.iBus.rsp
-      iBus.cmd.valid   := cmd.valid
-      iBus.cmd.wr      := True
-      iBus.cmd.address := cmd.pc
-      iBus.cmd.data.assignDontCare()
-      iBus.cmd.mask.assignDontCare()
-      cmd.ready := iBus.cmd.ready
+        iBus.cmd.valid := cmd.valid
+        iBus.cmd.wr := False
+        iBus.cmd.address := cmd.pc
+        iBus.cmd.data.assignDontCare()
+        iBus.cmd.mask.assignDontCare()
+        cmd.ready := iBus.cmd.ready
 
-      rsp.valid := iBus.rsp.valid
-      rsp.error := False
-      rsp.inst := iBus.rsp.data
-    case plugin : DBusSimplePlugin => {
-      val cmd = plugin.dBus.cmd.halfPipe() //TODO improve
-      val rsp = plugin.dBus.rsp
-      dBus.cmd.valid   := cmd.valid
-      dBus.cmd.wr      := cmd.wr
-      dBus.cmd.address := cmd.address
-      dBus.cmd.data    := cmd.data
-      dBus.cmd.mask    := cmd.size.mux(
-        0 -> B"0001",
-        1 -> B"0011",
-        default -> B"1111"
-      ) |<< cmd.address(1 downto 0)
-      cmd.ready := dBus.cmd.ready
+        rsp.valid := iBus.rsp.valid
+        rsp.error := False
+        rsp.inst := iBus.rsp.data
+      case plugin: DBusSimplePlugin => {
+        val cmd = plugin.dBus.cmd.halfPipe() //TODO improve
+        val rsp = plugin.dBus.rsp
+        dBus.cmd.valid := cmd.valid
+        dBus.cmd.wr := cmd.wr
+        dBus.cmd.address := cmd.address
+        dBus.cmd.data := cmd.data
+        dBus.cmd.mask := cmd.size.mux(
+          0 -> B"0001",
+          1 -> B"0011",
+          default -> B"1111"
+        ) |<< cmd.address(1 downto 0)
+        cmd.ready := dBus.cmd.ready
 
-      rsp.ready := dBus.rsp.valid
-      rsp.data := dBus.rsp.data
+        rsp.ready := dBus.rsp.valid
+        rsp.data := dBus.rsp.data
+      }
+      case plugin: CsrPlugin => {
+        plugin.externalInterrupt := False
+        plugin.timerInterrupt := peripherals.io.mTimeInterrupt
+      }
+      case _ =>
     }
-    case plugin : CsrPlugin        => {
-      plugin.externalInterrupt := False
-      plugin.timerInterrupt := peripherals.io.mTimeInterrupt
-    }
-    case _ =>
   }
 }
 
+case class SB_GB() extends BlackBox{
+  val USER_SIGNAL_TO_GLOBAL_BUFFER = in Bool()
+  val GLOBAL_BUFFER_OUTPUT = out Bool()
+}
 
+
+object Up5kSpeedEvaluationBoard{
+  case class Up5kSpeedEvaluationBoard() extends Component{
+    val io = new Bundle {
+      val iceClk  = in  Bool() //35
+
+//      val serialTx  = out  Bool() //
+
+      val flashSpi  = master(SpiMaster()) //16 15 14 17
+
+      val leds = new Bundle {
+        val r,g,b = out Bool() //41 40 39
+      }
+    }
+
+    val mainClkBuffer = SB_GB()
+    mainClkBuffer.USER_SIGNAL_TO_GLOBAL_BUFFER <> io.iceClk
+
+    val soc = Up5kSpeed(Up5kSpeedParameters(
+      ioClkFrequency = 12 MHz,
+      ioSerialBaudRate = 115200
+    ))
+
+    soc.io.clk      <> mainClkBuffer.GLOBAL_BUFFER_OUTPUT
+    soc.io.reset    <> False
+    soc.io.flash    <> io.flashSpi
+    //    soc.io.serialTx <> io.serialTx
+    soc.io.serialTx <> io.leds.b
+//    soc.io.leds(0)  <> io.leds.r
+    False  <> io.leds.r
+//    soc.io.leds(1)  <> io.leds.g
+    True  <> io.leds.g
+//    soc.io.leds(2)  <> io.leds.b
+  }
+
+  def main(args: Array[String]) {
+    SpinalVerilog(Up5kSpeedEvaluationBoard())
+  }
+}

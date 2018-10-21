@@ -13,10 +13,11 @@ public:
 	// Need to add a new class variable
 	VerilatedVcdC	*m_trace;
 	uint64_t	time;
+	uint64_t	clkPeriod;
 	MODULE	*dut;
 	std::vector <Agent*> agents;
 
-	TESTBENCH(void) {
+	TESTBENCH(uint64_t clkPeriod) : clkPeriod(clkPeriod) {
 		Verilated::traceEverOn(true);
 		dut = new MODULE();
 		time = 0l;
@@ -56,10 +57,10 @@ public:
 	#endif
 
 	virtual void	reset(void) {
-		dut->reset = 1;
+		dut->io_reset = 1;
 		// Make sure any inheritance gets applied
 		this->tick();
-		dut->reset = 0;
+		dut->io_reset = 0;
 	}
 
 	virtual void	tick(void) {
@@ -72,7 +73,7 @@ public:
 		// coming into here, since we need all combinatorial logic
 		// to be settled before we call for a clock tick.
 		//
-		dut->clk = 0;
+		dut->io_clk = 0;
 		dut->eval();
 
 		//
@@ -86,7 +87,7 @@ public:
 		#endif*/
 
 		// Repeat for the positive edge of the clock
-		dut->clk = 1;
+		dut->io_clk = 1;
 		for(auto agent : agents) agent->preCycle(time);
 		dut->eval();
         for(auto agent : agents) agent->postCycle(time);
@@ -96,8 +97,8 @@ public:
 		#endif
 
 		// Now the negative edge
-		time += 5;
-		dut->clk = 0;
+		time += clkPeriod/2;
+		dut->io_clk = 0;
 		dut->eval();
 
         #ifdef TRACE
@@ -113,7 +114,7 @@ public:
 			m_trace->flush();
 		}
 		#endif
-		time += 5;
+		time += clkPeriod/2;
 	}
 
 	virtual bool	done(void) { return (Verilated::gotFinish()); }

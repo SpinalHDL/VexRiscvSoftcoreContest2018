@@ -2,14 +2,15 @@ TOPLEVEL=Up5kSpeed
 VERILOGS=  ../up5k_cells_sim.v ../../../../../${TOPLEVEL}.v
 
 TRACE ?= no
-DEBUG ?= yes
+DEBUG ?= no
 IRAM_BIN ?= no
+FLASH_BOOTLOADER ?= ../../../../main/asm/up5kBootFlash/copyFlash.bin
+FLASH_BIN ?= no
 
 ifeq ($(TRACE),yes)
 	VERILATOR_ARGS += --trace
 	ADDCFLAGS += -CFLAGS -DTRACE
 endif
-
 
 
 ifeq ($(DEBUG),yes)
@@ -21,6 +22,11 @@ endif
 
 ifneq ($(IRAM_BIN),no)
 	ADDCFLAGS += -CFLAGS -DIRAM_BIN='\"$(IRAM_BIN)\"'
+endif
+
+ADDCFLAGS += -CFLAGS -DFLASH_BOOTLOADER='\"$(FLASH_BOOTLOADER)\"'
+ifneq ($(FLASH_BIN),no)
+	ADDCFLAGS += -CFLAGS -DFLASH_BIN='\"$(FLASH_BIN)\"'
 endif
 
 all: clean compile

@@ -41,3 +41,10 @@ tmp/
 *.bin
 obj_dir
 .cproject
+*.d
+*.map
+*.asm
+*.txt
+*.asc
+*.rpt
+*.blif

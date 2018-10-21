@@ -1,0 +1,17 @@
+# 12 MHz clock
+set_io -nowarn io_iceClk        35
+
+# RS232
+#set_io -nowarn TX          9
+
+
+# RGB LED Driver
+set_io -nowarn io_leds_b  39
+set_io -nowarn io_leds_g  40
+set_io -nowarn io_leds_r  41
+
+# SPI Flash
+set_io -nowarn io_flashSpi_ss  16
+set_io -nowarn io_flashSpi_sclk  15
+set_io -nowarn io_flashSpi_mosi  14
+set_io -nowarn io_flashSpi_miso  17
