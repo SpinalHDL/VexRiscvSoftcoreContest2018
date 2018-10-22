@@ -3,6 +3,7 @@
 #define binarySize     0x8000
 #define dstAddress 0x80000000
 #define srcAddress 0xF0130000
+
 crtStart:
 	li a0, srcAddress
 	li a1, dstAddress

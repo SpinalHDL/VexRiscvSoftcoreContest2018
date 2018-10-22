@@ -30,6 +30,7 @@ SECTIONS {
   .rodata         :
   {
     *(.rdata)
+    *(.note.gnu.build-id)
     *(.rodata .rodata.*)
     *(.gnu.linkonce.r.*)
   } > mem
