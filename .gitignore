@@ -48,3 +48,8 @@ obj_dir
 *.asc
 *.rpt
 *.blif
+*.bin
+*.hex
+*.o
+*.elf
+*Old
