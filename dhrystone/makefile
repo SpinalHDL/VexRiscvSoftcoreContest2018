@@ -1,6 +1,5 @@
 PROJ_NAME=dhrystone
 DEBUG=no
-BENCH=no
 MULDIV?=yes
 COMPRESSED?=no
 
@@ -16,7 +15,7 @@ endif
 CFLAGS += -march=$(MARCH)
 
 CFLAGS += -fno-inline -fno-common
-CFLAGS +=  -DPREALLOCATE=1 -DHOST_DEBUG=0 -DMSC_CLOCK -DCORE_HZ=100000000
+CFLAGS +=  -DPREALLOCATE=1 -DHOST_DEBUG=0 -DMSC_CLOCK -DCORE_HZ=10000000
 
 
 SRCS = 	src/dhrystone_main.c src/dhrystone.c  src/stdlib.c src/start.S
@@ -44,10 +43,6 @@ endif
 
 ifeq ($(DEBUG),no)
 	CFLAGS += -g -O3 
-endif
-
-ifeq ($(BENCH),yes)
-	CFLAGS += -fno-inline  
 endif
 
 ifeq ($(SIFIVE_GCC_PACK),yes)

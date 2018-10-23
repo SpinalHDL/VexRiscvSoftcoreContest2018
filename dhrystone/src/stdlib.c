@@ -13,13 +13,8 @@ void setStats(int enable)
 
 }
 
-
 #define UART_BASE  ((volatile uint32_t*)(0xF0000000))
 #define MTIME_BASE ((volatile uint32_t*)(0xF0000010))
-
-//extern char *malloc();
-extern int printf(const char *format, ...);
-
 
 static void printf_c(int c)
 {
@@ -93,6 +88,8 @@ void putchar(char c){
 }
 
 #include <time.h>
-  clock_t	clock(){
+clock_t	clock(){
   return MTIME_BASE[0];
 }
+
+

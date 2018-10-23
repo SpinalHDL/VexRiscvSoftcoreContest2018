@@ -236,13 +236,20 @@ int main (int argc, char** argv)
   printf("Microseconds for one run through Dhrystone: %ld\n", Microseconds);
   printf("Dhrystones per Second:                      %ld\n", Dhrystones_Per_Second);
 
+
+  printf ("User_Time : %d\n", User_Time);
+  printf ("Number_Of_Runs : %d\n", Number_Of_Runs);
+  printf ("Mic_secs_Per_Second : %d\n", Mic_secs_Per_Second);
+  printf ("HZ : %d\n", HZ);
+//  printf ("CLK_TCK : %d\n", CLK_TCK);
+
   printf ("DMIPS per Mhz:                              ");
   int dmips = 100l*(1000000/1757) * Number_Of_Runs / User_Time;
   int dmipsNatural = dmips/100;
   int dmipsReal = (dmips - dmipsNatural*100);
   printf ("%d.", dmipsNatural);
   if(dmipsReal < 10) printf("0");
-  printf ("%d", dmipsReal);
+  printf ("%d\n", dmipsReal);
   return 0;
 }
 

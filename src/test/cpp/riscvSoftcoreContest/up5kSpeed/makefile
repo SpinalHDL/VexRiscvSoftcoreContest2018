@@ -4,8 +4,16 @@ VERILOGS=  ../up5k_cells_sim.v ../../../../../${TOPLEVEL}.v
 TRACE ?= no
 DEBUG ?= no
 IRAM_BIN ?= no
-FLASH_BOOTLOADER ?= ../../../../main/asm/up5kBootFlash/copyFlash.bin
 FLASH_BIN ?= no
+
+
+
+ifeq ($(FLASH_BIN),no)
+	FLASH_BOOTLOADER ?= ../../../../main/asm/up5kBootFlash/noFlash.bin
+else
+	FLASH_BOOTLOADER ?= ../../../../main/asm/up5kBootFlash/copyFlash.bin
+endif
+
 
 ifeq ($(TRACE),yes)
 	VERILATOR_ARGS += --trace
