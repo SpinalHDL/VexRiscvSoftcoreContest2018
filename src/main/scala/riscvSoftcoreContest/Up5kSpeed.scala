@@ -3,7 +3,7 @@ package riscvSoftcoreContest
 import spinal.core._
 import spinal.lib._
 import spinal.lib.bus.avalon.{AvalonMM, AvalonMMSlaveFactory, SYMBOLS, WORDS}
-import spinal.lib.bus.misc.{BusSlaveFactoryDelayed, BusSlaveFactoryElement, SingleMapping, SizeMapping}
+import spinal.lib.bus.misc._
 import spinal.lib.com.spi.SpiMaster
 import spinal.lib.fsm.{State, StateMachine}
 import vexriscv.{plugin, _}
@@ -97,11 +97,12 @@ object Up5kSpeed {
         ),
         new IntAluPlugin,
         new SrcPlugin(
-          separatedAddSub = false,
-          executeInsertion = true
+          separatedAddSub = true,
+          executeInsertion = false,
+          decodeAddSub = false
         ),
         new FullBarrelShifterPlugin(
-          earlyInjection = true
+          earlyInjection = false
         ),
         new HazardSimplePlugin(
           bypassExecute = true,
@@ -110,7 +111,7 @@ object Up5kSpeed {
           bypassWriteBackBuffer = true
         ),
         new BranchPlugin(
-          earlyBranch = true,
+          earlyBranch = false,
           catchAddressMisaligned = true
         )
       )
@@ -191,42 +192,23 @@ case class SimpleBusArbiter(simpleBusConfig : SimpleBusConfig, portCount : Int, 
     val inputs = Vec(slave(SimpleBus(simpleBusConfig)), portCount)
     val output = master(SimpleBus(simpleBusConfig))
   }
+  val logic = if(portCount == 1) new Area{
+    io.output << io.inputs(0)
+  } else new Area {
+    val arbiter = StreamArbiterFactory.lowerFirst.transactionLock.build(SimpleBusCmd(simpleBusConfig), portCount)
+    (arbiter.io.inputs, io.inputs).zipped.foreach(_ <> _.cmd)
 
-  val arbiter = StreamArbiterFactory.lowerFirst.transactionLock.build(SimpleBusCmd(simpleBusConfig), portCount)
-  (arbiter.io.inputs, io.inputs).zipped.foreach(_ <> _.cmd)
+    val (outputCmdFork, routeCmdFork) = StreamFork2(arbiter.io.output)
+    io.output.cmd << outputCmdFork
 
-  val (outputCmdFork, routeCmdFork) = StreamFork2(arbiter.io.output)
-  io.output.cmd << outputCmdFork
+    val rspRoute = routeCmdFork.translateWith(arbiter.io.chosen).throwWhen(routeCmdFork.wr).queueLowLatency(size = pendingRspMax, latency = 1)
+    rspRoute.ready := io.output.rsp.valid
 
-  val rspRoute = routeCmdFork.translateWith(arbiter.io.chosen).throwWhen(routeCmdFork.wr).queueLowLatency(size = pendingRspMax,latency = 1)
-  rspRoute.ready := io.output.rsp.valid
-
-  for((input, id) <- io.inputs.zipWithIndex){
-    input.rsp.valid := io.output.rsp.valid && rspRoute.payload === id
-    input.rsp.payload := io.output.rsp.payload
+    for ((input, id) <- io.inputs.zipWithIndex) {
+      input.rsp.valid := io.output.rsp.valid && rspRoute.payload === id
+      input.rsp.payload := io.output.rsp.payload
+    }
   }
-
-
-//  val inputOH = OHMasking.first(io.inputs.map(_.cmd.valid).asBits)
-//  val inputSel = OHToUInt(inputOH)
-//
-//  val cmd = Stream(SimpleBusCmd(simpleBusConfig))
-//  cmd.valid   := io.inputs.map(_.cmd.valid).orR
-//  cmd.payload := io.inputs(inputSel).cmd.payload
-//  for((input, sel) <- (io.inputs,inputOH.asBools).zipped){
-//    input.cmd.ready := cmd.ready && sel
-//  }
-//
-//  val (outputCmdFork, routeCmdFork) = StreamFork2(cmd)
-//  io.output.cmd << outputCmdFork
-//
-//  val rspRoute = routeCmdFork.translateWith(inputSel).throwWhen(routeCmdFork.wr).queueLowLatency(size = pendingRspMax,latency = 1)
-//  rspRoute.ready := io.output.rsp.valid
-//
-//  for((input, id) <- io.inputs.zipWithIndex){
-//    input.rsp.valid := io.output.rsp.valid && rspRoute.payload === id
-//    input.rsp.payload := io.output.rsp.payload
-//  }
 }
 
 class SimpleBusSlaveFactory(bus: SimpleBus) extends BusSlaveFactoryDelayed{
@@ -284,37 +266,35 @@ class SimpleBusSlaveFactory(bus: SimpleBus) extends BusSlaveFactoryDelayed{
   override def wordAddressInc: Int = busDataWidth / 8
 }
 
-case class SimpleBusDecoder(busConfig : SimpleBusConfig, mappings : Seq[SizeMapping], pendingMax : Int = 7) extends Component{
+case class SimpleBusDecoder(busConfig : SimpleBusConfig, mappings : Seq[AddressMapping], pendingMax : Int = 7) extends Component{
   val io = new Bundle {
     val input = slave(SimpleBus(busConfig))
     val outputs = Vec(master(SimpleBus(busConfig)), mappings.size)
   }
-  def masterPipelined = io.input
-
-  val slaveBuses = io.outputs
-  val memorySpaces = mappings
-
-  val hits = Vec(for((slaveBus, memorySpace) <- (slaveBuses, memorySpaces).zipped) yield {
-    val hit = memorySpace.hit(masterPipelined.cmd.address)
-    slaveBus.cmd.valid   := masterPipelined.cmd.valid && hit
-    slaveBus.cmd.payload := masterPipelined.cmd.payload.resized
-    hit
-  })
+  val hits = Vec(Bool, mappings.size)
+  for((slaveBus, memorySpace, hit) <- (io.outputs, mappings, hits).zipped) yield {
+    hit := (memorySpace match {
+      case DefaultMapping => !hits.filterNot(_ == hit).orR
+      case _ => memorySpace.hit(io.input.cmd.address)
+    })
+    slaveBus.cmd.valid   := io.input.cmd.valid && hit
+    slaveBus.cmd.payload := io.input.cmd.payload.resized
+  }
   val noHit = !hits.orR
-  masterPipelined.cmd.ready := (hits,slaveBuses).zipped.map(_ && _.cmd.ready).orR || noHit
+  io.input.cmd.ready := (hits,io.outputs).zipped.map(_ && _.cmd.ready).orR || noHit
 
   val rspPendingCounter = Reg(UInt(log2Up(pendingMax + 1) bits)) init(0)
-  rspPendingCounter := rspPendingCounter + U(masterPipelined.cmd.fire && !masterPipelined.cmd.wr) - U(masterPipelined.rsp.valid)
-  val rspHits = RegNextWhen(hits, masterPipelined.cmd.fire)
+  rspPendingCounter := rspPendingCounter + U(io.input.cmd.fire && !io.input.cmd.wr) - U(io.input.rsp.valid)
+  val rspHits = RegNextWhen(hits, io.input.cmd.fire)
   val rspPending  = rspPendingCounter =/= 0
   val rspNoHit    = !rspHits.orR
-  masterPipelined.rsp.valid   := slaveBuses.map(_.rsp.valid).orR || (rspPending && rspNoHit)
-  masterPipelined.rsp.payload := slaveBuses.map(_.rsp.payload).read(OHToUInt(rspHits))
+  io.input.rsp.valid   := io.outputs.map(_.rsp.valid).orR || (rspPending && rspNoHit)
+  io.input.rsp.payload := io.outputs.map(_.rsp.payload).read(OHToUInt(rspHits))
 
-  val cmdWait = masterPipelined.cmd.valid && rspPending && hits =/= rspHits
+  val cmdWait = (io.input.cmd.valid && rspPending && hits =/= rspHits) || rspPendingCounter === pendingMax
   when(cmdWait){
-    masterPipelined.cmd.ready := False
-    slaveBuses.foreach(_.cmd.valid := False)
+    io.input.cmd.ready := False
+    io.outputs.foreach(_.cmd.valid := False)
   }
 }
 
@@ -324,29 +304,30 @@ object SimpleBusConnectors{
 
 case class SimpleBusInterconnect(){
   case class MasterModel(var connector : (SimpleBus,SimpleBus) => Unit = SimpleBusConnectors.direct)
-  case class SlaveModel(mapping : SizeMapping, var connector : (SimpleBus,SimpleBus) => Unit = SimpleBusConnectors.direct)
+  case class SlaveModel(mapping : AddressMapping, var connector : (SimpleBus,SimpleBus) => Unit = SimpleBusConnectors.direct)
   case class ConnectionModel(m : SimpleBus, s : SimpleBus, var connector : (SimpleBus,SimpleBus) => Unit = SimpleBusConnectors.direct)
+
   val masters = mutable.LinkedHashMap[SimpleBus, MasterModel]()
   val slaves = mutable.LinkedHashMap[SimpleBus, SlaveModel]()
   val connections = ArrayBuffer[ConnectionModel]()
   var pendingRspMax = 2
 
 
-  def setConnector(bus : SimpleBus, connector : (SimpleBus,SimpleBus) => Unit): Unit = (masters.get(bus), slaves.get(bus)) match {
-    case (Some(m), None) => m.connector = connector
+  def setConnector(bus : SimpleBus)( connector : (SimpleBus,SimpleBus) => Unit): Unit = (masters.get(bus), slaves.get(bus)) match {
+    case (Some(m), _) =>    m.connector = connector
     case (None, Some(s)) => s.connector = connector
   }
 
-  def setConnector(m : SimpleBus, s : SimpleBus, connector : (SimpleBus,SimpleBus) => Unit): Unit = connections.find(e => e.m == m && e.s == s) match {
+  def setConnector(m : SimpleBus, s : SimpleBus)(connector : (SimpleBus,SimpleBus) => Unit): Unit = connections.find(e => e.m == m && e.s == s) match {
     case Some(c) => c.connector = connector
   }
 
-  def addSlave(bus: SimpleBus,mapping: SizeMapping) : this.type = {
+  def addSlave(bus: SimpleBus,mapping: AddressMapping) : this.type = {
     slaves(bus) = SlaveModel(mapping)
     this
   }
 
-  def addSlaves(orders : (SimpleBus,SizeMapping)*) : this.type = {
+  def addSlaves(orders : (SimpleBus,AddressMapping)*) : this.type = {
     orders.foreach(order => addSlave(order._1,order._2))
     this
   }
@@ -493,8 +474,8 @@ case class Peripherals(serialBaudRate : Int) extends Component{
     val cmp = Reg(UInt(32 bits)) init(0)
     counter := counter + 1
     io.mTimeInterrupt := (cmp - counter).msb
-    mapper.readMultiWord(counter, 0x10)
-    mapper.writeMultiWord(cmp, 0x18)
+    mapper.read(counter, 0x10)
+    mapper.write(cmp, 0x18)
   }
 
   val serialTx = new Area{
@@ -553,7 +534,8 @@ case class Up5kSpeed(p : Up5kSpeedParameters) extends Component {
     }
 
     //Create all reset used later in the design
-    val systemReset  = RegNext(mainClkResetUnbuffered)
+    val systemResetBuffered  = RegNext(mainClkResetUnbuffered)
+    val systemReset = SB_GB(systemResetBuffered)
   }
 
 
@@ -571,15 +553,14 @@ case class Up5kSpeed(p : Up5kSpeedParameters) extends Component {
     )
 
     val slowBusConfig = SimpleBusConfig(
-      addressWidth = 21,
+      addressWidth = 32,
       dataWidth = 32
     )
 
     val dBus = SimpleBus(mainBusConfig)
     val iBus = SimpleBus(mainBusConfig)
     val slowBus = SimpleBus(slowBusConfig)
-    val fastInterconnect = SimpleBusInterconnect()
-    val slowInterconnect = SimpleBusInterconnect()
+    val interconnect = SimpleBusInterconnect()
 
     val iRam = Spram(mainBusConfig)
     val dRam = Spram(mainBusConfig)
@@ -595,17 +576,31 @@ case class Up5kSpeed(p : Up5kSpeedParameters) extends Component {
     RegNext(flashXip.io.flash.mosi) <> io.flash.mosi
     flashXip.io.flash.miso <> io.flash.miso
 
-    fastInterconnect.addSlave(iRam.io.bus, (0x80000000l, 64 kB))
-    fastInterconnect.addSlave(dRam.io.bus, (0x90000000l, 64 kB))
-    fastInterconnect.addSlave(slowBus    , (0xF0000000l,  2 MB))
-    fastInterconnect.addMaster(dBus, accesses = List(iRam.io.bus, dRam.io.bus, slowBus))
-    fastInterconnect.addMaster(iBus, accesses = List(iRam.io.bus,              slowBus))
+    interconnect.addSlave(iRam.io.bus,        SizeMapping(0x80000000l, 64 kB))
+    interconnect.addSlave(dRam.io.bus,        SizeMapping(0x90000000l, 64 kB))
+    interconnect.addSlave(slowBus,            DefaultMapping)
+    interconnect.addSlave(peripherals.io.bus, SizeMapping(0xF0000000l, 256 Byte))
+    interconnect.addSlave(flashXip.io.bus,    SizeMapping(0xF0100000l, 1 MB))
+    interconnect.addMaster(dBus, accesses =    List(             dRam.io.bus, slowBus))
+    interconnect.addMaster(iBus, accesses =    List(iRam.io.bus,              slowBus))
+    interconnect.addMaster(slowBus, accesses = List(iRam.io.bus, dRam.io.bus,           peripherals.io.bus, flashXip.io.bus))
 
-    slowInterconnect.addSlave(peripherals.io.bus, (0x000000, 256 Byte))
-    slowInterconnect.addSlave(flashXip.io.bus, (0x100000, 1 MB))
-    slowInterconnect.addMaster(slowBus,accesses =  List(peripherals.io.bus, flashXip.io.bus))
-
-
+    interconnect.setConnector(dBus, slowBus){(i,b) =>
+      i.cmd.halfPipe() >> b.cmd
+      i.rsp            << b.rsp
+    }
+    interconnect.setConnector(iBus, slowBus){(i,b) =>
+      i.cmd.halfPipe() >> b.cmd
+      i.rsp            << b.rsp
+    }
+    interconnect.setConnector(slowBus){(i,b) =>
+      i.cmd >> b.cmd
+      i.rsp << b.rsp.stage()
+    }
+//    interconnect.setConnector(dBus){(i,b) =>
+//      i.cmd.halfPipe() >> b.cmd
+//      i.rsp << b.rsp
+//    }
 
 
 
@@ -648,6 +643,14 @@ case class Up5kSpeed(p : Up5kSpeedParameters) extends Component {
       }
       case _ =>
     }
+  }
+}
+
+object SB_GB{
+  def apply(input : Bool) : Bool = {
+    val c = SB_GB().setCompositeName(input, "SB_GB")
+    c.USER_SIGNAL_TO_GLOBAL_BUFFER := input
+    c.GLOBAL_BUFFER_OUTPUT
   }
 }
 
