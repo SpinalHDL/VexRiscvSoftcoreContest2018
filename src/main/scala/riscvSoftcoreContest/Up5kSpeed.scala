@@ -576,14 +576,18 @@ case class Up5kSpeed(p : Up5kSpeedParameters) extends Component {
     RegNext(flashXip.io.flash.mosi) <> io.flash.mosi
     flashXip.io.flash.miso <> io.flash.miso
 
-    interconnect.addSlave(iRam.io.bus,        SizeMapping(0x80000000l, 64 kB))
-    interconnect.addSlave(dRam.io.bus,        SizeMapping(0x90000000l, 64 kB))
-    interconnect.addSlave(slowBus,            DefaultMapping)
-    interconnect.addSlave(peripherals.io.bus, SizeMapping(0xF0000000l, 256 Byte))
-    interconnect.addSlave(flashXip.io.bus,    SizeMapping(0xF0100000l, 1 MB))
-    interconnect.addMaster(dBus, accesses =    List(             dRam.io.bus, slowBus))
-    interconnect.addMaster(iBus, accesses =    List(iRam.io.bus,              slowBus))
-    interconnect.addMaster(slowBus, accesses = List(iRam.io.bus, dRam.io.bus,           peripherals.io.bus, flashXip.io.bus))
+    interconnect.addSlaves(
+      iRam.io.bus         -> SizeMapping(0x80000000l, 64 kB),
+      dRam.io.bus         -> SizeMapping(0x90000000l, 64 kB),
+      peripherals.io.bus  -> SizeMapping(0xF0000000l, 256 Byte),
+      flashXip.io.bus     -> SizeMapping(0xF0100000l, 1 MB),
+      slowBus             -> DefaultMapping
+    )
+    interconnect.addMasters(
+      dBus   -> List(             dRam.io.bus, slowBus),
+      iBus   -> List(iRam.io.bus,              slowBus),
+      slowBus-> List(iRam.io.bus, dRam.io.bus,           peripherals.io.bus, flashXip.io.bus)
+    )
 
     interconnect.setConnector(dBus, slowBus){(i,b) =>
       i.cmd.halfPipe() >> b.cmd
