@@ -14,10 +14,10 @@ import vexriscv.plugin._
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
-object Up5kSpeed {
+object Igloo2Speed {
   def main(args: Array[String]): Unit = {
-    SpinalVerilog(Up5kSpeed(Up5kSpeedParameters(
-      ioClkFrequency = 12 MHz,
+    SpinalVerilog(Igloo2Speed(Igloo2SpeedParameters(
+      ioClkFrequency = 25 MHz,
       ioSerialBaudRate = 115200
     )))
   }
@@ -121,17 +121,37 @@ object Up5kSpeed {
 
 
 
+case class SimpleBusRam(onChipRamSize : BigInt) extends Component{
+  val io = new Bundle{
+    val bus = slave(SimpleBus(log2Up(onChipRamSize), 32))
+  }
 
-case class Up5kSpeedParameters(ioClkFrequency : HertzNumber,
-                               ioSerialBaudRate : Int)
+  val ram = Mem(Bits(32 bits), onChipRamSize / 4).addTag(Verilator.public)
+  io.bus.rsp.valid := RegNext(io.bus.cmd.fire && !io.bus.cmd.wr) init(False)
+  io.bus.rsp.data := ram.readWriteSync(
+    address = (io.bus.cmd.address >> 2).resized,
+    data  = io.bus.cmd.data,
+    enable  = io.bus.cmd.valid,
+    write  = io.bus.cmd.wr,
+    mask  = io.bus.cmd.mask
+  )
+  io.bus.cmd.ready := True
+}
 
 
 
-case class Up5kSpeed(p : Up5kSpeedParameters) extends Component {
+
+case class Igloo2SpeedParameters(ioClkFrequency : HertzNumber,
+                                 ioSerialBaudRate : Int)
+
+
+
+case class Igloo2Speed(p : Igloo2SpeedParameters) extends Component {
   val io = new Bundle {
     val clk, reset = in Bool()
     val leds = out Bits(3 bits)
     val serialTx = out Bool()
+    val serialRx = in Bool()
     val flash = master(SpiMaster())
   }
 
@@ -159,9 +179,18 @@ case class Up5kSpeed(p : Up5kSpeedParameters) extends Component {
 
     //Create all reset used later in the design
     val systemResetBuffered  = RegNext(mainClkResetUnbuffered)
-    val systemReset = SB_GB(systemResetBuffered)
+    val systemReset = CombInit(systemResetBuffered)
+
+    val progResetBuffered  = RegNext(mainClkResetUnbuffered)
+    val progReset = CombInit(progResetBuffered)
   }
 
+
+  val progClockDomain = ClockDomain(
+    clock = io.clk,
+    reset = resetCtrl.progReset,
+    frequency = FixedFrequency(p.ioClkFrequency)
+  )
 
   val systemClockDomain = ClockDomain(
     clock = io.clk,
@@ -186,8 +215,8 @@ case class Up5kSpeed(p : Up5kSpeedParameters) extends Component {
     val slowBus = SimpleBus(slowBusConfig)
     val interconnect = SimpleBusInterconnect()
 
-    val iRam = Spram(mainBusConfig)
-    val dRam = Spram(mainBusConfig)
+    val iRam = SimpleBusRam(8 kB)
+    val dRam = SimpleBusRam(16 kB)
 
     val peripherals = Peripherals(serialBaudRate = p.ioSerialBaudRate)
     peripherals.io.serialTx <> io.serialTx
@@ -195,11 +224,6 @@ case class Up5kSpeed(p : Up5kSpeedParameters) extends Component {
 
 
     val flashXip = FlashXpi(addressWidth = 20)
-    RegNext(flashXip.io.flash.ss).init(1) <> io.flash.ss
-    RegNext(flashXip.io.flash.sclk).init(False) <> io.flash.sclk
-    RegNext(flashXip.io.flash.mosi) <> io.flash.mosi
-    flashXip.io.flash.miso <> io.flash.miso
-
     interconnect.addSlaves(
       iRam.io.bus         -> SizeMapping(0x80000000l, 64 kB),
       dRam.io.bus         -> SizeMapping(0x90000000l, 64 kB),
@@ -225,6 +249,16 @@ case class Up5kSpeed(p : Up5kSpeedParameters) extends Component {
       i.cmd >> b.cmd
       i.rsp << b.rsp.stage()
     }
+    interconnect.setConnector(slowBus, iRam.io.bus){(i,b) =>
+      i.cmd.halfPipe() >> b.cmd
+      i.rsp            << b.rsp
+    }
+    interconnect.setConnector(slowBus, dRam.io.bus){(i,b) =>
+      i.cmd.halfPipe() >> b.cmd
+      i.rsp            << b.rsp
+    }
+
+
 //    interconnect.setConnector(dBus){(i,b) =>
 //      i.cmd.halfPipe() >> b.cmd
 //      i.rsp << b.rsp
@@ -233,7 +267,7 @@ case class Up5kSpeed(p : Up5kSpeedParameters) extends Component {
 
 
     //Map the CPU into the SoC
-    val cpu = Up5kSpeed.core()
+    val cpu = Igloo2Speed.core()
     for (plugin <- cpu.plugins) plugin match {
       case plugin: IBusSimplePlugin =>
         val cmd = plugin.iBus.cmd //TODO improve
@@ -272,45 +306,70 @@ case class Up5kSpeed(p : Up5kSpeedParameters) extends Component {
       case _ =>
     }
   }
+
+  val prog = new ClockingArea(progClockDomain){
+    val ctrl = SerialRxOutput(115200,0x0F)
+    ctrl.io.serialRx := io.serialRx
+    resetCtrl.systemResetBuffered setWhen(ctrl.io.output(7))
+
+    val ssReg, sclkReg, mosiReg = Reg(Bool) init(True)
+    ssReg <> io.flash.ss(0)
+    sclkReg <> io.flash.sclk
+    mosiReg <> io.flash.mosi
+    io.flash.miso <> system.flashXip.io.flash.miso
+
+    when(ctrl.io.output(6)){
+      ssReg := ctrl.io.output(0)
+      sclkReg := ctrl.io.output(1)
+      mosiReg := ctrl.io.output(2)
+    } otherwise {
+      ssReg := system.flashXip.io.flash.ss(0)
+      sclkReg := system.flashXip.io.flash.sclk
+      mosiReg := system.flashXip.io.flash.mosi
+    }
+  }
+
 }
 
 
 
-object Up5kSpeedEvaluationBoard{
-  case class Up5kSpeedEvaluationBoard() extends Component{
+object Igloo2SpeedEvaluationBoard{
+  case class Igloo2SpeedEvaluationBoard() extends Component{
     val io = new Bundle {
-      val iceClk  = in  Bool() //35
+      val serialTx  = out  Bool()
+      val serialRx  = in  Bool()
 
-//      val serialTx  = out  Bool() //
+      val flashSpi  = master(SpiMaster())
+      val flashSpiProbe  = out(SpiMaster())
 
-      val flashSpi  = master(SpiMaster()) //16 15 14 17
+      val leds = out Bits(3 bits)
 
-      val leds = new Bundle {
-        val r,g,b = out Bool() //41 40 39
-      }
+
     }
 
-    val mainClkBuffer = SB_GB()
-    mainClkBuffer.USER_SIGNAL_TO_GLOBAL_BUFFER <> io.iceClk
+    val oscInst = osc1()
+    val cccInst = ccc1()
+    cccInst.RCOSC_25_50MHZ <> oscInst.RCOSC_25_50MHZ_CCC
 
-    val soc = Up5kSpeed(Up5kSpeedParameters(
-      ioClkFrequency = 12 MHz,
+    val DEVRST_N = in Bool()
+    val por = SYSRESET()
+    por.DEVRST_N := DEVRST_N
+
+    val soc = Igloo2Speed(Igloo2SpeedParameters(
+      ioClkFrequency = 25 MHz,
       ioSerialBaudRate = 115200
     ))
 
-    soc.io.clk      <> mainClkBuffer.GLOBAL_BUFFER_OUTPUT
-    soc.io.reset    <> False
+    soc.io.clk      <> cccInst.GL0
+    soc.io.reset    <> !por.POWER_ON_RESET_N
     soc.io.flash    <> io.flashSpi
-    //    soc.io.serialTx <> io.serialTx
-    soc.io.serialTx <> io.leds.b
-//    soc.io.leds(0)  <> io.leds.r
-    False  <> io.leds.r
-//    soc.io.leds(1)  <> io.leds.g
-    True  <> io.leds.g
-//    soc.io.leds(2)  <> io.leds.b
+    soc.io.leds     <> io.leds
+    soc.io.serialTx <> io.serialTx
+    soc.io.serialRx <> io.serialRx
+    io.flashSpiProbe := io.flashSpi
   }
 
   def main(args: Array[String]) {
-    SpinalVerilog(Up5kSpeedEvaluationBoard())
+    SpinalVerilog(Igloo2SpeedEvaluationBoard())
   }
 }

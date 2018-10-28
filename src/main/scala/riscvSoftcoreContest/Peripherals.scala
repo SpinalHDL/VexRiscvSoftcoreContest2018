@@ -15,7 +15,7 @@ case class Peripherals(serialBaudRate : Int) extends Component{
   val mapper = new SimpleBusSlaveFactory(io.bus)
   mapper.driveAndRead(io.leds, 0x4, 0) init(0)
 
-  val mTime = new Area {
+  val mTime = new Area { //TODO improve
     val counter = Reg(UInt(32 bits)) init(0)
     val cmp = Reg(UInt(32 bits)) init(0)
     counter := counter + 1

@@ -1,5 +1,5 @@
 TOPLEVEL=Up5kSpeed
-VERILOGS=  ../up5k_cells_sim.v ../../../../../${TOPLEVEL}.v
+VERILOGS=  ../up5k_cells_sim.v ../../../../${TOPLEVEL}.v
 
 TRACE ?= no
 DEBUG ?= no
@@ -9,9 +9,9 @@ FLASH_BIN ?= no
 
 
 ifeq ($(FLASH_BIN),no)
-	FLASH_BOOTLOADER ?= ../../../../main/asm/up5kBootFlash/noFlash.bin
+	FLASH_BOOTLOADER ?= ../../../main/asm/up5kBootFlash/noFlash.bin
 else
-	FLASH_BOOTLOADER ?= ../../../../main/asm/up5kBootFlash/copyFlash.bin
+	FLASH_BOOTLOADER ?= ../../../main/asm/up5kBootFlash/copyFlash.bin
 endif
 
 
@@ -44,7 +44,7 @@ run: compile
 
 verilate: ${VERILOGS}
 	rm -f ${TOPLEVEL}.v*.bin
-	cp -f ../../../../../${TOPLEVEL}.v*.bin . | true
+	cp -f ../../../../${TOPLEVEL}.v*.bin . | true
 	verilator --cc --top-module  ${TOPLEVEL}   ${VERILOGS}  -O3 -CFLAGS -std=c++11  ${ADDCFLAGS} --gdbbt ${VERILATOR_ARGS} -Wno-UNOPTFLAT -Wno-WIDTH --x-assign 0 --exe main.cpp
  	
 compile: verilate
