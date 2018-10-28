@@ -168,7 +168,7 @@ case class Igloo2Speed(p : Igloo2SpeedParameters) extends Component {
 
     //Implement an counter to keep the reset mainClkResetUnbuffered high 64 cycles
     // Also this counter will automatically do a reset when the system boot.
-    val systemClkResetCounter = Reg(UInt(6 bits)) init(0)
+    val systemClkResetCounter = Reg(UInt(log2Up((p.ioClkFrequency*100.ms).toBigInt()) bits)) init(0)
     when(systemClkResetCounter =/= U(systemClkResetCounter.range -> true)){
       systemClkResetCounter := systemClkResetCounter + 1
       mainClkResetUnbuffered := True
@@ -223,7 +223,7 @@ case class Igloo2Speed(p : Igloo2SpeedParameters) extends Component {
     peripherals.io.leds <> io.leds
 
 
-    val flashXip = FlashXpi(addressWidth = 20)
+    val flashXip = FlashXpi(addressWidth = 20, slowDownFactor = 3)
     interconnect.addSlaves(
       iRam.io.bus         -> SizeMapping(0x80000000l, 64 kB),
       dRam.io.bus         -> SizeMapping(0x90000000l, 64 kB),
@@ -308,7 +308,7 @@ case class Igloo2Speed(p : Igloo2SpeedParameters) extends Component {
   }
 
   val prog = new ClockingArea(progClockDomain){
-    val ctrl = SerialRxOutput(115200,0x0F)
+    val ctrl = SerialRxOutput(115200,0x07)
     ctrl.io.serialRx := io.serialRx
     resetCtrl.systemResetBuffered setWhen(ctrl.io.output(7))
 
@@ -339,12 +339,12 @@ object Igloo2SpeedEvaluationBoard{
       val serialTx  = out  Bool()
       val serialRx  = in  Bool()
 
+//      val button = in Bool()
+
       val flashSpi  = master(SpiMaster())
-      val flashSpiProbe  = out(SpiMaster())
+      val probes  = out(Bits(8 bits))
 
       val leds = out Bits(3 bits)
-
-
     }
 
     val oscInst = osc1()
@@ -359,14 +359,17 @@ object Igloo2SpeedEvaluationBoard{
       ioClkFrequency = 25 MHz,
       ioSerialBaudRate = 115200
     ))
-
     soc.io.clk      <> cccInst.GL0
     soc.io.reset    <> !por.POWER_ON_RESET_N
     soc.io.flash    <> io.flashSpi
     soc.io.leds     <> io.leds
     soc.io.serialTx <> io.serialTx
     soc.io.serialRx <> io.serialRx
-    io.flashSpiProbe := io.flashSpi
+    io.probes(3 downto 0) := io.flashSpi.asBits
+    io.probes(4) := soc.io.reset
+    io.probes(5) := soc.io.clk
+    io.probes(6) := cccInst.LOCK
+    io.probes(7) := True
   }
 
   def main(args: Array[String]) {

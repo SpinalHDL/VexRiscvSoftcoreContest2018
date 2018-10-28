@@ -7,7 +7,7 @@ sudo apt-get install libfontconfig1:i386 libglib2.0-0:i386 libstdc++6:i386 libel
 
 sudo /sbin/modprobe dummy
 sudo /sbin/ip link set name eth0 dev dummy0
-sudo /sbin/ipconfig eth0 hw ether 08:00:27:79:ed:b1
+sudo /sbin/ifconfig eth0 hw ether 08:00:27:79:ed:b1
 
 https://electronics.stackexchange.com/questions/327527/lattice-icecube2-error-synplify-pro-321
 

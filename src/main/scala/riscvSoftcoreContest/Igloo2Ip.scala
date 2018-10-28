@@ -23,4 +23,8 @@ case class SYSRESET() extends BlackBox{
   val POWER_ON_RESET_N = out Bool()
 }
 
+case class SYSCTRL_RESET_STATUS() extends BlackBox{
+  val RESET_STATUS = out Bool()
+}
+
 
