@@ -33,7 +33,8 @@ object Igloo2Speed {
           catchAccessFault = false,
           compressedGen = false,
           injectorStage = true,
-          rspHoldValue = false
+          rspHoldValue = false,
+          historyRamSizeLog2 = 10
         ),
 //        new IBusCachedPlugin(
 //          resetVector = 0x80000000l,
@@ -88,11 +89,10 @@ object Igloo2Speed {
           zeroBoot = false
         ),
 //        new DivPlugin,
-//        new MulPlugin,
+        new MulPlugin,
         new MulDivIterativePlugin(
-          genMul = true,
+          genMul = false,
           genDiv = true,
-          mulUnrollFactor = 1,
           divUnrollFactor = 1
         ),
         new IntAluPlugin,
