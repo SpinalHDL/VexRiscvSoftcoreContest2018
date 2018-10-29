@@ -9,7 +9,8 @@ lazy val root = (project in file(".")).
         "org.scalatest" % "scalatest_2.11" % "2.2.1",
         "org.yaml" % "snakeyaml" % "1.8"
     ),
-    name := "riscvSoftcoreContest"
+    name := "riscvSoftcoreContest",
+    scalaSource in Compile := baseDirectory.value / "hardware" / "scala"
   ).dependsOn(spinalHdlSim, spinalHdlCore, spinalHdlLib, vexRiscv)
 lazy val spinalHdlSim = ProjectRef(file("../SpinalHDL"), "SpinalHDL-sim")
 lazy val spinalHdlCore = ProjectRef(file("../SpinalHDL"), "SpinalHDL-core")
