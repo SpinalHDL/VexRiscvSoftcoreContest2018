@@ -16,7 +16,7 @@ import scala.collection.mutable.ArrayBuffer
 
 object Up5kSpeed {
   def main(args: Array[String]): Unit = {
-    SpinalVerilog(Up5kSpeed(Up5kSpeedParameters(
+    SpinalRtlConfig().generateVerilog(Up5kSpeed(Up5kSpeedParameters(
       ioClkFrequency = 12 MHz,
       ioSerialBaudRate = 115200
     )))
@@ -311,6 +311,6 @@ object Up5kSpeedEvaluationBoard{
   }
 
   def main(args: Array[String]) {
-    SpinalVerilog(Up5kSpeedEvaluationBoard())
+    SpinalRtlConfig().generateVerilog(Up5kSpeedEvaluationBoard())
   }
 }

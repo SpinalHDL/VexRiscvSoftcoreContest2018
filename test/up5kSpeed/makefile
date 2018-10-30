@@ -1,6 +1,6 @@
 TOPLEVEL=Up5kSpeed
 ROOT=  ../..
-VERILOGS=  ../common/up5k_cells_sim.v ${ROOT}/${TOPLEVEL}.v
+VERILOGS=  ../common/up5k_cells_sim.v ${ROOT}/hardware/netlist/${TOPLEVEL}.v
 
 TRACE ?= no
 DEBUG ?= no

@@ -16,7 +16,7 @@ import scala.collection.mutable.ArrayBuffer
 
 object Igloo2Speed {
   def main(args: Array[String]): Unit = {
-    SpinalConfig().includeSimulation.generateVerilog(Igloo2Speed(Igloo2SpeedParameters(
+    SpinalRtlConfig().includeSimulation.generateVerilog(Igloo2Speed(Igloo2SpeedParameters(
       ioClkFrequency = 25 MHz,
       ioSerialBaudRate = 115200
     )))
@@ -374,6 +374,6 @@ object Igloo2SpeedEvaluationBoard{
   }
 
   def main(args: Array[String]) {
-    SpinalVerilog(Igloo2SpeedEvaluationBoard())
+    SpinalRtlConfig().generateVerilog(Igloo2SpeedEvaluationBoard())
   }
 }

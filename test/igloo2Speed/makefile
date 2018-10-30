@@ -1,6 +1,6 @@
 TOPLEVEL=Igloo2Speed
 ROOT=  ../..
-VERILOGS= ${ROOT}/${TOPLEVEL}.v
+VERILOGS= ${ROOT}/hardware/netlist/${TOPLEVEL}.v
 
 TRACE ?= no
 DEBUG ?= no
