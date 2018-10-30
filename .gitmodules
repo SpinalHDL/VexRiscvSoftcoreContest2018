@@ -1,0 +1,3 @@
+[submodule "ext/zephyr"]
+	path = ext/zephyr
+	url = https://github.com/SpinalHDL/zephyr.git
