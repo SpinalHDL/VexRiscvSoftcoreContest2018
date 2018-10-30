@@ -1,24 +1,20 @@
-TOPLEVEL=Igloo2Speed
-VERILOGS=  ../../../../${TOPLEVEL}.v
+TOPLEVEL=Up5kSpeed
+ROOT=  ../..
+VERILOGS=  ../common/up5k_cells_sim.v ${ROOT}/${TOPLEVEL}.v
 
 TRACE ?= no
 DEBUG ?= no
 IRAM_BIN ?= no
 FLASH_BIN ?= no
-SERIAL_LOAD ?= no
 
+ADDCFLAGS += -CFLAGS -I../../common
 
 
 ifeq ($(FLASH_BIN),no)
-	FLASH_BOOTLOADER ?= ../../../main/asm/up5kBootFlash/noFlash.bin
+	FLASH_BOOTLOADER ?= ${ROOT}/software/bootloader/up5k/noFlash.bin
 else
-	FLASH_BOOTLOADER ?= ../../../main/asm/up5kBootFlash/copyFlash.bin
+	FLASH_BOOTLOADER ?= ${ROOT}/software/bootloader/up5k/copyFlash.bin
 endif
-
-ifneq ($(SERIAL_LOAD),no)
-	ADDCFLAGS += -CFLAGS -DSERIAL_LOAD='\"$(SERIAL_LOAD)\"'
-endif
-
 
 
 ifeq ($(TRACE),yes)

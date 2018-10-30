@@ -1,5 +1,5 @@
-#include "../testbench.h"
-#include "../misc.h"
+#include "testbench.h"
+#include "misc.h"
 #include "VIgloo2Speed.h"
 #include "VIgloo2Speed_Igloo2Speed.h"
 #include "VIgloo2Speed_SimpleBusRam.h"

@@ -1,5 +1,5 @@
-#include "../testbench.h"
-#include "../misc.h"
+#include "testbench.h"
+#include "misc.h"
 #include "VUp5kSpeed.h"
 #include "VUp5kSpeed_Up5kSpeed.h"
 #include "VUp5kSpeed_Spram.h"

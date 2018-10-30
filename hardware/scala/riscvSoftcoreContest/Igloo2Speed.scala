@@ -16,7 +16,7 @@ import scala.collection.mutable.ArrayBuffer
 
 object Igloo2Speed {
   def main(args: Array[String]): Unit = {
-    SpinalVerilog(Igloo2Speed(Igloo2SpeedParameters(
+    SpinalConfig().includeSimulation.generateVerilog(Igloo2Speed(Igloo2SpeedParameters(
       ioClkFrequency = 25 MHz,
       ioSerialBaudRate = 115200
     )))
@@ -168,7 +168,8 @@ case class Igloo2Speed(p : Igloo2SpeedParameters) extends Component {
 
     //Implement an counter to keep the reset mainClkResetUnbuffered high 64 cycles
     // Also this counter will automatically do a reset when the system boot.
-    val systemClkResetCounter = Reg(UInt(log2Up((p.ioClkFrequency*100.ms).toBigInt()) bits)) init(0)
+    val bootTime = if(GenerationFlags.simulation.isEnabled) 1 ms else 100 ms
+    val systemClkResetCounter = Reg(UInt(log2Up((p.ioClkFrequency*bootTime).toBigInt()) bits)) init(0)
     when(systemClkResetCounter =/= U(systemClkResetCounter.range -> true)){
       systemClkResetCounter := systemClkResetCounter + 1
       mainClkResetUnbuffered := True
