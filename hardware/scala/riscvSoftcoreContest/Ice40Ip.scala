@@ -34,12 +34,12 @@ case class SB_GB() extends BlackBox{
 
 
 
-case class Spram(simpleBusConfig : SimpleBusConfig) extends Component{
+case class Spram() extends Component{
   val io = new Bundle{
-    val bus = slave(SimpleBus(simpleBusConfig))
+    val bus = slave(SimpleBus(16, 32))
   }
 
-  val cmd = Flow(SimpleBusCmd(simpleBusConfig))
+  val cmd = Flow(SimpleBusCmd(io.bus.config))
   cmd << io.bus.cmd.toFlow
 
   val rspPending = RegNext(cmd.valid && !cmd.wr) init(False)

@@ -13,8 +13,8 @@ void setStats(int enable)
 
 }
 
-#define UART_BASE  ((volatile uint32_t*)(0xF0000000))
-#define MTIME_BASE ((volatile uint32_t*)(0xF0000010))
+#define UART_BASE  ((volatile uint32_t*)(0xF0000))
+#define MTIME_BASE ((volatile uint32_t*)(0xF0010))
 
 static void printf_c(int c)
 {

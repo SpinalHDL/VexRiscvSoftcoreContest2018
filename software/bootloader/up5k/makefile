@@ -17,3 +17,9 @@ RISCV_OBJDUMP=${RISCV_BIN}objdump
 	$(RISCV_OBJCOPY) -O binary $^ $@
 
 all: copyFlash.bin noFlash.bin
+
+clean:
+	rm -rf *.d
+	rm -rf *.bin
+	rm -rf *.o
+	rm -rf *.elf.*

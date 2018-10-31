@@ -26,7 +26,7 @@ object Up5kSpeed {
     config = VexRiscvConfig(
       List(
         new IBusSimplePlugin(
-          resetVector = 0xF0120000l,
+          resetVector = 0x00020000l,
           cmdForkOnSecondStage = false,
           cmdForkPersistence = true,
           prediction = NONE,
@@ -172,22 +172,18 @@ case class Up5kSpeed(p : Up5kSpeedParameters) extends Component {
   val system = new ClockingArea(systemClockDomain) {
 
     val mainBusConfig = SimpleBusConfig(
-      addressWidth = 32,
+      addressWidth = 20,
       dataWidth = 32
     )
 
-    val slowBusConfig = SimpleBusConfig(
-      addressWidth = 32,
-      dataWidth = 32
-    )
 
     val dBus = SimpleBus(mainBusConfig)
     val iBus = SimpleBus(mainBusConfig)
-    val slowBus = SimpleBus(slowBusConfig)
+    val slowBus = SimpleBus(mainBusConfig)
     val interconnect = SimpleBusInterconnect()
 
-    val iRam = Spram(mainBusConfig)
-    val dRam = Spram(mainBusConfig)
+    val iRam = Spram()
+    val dRam = Spram()
 
     val peripherals = Peripherals(serialBaudRate = p.ioSerialBaudRate)
     peripherals.io.serialTx <> io.serialTx
@@ -201,10 +197,10 @@ case class Up5kSpeed(p : Up5kSpeedParameters) extends Component {
     flashXip.io.flash.miso <> io.flash.miso
 
     interconnect.addSlaves(
-      iRam.io.bus         -> SizeMapping(0x80000000l, 64 kB),
-      dRam.io.bus         -> SizeMapping(0x90000000l, 64 kB),
-      peripherals.io.bus  -> SizeMapping(0xF0000000l, 256 Byte),
-      flashXip.io.bus     -> SizeMapping(0xF0100000l, 1 MB),
+      iRam.io.bus         -> SizeMapping(0x80000,  64 kB),
+      dRam.io.bus         -> SizeMapping(0x90000,  64 kB),
+      peripherals.io.bus  -> SizeMapping(0xF0000, 256 Byte),
+      flashXip.io.bus     -> SizeMapping(0x00000, 512 kB),
       slowBus             -> DefaultMapping
     )
     interconnect.addMasters(
@@ -240,7 +236,7 @@ case class Up5kSpeed(p : Up5kSpeedParameters) extends Component {
         val rsp = plugin.iBus.rsp
         iBus.cmd.valid := cmd.valid
         iBus.cmd.wr := False
-        iBus.cmd.address := cmd.pc
+        iBus.cmd.address := cmd.pc.resized
         iBus.cmd.data.assignDontCare()
         iBus.cmd.mask.assignDontCare()
         cmd.ready := iBus.cmd.ready
@@ -253,7 +249,7 @@ case class Up5kSpeed(p : Up5kSpeedParameters) extends Component {
         val rsp = plugin.dBus.rsp
         dBus.cmd.valid := cmd.valid
         dBus.cmd.wr := cmd.wr
-        dBus.cmd.address := cmd.address
+        dBus.cmd.address := cmd.address.resized
         dBus.cmd.data := cmd.data
         dBus.cmd.mask := cmd.size.mux(
           0 -> B"0001",

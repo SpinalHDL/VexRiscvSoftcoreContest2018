@@ -1,8 +1,8 @@
 .global crtStart
 
-#define binarySize     0x8000
-#define dstAddress 0x80000000
-#define srcAddress 0xF0130000
+#define binarySize 0x08000
+#define dstAddress 0x80000
+#define srcAddress 0x30000
 
 crtStart:
 	li a0, srcAddress

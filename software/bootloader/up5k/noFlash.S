@@ -1,6 +1,6 @@
 .global crtStart
 
-#define dstAddress 0x80000000
+#define dstAddress 0x80000
 
 crtStart:
 	call dstAddress
