@@ -12,6 +12,7 @@
 #include "dhrystone.h"
 
 #define debug_printf printf
+//#define debug_printf(str, ...) {}
 
 #include <alloca.h>
 
@@ -236,10 +237,9 @@ int main (int argc, char** argv)
   printf ("User_Time : %d\n", User_Time);
   printf ("Number_Of_Runs : %d\n", Number_Of_Runs);
   printf ("HZ : %d\n", (int)HZ);
-//  printf ("CLK_TCK : %d\n", CLK_TCK);
 
   printf ("DMIPS per Mhz:                              ");
-  int dmips = 100l*(1000000/1757) * Number_Of_Runs / User_Time;
+  int dmips = 100ll*(1000000/1757) * Number_Of_Runs / User_Time;
   int dmipsNatural = dmips/100;
   int dmipsReal = (dmips - dmipsNatural*100);
   printf ("%d.", dmipsNatural);

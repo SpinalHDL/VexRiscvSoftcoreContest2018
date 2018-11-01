@@ -24,6 +24,7 @@ public:
     uint8_t rom[1 << 24];
     SpiFlash(CData* ss, CData* sclk, CData* mosi, CData* miso) : ss(ss), sclk(sclk), mosi(mosi), miso(miso){}
     void loadBin(uint32_t address, const char* path){
+        assert(access( path, F_OK ) != -1);
         FILE *f = fopen(path, "r");
         fseek(f, 0, SEEK_END);
         uint32_t binSize = ftell(f);
@@ -134,6 +135,7 @@ int main(int argc, char **argv) {
 
 
     #ifdef IRAM_BIN
+    assert(access( IRAM_BIN, F_OK ) != -1);
     FILE *ram_binFile = fopen(IRAM_BIN, "r");
     fseek(ram_binFile, 0, SEEK_END);
     uint32_t ram_binSize = ftell(ram_binFile);
