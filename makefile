@@ -44,12 +44,23 @@ hardware/netlist/%.v: ${NETLIST_DEPENDENCIES}
 
 
 
-simUp5kSpeed: hardware/netlist/Up5kSpeed.v test/up5kSpeed/main.cpp
-	make -C test/up5kSpeed clean run ${ARGS}
+simUp5kPerf: hardware/netlist/Up5kPerf.v test/up5kPerf/main.cpp
+	make -C test/up5kPerf clean run ${ARGS}
 
-simUp5kSpeedDhrystone: software/dhrystone/build/dhrystone.bin bootloader hardware/netlist/Up5kSpeed.v test/up5kSpeed/main.cpp
-	make -C test/up5kSpeed clean run IRAM_BIN=../../software/dhrystone/build/dhrystone.bin
+simUp5kPerfDhrystone: software/dhrystone/build/dhrystone.bin bootloader hardware/netlist/Up5kPerf.v test/up5kPerf/main.cpp
+	make -C test/up5kPerf clean run IRAM_BIN=../../software/dhrystone/build/dhrystone.bin
 
-simUp5kSpeedSynchronization: ext/zephyr/samples/synchronization/vexriscv_contest_fast_up5kev/zephyr/zephyr.bin bootloader hardware/netlist/Up5kSpeed.v test/up5kSpeed/main.cpp
-	make -C test/up5kSpeed clean run IRAM_BIN=../../ext/zephyr/samples/synchronization/vexriscv_contest_fast_up5kev/zephyr/zephyr.bin
+simUp5kPerfSynchronization: ext/zephyr/samples/synchronization/vexriscv_contest_fast_up5kev/zephyr/zephyr.bin bootloader hardware/netlist/Up5kPerf.v test/up5kPerf/main.cpp
+	make -C test/up5kPerf clean run IRAM_BIN=../../ext/zephyr/samples/synchronization/vexriscv_contest_fast_up5kev/zephyr/zephyr.bin
 
+
+progUp5kPerfIcecube2:
+	iceprog -o 0x00000 hardware/synthesis/up5kDmipsEvaluationBoard/icecube2/icecube2_Implmnt/sbt/outputs/bitmap/Up5kPerfEvaluationBoard_bitmap.bin
+
+progUp5kPerfBootloader:
+	iceprog -o 0x20000 software/bootloader/up5k/copyFlash.bin
+
+progUp5kPerfDhrystone:
+	iceprog -o 0x30000 software/dhrystone/build/dhrystone.bin
+
+progUp5kPerfDhrystoneAll: progUp5kPerfIcecube2 progUp5kPerfBootloader progUp5kPerfDhrystone
