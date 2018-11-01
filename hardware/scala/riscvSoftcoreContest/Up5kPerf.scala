@@ -14,9 +14,9 @@ import vexriscv.plugin._
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
-object Up5kSpeed {
+object Up5kPerf {
   def main(args: Array[String]): Unit = {
-    SpinalRtlConfig().generateVerilog(Up5kSpeed(Up5kSpeedParameters(
+    SpinalRtlConfig().generateVerilog(Up5kPerf(Up5kPerfParameters(
       ioClkFrequency = 12 MHz,
       ioSerialBaudRate = 115200
     )))
@@ -122,12 +122,12 @@ object Up5kSpeed {
 
 
 
-case class Up5kSpeedParameters(ioClkFrequency : HertzNumber,
+case class Up5kPerfParameters(ioClkFrequency : HertzNumber,
                                ioSerialBaudRate : Int)
 
 
 
-case class Up5kSpeed(p : Up5kSpeedParameters) extends Component {
+case class Up5kPerf(p : Up5kPerfParameters) extends Component {
   val io = new Bundle {
     val clk, reset = in Bool()
     val leds = out Bits(3 bits)
@@ -229,7 +229,7 @@ case class Up5kSpeed(p : Up5kSpeedParameters) extends Component {
 
 
     //Map the CPU into the SoC
-    val cpu = Up5kSpeed.core()
+    val cpu = Up5kPerf.core()
     for (plugin <- cpu.plugins) plugin match {
       case plugin: IBusSimplePlugin =>
         val cmd = plugin.iBus.cmd //TODO improve
@@ -272,12 +272,12 @@ case class Up5kSpeed(p : Up5kSpeedParameters) extends Component {
 
 
 
-object Up5kSpeedEvaluationBoard{
-  case class Up5kSpeedEvaluationBoard() extends Component{
+object Up5kPerfEvaluationBoard{
+  case class Up5kPerfEvaluationBoard() extends Component{
     val io = new Bundle {
       val iceClk  = in  Bool() //35
 
-//      val serialTx  = out  Bool() //
+      val serialTx  = out  Bool() //
 
       val flashSpi  = master(SpiMaster()) //16 15 14 17
 
@@ -289,7 +289,7 @@ object Up5kSpeedEvaluationBoard{
     val mainClkBuffer = SB_GB()
     mainClkBuffer.USER_SIGNAL_TO_GLOBAL_BUFFER <> io.iceClk
 
-    val soc = Up5kSpeed(Up5kSpeedParameters(
+    val soc = Up5kPerf(Up5kPerfParameters(
       ioClkFrequency = 12 MHz,
       ioSerialBaudRate = 115200
     ))
@@ -297,16 +297,27 @@ object Up5kSpeedEvaluationBoard{
     soc.io.clk      <> mainClkBuffer.GLOBAL_BUFFER_OUTPUT
     soc.io.reset    <> False
     soc.io.flash    <> io.flashSpi
-    //    soc.io.serialTx <> io.serialTx
-    soc.io.serialTx <> io.leds.b
+    soc.io.serialTx <> io.serialTx
+//    soc.io.serialTx <> io.leds.b
 //    soc.io.leds(0)  <> io.leds.r
-    False  <> io.leds.r
 //    soc.io.leds(1)  <> io.leds.g
-    True  <> io.leds.g
-//    soc.io.leds(2)  <> io.leds.b
+//    True <> io.leds.r
+//    True <> io.leds.g
+
+
+    val ledDriver = SB_RGBA_DRV()
+    ledDriver.CURREN   := True
+    ledDriver.RGBLEDEN := True
+    ledDriver.RGB0PWM  := !io.serialTx
+    ledDriver.RGB1PWM  := soc.io.leds(0)
+    ledDriver.RGB2PWM  := soc.io.leds(1)
+
+    ledDriver.RGB0 <> io.leds.b
+    ledDriver.RGB1 <> io.leds.g
+    ledDriver.RGB2 <> io.leds.r
   }
 
   def main(args: Array[String]) {
-    SpinalRtlConfig().generateVerilog(Up5kSpeedEvaluationBoard())
+    SpinalRtlConfig().generateVerilog(Up5kPerfEvaluationBoard())
   }
 }

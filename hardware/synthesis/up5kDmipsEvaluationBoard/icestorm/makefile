@@ -1,7 +1,7 @@
-TOPLEVEL = Up5kSpeedEvaluationBoard
+TOPLEVEL = Up5kPerfEvaluationBoard
 
 PIN_DEF = mapping.pcf
-VERILOGS = ../../../../../${TOPLEVEL}.v
+VERILOGS = ../../../netlist/${TOPLEVEL}.v
 DEVICE = up5k
 
 
@@ -40,10 +40,6 @@ time: ${TOPLEVEL}.rpt
 
 prog: $(TOPLEVEL).bin
 	iceprog $<
-
-progBoot:
-	iceprog -o 0x20000  ../../../asm/up5kBootFlash/copyFlash.bin
-	iceprog -o 0x30000  /home/spinalvm/hdl/zephyr/zephyrSpinalHdl/samples/synchronization/build_up5kspeed/zephyr/zephyr.bin
 
 
 sudo-prog: $(TOPLEVEL).bin

@@ -1,6 +1,6 @@
-// Generator : SpinalHDL v1.2.2    git head : 386b380909b8f425f055bca31c1b4cc12e234145
-// Date      : 31/10/2018, 01:13:10
-// Component : Up5kSpeed
+// Generator : SpinalHDL v1.2.2    git head : f13b3d37aa490cf536c73d0dda184ca3f99c35c0
+// Date      : 31/10/2018, 23:02:40
+// Component : Up5kPerf
 
 
 `define EnvCtrlEnum_defaultEncoding_type [1:0]
@@ -4734,7 +4734,7 @@ module SimpleBusArbiter_4_ (
   assign _zz_3_ = 1'b0;
 endmodule
 
-module Up5kSpeed (
+module Up5kPerf (
       input   io_clk,
       input   io_reset,
       output [2:0] io_leds,

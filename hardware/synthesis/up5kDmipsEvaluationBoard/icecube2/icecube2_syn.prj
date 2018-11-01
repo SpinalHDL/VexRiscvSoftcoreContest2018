@@ -1,11 +1,11 @@
 #-- Synopsys, Inc.
-#-- Project file /home/spinalvm/hdl/riscvSoftcoreContest/hardware/synthesis/up5kDmipsEvaluationBoard/up5kSpeedEvaluationBoard/up5kSpeedEvaluationBoard_syn.prj
+#-- Project file /home/spinalvm/hdl/riscvSoftcoreContest/hardware/synthesis/up5kDmipsEvaluationBoard/icecube2/icecube2_syn.prj
 #project files
 
-add_file -verilog -lib work "../../../netlist/Up5kSpeedEvaluationBoard.v" 
-add_file -constraint -lib work "../constraints.sdc"
-#implementation: "up5kSpeedEvaluationBoard_Implmnt"
-impl -add up5kSpeedEvaluationBoard_Implmnt -type fpga
+add_file -verilog -lib work "../../../netlist/Up5kPerfEvaluationBoard.v" 
+add_file -constraint -lib work "constraints.sdc"
+#implementation: "icecube2_Implmnt"
+impl -add icecube2_Implmnt -type fpga
 
 #implementation attributes
 set_option -vlog_std v2001
@@ -51,7 +51,7 @@ set_option -write_apr_constraint 1
 
 #set result format/file last
 project -result_format "edif"
-project -result_file ./up5kSpeedEvaluationBoard_Implmnt/up5kSpeedEvaluationBoard.edf
-project -log_file "./up5kSpeedEvaluationBoard_Implmnt/up5kSpeedEvaluationBoard.srr"
-impl -active up5kSpeedEvaluationBoard_Implmnt
+project -result_file ./icecube2_Implmnt/icecube2.edf
+project -log_file "./icecube2_Implmnt/icecube2.srr"
+impl -active icecube2_Implmnt
 project -run synthesis -clean

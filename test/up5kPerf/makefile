@@ -1,4 +1,4 @@
-TOPLEVEL=Up5kSpeed
+TOPLEVEL=Up5kPerf
 ROOT=  ../..
 VERILOGS=  ../common/up5k_cells_sim.v ${ROOT}/hardware/netlist/${TOPLEVEL}.v
 

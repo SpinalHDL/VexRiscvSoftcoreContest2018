@@ -33,6 +33,22 @@ case class SB_GB() extends BlackBox{
 }
 
 
+case class SB_RGBA_DRV() extends BlackBox{
+  addGeneric("CURRENT_MODE", "0b1")
+  addGeneric("RGB0_CURRENT ", "0b000001")
+  addGeneric("RGB1_CURRENT ", "0b000001")
+  addGeneric("RGB2_CURRENT ", "0b000001")
+  val CURREN = in Bool()
+  val RGBLEDEN = in Bool()
+  val RGB0PWM = in Bool()
+  val RGB1PWM = in Bool()
+  val RGB2PWM = in Bool()
+  val RGB0    = out Bool()
+  val RGB1    = out Bool()
+  val RGB2    = out Bool()
+}
+
+
 
 case class Spram() extends Component{
   val io = new Bundle{

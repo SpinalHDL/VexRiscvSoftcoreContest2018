@@ -1,15 +1,43 @@
 [Project]
 ProjectVersion=2.0
 Version=Lattice Semiconductor Corporation iCEcube - Release: 2017.08.27940 - Build Date: Sep 12 2017 08:41:24
-ProjectName=up5kSpeedEvaluationBoard
+ProjectName=icecube2
 Vendor=SiliconBlue
 Synthesis=synplify
-ProjectVFiles=../../../netlist/Up5kSpeedEvaluationBoard.v=work
-ProjectCFiles=../constraints.sdc
-CurImplementation=up5kSpeedEvaluationBoard_Implmnt
-Implementations=up5kSpeedEvaluationBoard_Implmnt
+ProjectVFiles=../../../netlist/Up5kPerfEvaluationBoard.v=work
+ProjectCFiles=constraints.sdc
+CurImplementation=icecube2_Implmnt
+Implementations=icecube2_Implmnt
 StartFromSynthesis=yes
 IPGeneration=false
+
+[icecube2_Implmnt]
+DeviceFamily=iCE40UP
+Device=5K
+DevicePackage=SG48
+DevicePower=
+NetlistFile=icecube2_Implmnt/icecube2.edf
+AdditionalEDIFFile=
+IPEDIFFile=
+DesignLib=icecube2_Implmnt/sbt/netlist/oadb-Up5kPerfEvaluationBoard
+DesignView=_rt
+DesignCell=Up5kPerfEvaluationBoard
+SynthesisSDCFile=icecube2_Implmnt/icecube2.scf
+UserPinConstraintFile=
+UserSDCFile=constraints.sdc
+PhysicalConstraintFile=mapping.pcf
+BackendImplPathName=
+Devicevoltage=1.14
+DevicevoltagePerformance=+/-5%(datasheet default)
+DeviceTemperature=85
+TimingAnalysisBasedOn=Worst
+OperationRange=Commercial
+TypicalCustomTemperature=25
+WorstCustomTemperature=85
+BestCustomTemperature=0
+IOBankVoltages=topBank,3.3 bottomBank,3.3
+derValue=1.32445
+TimingPathNumberStick=0
 
 [lse options]
 CarryChain=True
@@ -57,32 +85,4 @@ BitmapSetNoUsedIONoPullup=no
 FloorPlannerShowFanInNets=yes
 FloorPlannerShowFanOutNets=yes
 HookTo3rdPartyTextEditor=no
-
-[up5kSpeedEvaluationBoard_Implmnt]
-DeviceFamily=iCE40UP
-Device=5K
-DevicePackage=SG48
-DevicePower=
-NetlistFile=up5kSpeedEvaluationBoard_Implmnt/up5kSpeedEvaluationBoard.edf
-AdditionalEDIFFile=
-IPEDIFFile=
-DesignLib=up5kSpeedEvaluationBoard_Implmnt/sbt/netlist/oadb-Up5kSpeedEvaluationBoard
-DesignView=_rt
-DesignCell=Up5kSpeedEvaluationBoard
-SynthesisSDCFile=up5kSpeedEvaluationBoard_Implmnt/up5kSpeedEvaluationBoard.scf
-UserPinConstraintFile=
-UserSDCFile=../constraints.sdc
-PhysicalConstraintFile=../mapping.pcf
-BackendImplPathName=
-Devicevoltage=1.14
-DevicevoltagePerformance=+/-5%(datasheet default)
-DeviceTemperature=85
-TimingAnalysisBasedOn=Worst
-OperationRange=Commercial
-TypicalCustomTemperature=25
-WorstCustomTemperature=85
-BestCustomTemperature=0
-IOBankVoltages=topBank,3.3 bottomBank,3.3
-derValue=1.32445
-TimingPathNumberStick=0
 
