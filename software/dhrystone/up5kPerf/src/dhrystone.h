@@ -359,7 +359,7 @@
 
 #define CLOCK_TYPE "time()"
 #undef HZ
-#define HZ	(1) /* time() returns time in seconds */
+#define HZ	CORE_HZ /* time() returns time in clock cycles*/
 extern long     time(); /* see library function "time"  */
 #define Too_Small_Time 2 /* Measurements should last at least 2 seconds */
 #define Start_Timer() Begin_Time = time ( (long *) 0)

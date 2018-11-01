@@ -1,7 +1,13 @@
+RISCV_BIN ?= ${ZEPHYR_SDK_INSTALL_DIR}/sysroots/x86_64-pokysdk-linux/usr/bin/riscv32-zephyr-elf/riscv32-zephyr-elf-
+RISCV_CC=${RISCV_BIN}gcc
+RISCV_OBJCOPY=${RISCV_BIN}objcopy
+RISCV_OBJDUMP=${RISCV_BIN}objdump
+
 PROJ_NAME=dhrystone
 DEBUG=no
 MULDIV?=yes
 COMPRESSED?=no
+
 
 
 MARCH := RV32I
@@ -13,14 +19,12 @@ ifeq ($(COMPRESSED),yes)
 endif
 
 CFLAGS += -march=$(MARCH)
-
 CFLAGS += -fno-inline -fno-common
-CFLAGS +=  -DPREALLOCATE=1 -DHOST_DEBUG=0 -DMSC_CLOCK -DCORE_HZ=10000000
+CFLAGS += -DTIME -DCORE_HZ=100000000ll
 
 
 SRCS = 	src/dhrystone_main.c src/dhrystone.c  src/stdlib.c src/start.S
-LDFLAGS += -lc #Used to get memcpy/strcmp stuff only
-
+LDFLAGS += -lc
 LDSCRIPT = mapping.ld
 
 
@@ -34,33 +38,16 @@ LDFLAGS += -L/home/spinalvm/hdl/tools/zephyr-sdk/sysroots/riscv32-zephyr-elf/usr
 
 
 
-
-
-
 ifeq ($(DEBUG),yes)
 	CFLAGS += -g3 -O0 
 endif
 
 ifeq ($(DEBUG),no)
-	CFLAGS += -g -O3 
-endif
-
-ifeq ($(SIFIVE_GCC_PACK),yes)
-	RISCV_CLIB=$(RISCV_PATH)/$(RISCV_NAME)/lib/$(MARCH)/$(MABI)/
-else
-	RISCV_CLIB=$(RISCV_PATH)/$(RISCV_NAME)/lib/
+	CFLAGS += -O3
 endif
 
 
-
-RISCV_BIN ?= ${ZEPHYR_SDK_INSTALL_DIR}/sysroots/x86_64-pokysdk-linux/usr/bin/riscv32-zephyr-elf/riscv32-zephyr-elf-
-RISCV_CC=${RISCV_BIN}gcc
-RISCV_OBJCOPY=${RISCV_BIN}objcopy
-RISCV_OBJDUMP=${RISCV_BIN}objdump
-
-
-CFLAGS +=  -MD -fstrict-volatile-bitfields 
-LDFLAGS +=  -nostdlib -lgcc -mcmodel=medany -nostartfiles -ffreestanding -Wl,-Bstatic,-T,$(LDSCRIPT),-Map,$(OBJDIR)/$(PROJ_NAME).map,--print-memory-usage
+LDFLAGS +=  -nostdlib -lgcc -nostartfiles -ffreestanding -Wl,-Bstatic,-T,$(LDSCRIPT),-Map,$(OBJDIR)/$(PROJ_NAME).map,--print-memory-usage
 
 OBJDIR = build
 OBJS := $(SRCS)

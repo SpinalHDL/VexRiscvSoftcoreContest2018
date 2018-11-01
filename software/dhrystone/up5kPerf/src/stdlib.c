@@ -87,8 +87,8 @@ void putchar(char c){
 	UART_BASE[0] = c;
 }
 
-#include <time.h>
-clock_t	clock(){
+//Time in microsecond
+long time(){
   return MTIME_BASE[0];
 }
 
