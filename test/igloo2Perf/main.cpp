@@ -1,8 +1,8 @@
 #include "testbench.h"
 #include "misc.h"
-#include "VIgloo2Speed.h"
-#include "VIgloo2Speed_Igloo2Speed.h"
-#include "VIgloo2Speed_SimpleBusRam.h"
+#include "VIgloo2Perf.h"
+#include "VIgloo2Perf_Igloo2Perf.h"
+#include "VIgloo2Perf_SimpleBusRam.h"
 
 #include <fstream>
 #include <iostream>
@@ -122,7 +122,7 @@ public:
 int main(int argc, char **argv) {
 	cout << "Simulation start" << endl;
 	Verilated::commandArgs(argc, argv);
-	TESTBENCH<VIgloo2Speed> *tb = new TESTBENCH<VIgloo2Speed>(TIMESCALE/SYSTEM_CLK_HZ);
+	TESTBENCH<VIgloo2Perf> *tb = new TESTBENCH<VIgloo2Perf>(TIMESCALE/SYSTEM_CLK_HZ);
 	auto serialTx = new SerialTx([=]() {return tb->dut->io_serialTx;}, TIMESCALE/SERIAL_BAUDRATE);
 	tb->add(serialTx);
 	auto spiFlash = new SpiFlash(&tb->dut->io_flash_ss, &tb->dut->io_flash_sclk, &tb->dut->io_flash_mosi, &tb->dut->io_flash_miso);
@@ -150,10 +150,10 @@ int main(int argc, char **argv) {
 
     for(int i = 0;i < ram_binSize;i++){
         switch(i&3){
-            case 0: tb->dut->Igloo2Speed->system_iRam->ram_symbol0[i/4] = ram_bin[i]; break;
-            case 1: tb->dut->Igloo2Speed->system_iRam->ram_symbol1[i/4] = ram_bin[i]; break;
-            case 2: tb->dut->Igloo2Speed->system_iRam->ram_symbol2[i/4] = ram_bin[i]; break;
-            case 3: tb->dut->Igloo2Speed->system_iRam->ram_symbol3[i/4] = ram_bin[i]; break;
+            case 0: tb->dut->Igloo2Perf->system_iRam->ram_symbol0[i/4] = ram_bin[i]; break;
+            case 1: tb->dut->Igloo2Perf->system_iRam->ram_symbol1[i/4] = ram_bin[i]; break;
+            case 2: tb->dut->Igloo2Perf->system_iRam->ram_symbol2[i/4] = ram_bin[i]; break;
+            case 3: tb->dut->Igloo2Perf->system_iRam->ram_symbol3[i/4] = ram_bin[i]; break;
         }
     }
     #endif

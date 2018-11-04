@@ -1,4 +1,4 @@
-TOPLEVEL=Igloo2Speed
+TOPLEVEL=Igloo2Perf
 ROOT=  ../..
 VERILOGS= ${ROOT}/hardware/netlist/${TOPLEVEL}.v
 

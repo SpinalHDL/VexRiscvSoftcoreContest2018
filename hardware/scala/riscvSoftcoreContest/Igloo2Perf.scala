@@ -14,9 +14,9 @@ import vexriscv.plugin._
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
-object Igloo2Speed {
+object Igloo2Perf {
   def main(args: Array[String]): Unit = {
-    SpinalRtlConfig().includeSimulation.generateVerilog(Igloo2Speed(Igloo2SpeedParameters(
+    SpinalRtlConfig().includeSimulation.generateVerilog(Igloo2Perf(Igloo2PerfParameters(
       ioClkFrequency = 25 MHz,
       ioSerialBaudRate = 115200
     )))
@@ -27,14 +27,15 @@ object Igloo2Speed {
       List(
         new IBusSimplePlugin(
           resetVector = 0x00020000l,
-          cmdForkOnSecondStage = false,
+          cmdForkOnSecondStage = true,
           cmdForkPersistence = true,
           prediction = NONE,
           catchAccessFault = false,
           compressedGen = false,
           injectorStage = true,
           rspHoldValue = false,
-          historyRamSizeLog2 = 10
+          historyRamSizeLog2 = 9
+
         ),
 //        new IBusCachedPlugin(
 //          resetVector = 0x80000000l,
@@ -55,7 +56,8 @@ object Igloo2Speed {
 //        ),
         new DBusSimplePlugin(
           catchAddressMisaligned = true,
-          catchAccessFault = false
+          catchAccessFault = false,
+          earlyInjection = false
         ),
         new CsrPlugin(
           new CsrPluginConfig(
@@ -78,7 +80,8 @@ object Igloo2Speed {
             ebreakGen      = true,
             wfiGenAsWait   = false,
             wfiGenAsNop    = true,
-            ucycleAccess   = CsrAccess.NONE
+            ucycleAccess   = CsrAccess.NONE,
+            pipelineCsrRead = true
           )
         ),
         new DecoderSimplePlugin(
@@ -121,32 +124,45 @@ object Igloo2Speed {
 
 
 
-case class SimpleBusRam(onChipRamSize : BigInt) extends Component{
+case class SimpleBusRam(onChipRamSize : BigInt, revertClockEdge : Boolean = false) extends Component{
   val io = new Bundle{
     val bus = slave(SimpleBus(log2Up(onChipRamSize), 32))
   }
+  io.bus.cmd.ready := True
 
   val ram = Mem(Bits(32 bits), onChipRamSize / 4).addTag(Verilator.public)
   io.bus.rsp.valid := RegNext(io.bus.cmd.fire && !io.bus.cmd.wr) init(False)
-  io.bus.rsp.data := ram.readWriteSync(
-    address = (io.bus.cmd.address >> 2).resized,
-    data  = io.bus.cmd.data,
-    enable  = io.bus.cmd.valid,
-    write  = io.bus.cmd.wr,
-    mask  = io.bus.cmd.mask
-  )
-  io.bus.cmd.ready := True
+  val readLogic = if(!revertClockEdge) {
+    io.bus.rsp.data := ram.readWriteSync(
+      address = (io.bus.cmd.address >> 2).resized,
+      data = io.bus.cmd.data,
+      enable = io.bus.cmd.valid,
+      write = io.bus.cmd.wr,
+      mask = io.bus.cmd.mask
+    )
+  } else new Area{
+    val cmd = RegNext(io.bus.cmd.asFlow)
+    ClockDomain.current.withRevertedClockEdge() {
+      io.bus.rsp.data := ram.readWriteSync(
+        address = (cmd.address >> 2).resized,
+        data = cmd.data,
+        enable = cmd.valid,
+        write = cmd.wr,
+        mask = cmd.mask
+      )
+    }
+  }
 }
 
 
 
 
-case class Igloo2SpeedParameters(ioClkFrequency : HertzNumber,
-                                 ioSerialBaudRate : Int)
+case class Igloo2PerfParameters(ioClkFrequency : HertzNumber,
+                                ioSerialBaudRate : Int)
 
 
 
-case class Igloo2Speed(p : Igloo2SpeedParameters) extends Component {
+case class Igloo2Perf(p : Igloo2PerfParameters) extends Component {
   val io = new Bundle {
     val clk, reset = in Bool()
     val leds = out Bits(3 bits)
@@ -213,7 +229,7 @@ case class Igloo2Speed(p : Igloo2SpeedParameters) extends Component {
     val interconnect = SimpleBusInterconnect()
 
     val iRam = SimpleBusRam(20 kB)
-    val dRam = SimpleBusRam(16 kB)
+    val dRam = SimpleBusRam(16 kB, revertClockEdge = true)
 
     val peripherals = Peripherals(serialBaudRate = p.ioSerialBaudRate)
     peripherals.io.serialTx <> io.serialTx
@@ -255,6 +271,15 @@ case class Igloo2Speed(p : Igloo2SpeedParameters) extends Component {
       i.rsp            << b.rsp
     }
 
+//    interconnect.setConnector(dBus){(i,b) =>
+//      i.cmd.halfPipe() >> b.cmd
+//      i.rsp            << b.rsp.stage()
+//    }
+//    interconnect.setConnector(iBus){(i,b) =>
+//      i.cmd.halfPipe() >> b.cmd
+//      i.rsp            << b.rsp.stage()
+//    }
+
 
 //    interconnect.setConnector(dBus){(i,b) =>
 //      i.cmd.halfPipe() >> b.cmd
@@ -264,7 +289,7 @@ case class Igloo2Speed(p : Igloo2SpeedParameters) extends Component {
 
 
     //Map the CPU into the SoC
-    val cpu = Igloo2Speed.core()
+    val cpu = Igloo2Perf.core()
     for (plugin <- cpu.plugins) plugin match {
       case plugin: IBusSimplePlugin =>
         val cmd = plugin.iBus.cmd //TODO improve
@@ -330,8 +355,8 @@ case class Igloo2Speed(p : Igloo2SpeedParameters) extends Component {
 
 
 
-object Igloo2SpeedEvaluationBoard{
-  case class Igloo2SpeedEvaluationBoard() extends Component{
+object Igloo2PerfCreative{
+  case class Igloo2PerfCreative() extends Component{
     val io = new Bundle {
       val serialTx  = out  Bool()
       val serialRx  = in  Bool()
@@ -352,7 +377,7 @@ object Igloo2SpeedEvaluationBoard{
     val por = SYSRESET()
     por.DEVRST_N := DEVRST_N
 
-    val soc = Igloo2Speed(Igloo2SpeedParameters(
+    val soc = Igloo2Perf(Igloo2PerfParameters(
       ioClkFrequency = 25 MHz,
       ioSerialBaudRate = 115200
     ))
@@ -370,6 +395,6 @@ object Igloo2SpeedEvaluationBoard{
   }
 
   def main(args: Array[String]) {
-    SpinalRtlConfig().generateVerilog(Igloo2SpeedEvaluationBoard())
+    SpinalRtlConfig().generateVerilog(Igloo2PerfCreative())
   }
 }
