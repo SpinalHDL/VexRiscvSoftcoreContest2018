@@ -7,6 +7,7 @@
 #include <fstream>
 #include <iostream>
 #include <functional>
+#include <sstream>
 
 using namespace std;
 
@@ -126,41 +127,51 @@ int main(int argc, char **argv) {
 	auto serialTx = new SerialTx([=]() {return tb->dut->io_serialTx;}, TIMESCALE/SERIAL_BAUDRATE);
 	tb->add(serialTx);
 	auto spiFlash = new SpiFlash(&tb->dut->io_flash_ss, &tb->dut->io_flash_sclk, &tb->dut->io_flash_mosi, &tb->dut->io_flash_miso);
-	spiFlash->loadBin(0x020000, FLASH_BOOTLOADER);
-	#ifdef FLASH_BIN
-	spiFlash->loadBin(0x030000, FLASH_BIN);
-	#endif
+	spiFlash->loadBin(0x020000, argString("--bootloader", argc, argv));
+    char *flashBin = argString("--flashBin", argc, argv);
+	if(flashBin) spiFlash->loadBin(0x030000, flashBin);
 	tb->add(spiFlash);
 
-    #ifdef SERIAL_LOAD
-    auto serialRx = SerialRx(&tb->dut->io_serialRx, TIMESCALE/SERIAL_LOAD_BAUDRATE,SERIAL_LOAD);
-    spiFlash->loadBin(0x030000, SERIAL_LOAD);
-	tb->add(&serialRx);
-    #endif
+
+    char *serialLoad = argString("--serialLoad", argc, argv);
+    if(serialLoad){
+        auto serialRx = SerialRx(&tb->dut->io_serialRx, TIMESCALE/SERIAL_LOAD_BAUDRATE,serialLoad);
+        tb->add(&serialRx);
+    }
 
 
-    #ifdef IRAM_BIN
-    FILE *ram_binFile = fopen(IRAM_BIN, "r");
-    fseek(ram_binFile, 0, SEEK_END);
-    uint32_t ram_binSize = ftell(ram_binFile);
-    fseek(ram_binFile, 0, SEEK_SET);
-    uint8_t * ram_bin = new uint8_t[ram_binSize];
-    fread(ram_bin, 1, ram_binSize, ram_binFile);
+    char *iramBin = argString("--iramBin", argc, argv);
+    if(iramBin){
+        FILE *ram_binFile = fopen(iramBin, "r");
+        fseek(ram_binFile, 0, SEEK_END);
+        uint32_t ram_binSize = ftell(ram_binFile);
+        fseek(ram_binFile, 0, SEEK_SET);
+        uint8_t * ram_bin = new uint8_t[ram_binSize];
+        fread(ram_bin, 1, ram_binSize, ram_binFile);
 
 
-    for(int i = 0;i < ram_binSize;i++){
-        switch(i&3){
-            case 0: tb->dut->Igloo2Perf->system_iRam->ram_symbol0[i/4] = ram_bin[i]; break;
-            case 1: tb->dut->Igloo2Perf->system_iRam->ram_symbol1[i/4] = ram_bin[i]; break;
-            case 2: tb->dut->Igloo2Perf->system_iRam->ram_symbol2[i/4] = ram_bin[i]; break;
-            case 3: tb->dut->Igloo2Perf->system_iRam->ram_symbol3[i/4] = ram_bin[i]; break;
+        for(int i = 0;i < ram_binSize;i++){
+            switch(i&3){
+                case 0: tb->dut->Igloo2Perf->system_iRam->ram_symbol0[i/4] = ram_bin[i]; break;
+                case 1: tb->dut->Igloo2Perf->system_iRam->ram_symbol1[i/4] = ram_bin[i]; break;
+                case 2: tb->dut->Igloo2Perf->system_iRam->ram_symbol2[i/4] = ram_bin[i]; break;
+                case 3: tb->dut->Igloo2Perf->system_iRam->ram_symbol3[i/4] = ram_bin[i]; break;
+            }
         }
     }
-    #endif
+
+    uint64_t timeout = -1;
+    char *timeoutStr = argString("--timeout", argc, argv);
+    if(timeoutStr) {
+        std::istringstream iss(timeoutStr);
+        iss >> timeout;
+    }
+
 
     tb->reset();
 	while(!tb->done()) {
 		tb->tick();
+        if(tb->tickCount > timeout) break;
 	} exit(EXIT_SUCCESS);
 
 	cout << "Simulation end" << endl;

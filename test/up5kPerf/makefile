@@ -1,8 +1,8 @@
 TOPLEVEL=Up5kPerf
 ROOT=  ../..
-VERILOGS=  ../common/up5k_cells_sim.v ${ROOT}/hardware/netlist/${TOPLEVEL}.v
-SRCS= main.cpp
-HEADERS=
+VERILOGS = ../common/up5k_cells_sim.v ${ROOT}/hardware/netlist/${TOPLEVEL}.v
+HEADERS  = ../common/misc.h ../common/testbench.h
+SRCS     = main.cpp
 
 TRACE ?= no
 DEBUG ?= no
@@ -20,9 +20,6 @@ ifeq ($(DEBUG),yes)
 else
 	ADDCFLAGS += -CFLAGS -O3
 endif
-
-
-
 
 run: ./obj_dir/V${TOPLEVEL}
 	./obj_dir/V${TOPLEVEL} ${ARGS}

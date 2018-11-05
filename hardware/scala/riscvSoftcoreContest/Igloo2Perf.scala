@@ -81,7 +81,7 @@ object Igloo2Perf {
             wfiGenAsWait   = false,
             wfiGenAsNop    = true,
             ucycleAccess   = CsrAccess.NONE,
-            pipelineCsrRead = true
+            pipelineCsrRead = false
           )
         ),
         new DecoderSimplePlugin(
@@ -115,7 +115,8 @@ object Igloo2Perf {
         ),
         new BranchPlugin(
           earlyBranch = false,
-          catchAddressMisaligned = true
+          catchAddressMisaligned = true,
+          fenceiGenAsAJump = true
         )
       )
     )
