@@ -1,3 +1,9 @@
 [submodule "ext/zephyr"]
 	path = ext/zephyr
 	url = https://github.com/SpinalHDL/zephyr.git
+[submodule "ext/riscvSoftcoreContest"]
+	path = ext/riscvSoftcoreContest
+	url = https://github.com/SpinalHDL/riscvSoftcoreContest.git
+[submodule "ext/riscv-compliance"]
+	path = ext/riscv-compliance
+	url = ../riscv-compliance.git

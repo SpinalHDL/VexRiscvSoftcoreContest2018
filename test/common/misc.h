@@ -20,7 +20,12 @@ public:
     uint64_t flushTimout = 0;
     virtual void preCycle(uint64_t time) {}
     virtual void postCycle(uint64_t time) {
-        if(flushTimout != 0) flushTimout--;
+        if(flushTimout == 0){
+            flushTimout = 100000;
+            logTraces.flush();
+        } else {
+            flushTimout--;
+        }
         if(time < baudTimeout) return;
         if(bitId == 8){
             if(!pin()){
@@ -33,13 +38,15 @@ public:
             bitId++;
             baudTimeout = time + baudPeriod;
             if(bitId == 8) {
+                if(buffer == (char)0xFF) {
+				    logTraces.flush();
+                    cout << endl <<  "Simulation done" << endl;
+                    cout.flush();
+                    exit(EXIT_SUCCESS);
+                }
             	cout << buffer;
                 cout.flush();
 				logTraces << buffer;
-				if(flushTimout == 0){
-				    logTraces.flush();
-				    flushTimout = 100000;
-				}
             }
         }
     }
@@ -86,3 +93,14 @@ public:
         }
     }
 };
+
+char* argString(char *key, int argc, char **argv){
+    for(int idx = 0;idx < argc;idx++){
+        if(!strcmp(argv[idx], key)){
+            return argv[idx + 1];
+        }
+    }
+    return NULL;
+}
+
+

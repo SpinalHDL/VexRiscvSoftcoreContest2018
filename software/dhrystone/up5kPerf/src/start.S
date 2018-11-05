@@ -40,6 +40,8 @@ _start:
 
 
 	call main
+    li a0, 0xFF
+    call putchar
 mainDone:
     j mainDone
 

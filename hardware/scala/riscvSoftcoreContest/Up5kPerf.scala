@@ -112,7 +112,8 @@ object Up5kPerf {
         ),
         new BranchPlugin(
           earlyBranch = false,
-          catchAddressMisaligned = true
+          catchAddressMisaligned = true,
+          fenceiGenAsAJump = true
         )
       )
     )

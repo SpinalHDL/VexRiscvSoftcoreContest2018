@@ -361,7 +361,7 @@
 #undef HZ
 #define HZ	CORE_HZ /* time() returns time in clock cycles*/
 extern long     time(); /* see library function "time"  */
-#define Too_Small_Time HZ /* Measurements should last at least 2 seconds */
+#define Too_Small_Time 2000000 /* Measurements should last at least 2 seconds */
 #define Start_Timer() Begin_Time = time ( (long *) 0)
 #define Stop_Timer()  End_Time   = time ( (long *) 0)
 

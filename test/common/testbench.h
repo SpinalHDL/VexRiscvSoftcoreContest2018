@@ -12,7 +12,7 @@ template<class MODULE> class TESTBENCH {
 public:
 	// Need to add a new class variable
 	VerilatedVcdC	*m_trace;
-	uint64_t	time;
+	uint64_t	time, tickCount;
 	uint64_t	clkPeriod;
 	MODULE	*dut;
 	std::vector <Agent*> agents;
@@ -21,6 +21,7 @@ public:
 		Verilated::traceEverOn(true);
 		dut = new MODULE();
 		time = 0l;
+        tickCount = 0l;
 		#ifdef TRACE
 		opentrace("wave.vcd");
 		#endif
@@ -76,16 +77,6 @@ public:
 		dut->io_clk = 0;
 		dut->eval();
 
-		//
-		// Here's the new item:
-		//
-		//	Dump values to our trace file
-		//
-
-      /*  #ifdef TRACE
-		if(m_trace) m_trace->dump(time);
-		#endif*/
-
 		// Repeat for the positive edge of the clock
 		dut->io_clk = 1;
 		for(auto agent : agents) agent->preCycle(time);
@@ -115,6 +106,7 @@ public:
 		}
 		#endif
 		time += clkPeriod/2;
+        tickCount++;
 	}
 
 	virtual bool	done(void) { return (Verilated::gotFinish()); }
