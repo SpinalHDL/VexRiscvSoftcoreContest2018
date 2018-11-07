@@ -20,7 +20,7 @@ endif
 
 CFLAGS += -march=$(MARCH)
 CFLAGS += -fno-inline -fno-common
-CFLAGS += -DTIME -DCORE_HZ=12000000ll
+CFLAGS += -DTIME -DCORE_HZ=100000000ll
 
 
 SRCS = 	src/dhrystone_main.c src/dhrystone.c  src/stdlib.c src/start.S

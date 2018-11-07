@@ -89,7 +89,7 @@ while address != targetEnd:
     data = binary[offset:offset+burstSize]
     frame([0x02]+addressToBytes(address)+data)#PROGRAM
     sleep(3e-3)
-    frame([0x0B]+addressToBytes(address)+[0]+data)  # READ
+    #frame([0x0B]+addressToBytes(address)+[0]+data)  # READ
     print("Program " + hex(address) + "-" + hex(address+burstSize-1))
     address += burstSize
 

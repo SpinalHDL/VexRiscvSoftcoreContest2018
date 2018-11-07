@@ -1,4 +1,4 @@
-TOPLEVEL = Up5kPerfEvaluationBoard
+TOPLEVEL = Up5kPerfEvn
 
 PIN_DEF = mapping.pcf
 VERILOGS = ../../../netlist/${TOPLEVEL}.v

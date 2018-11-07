@@ -4,7 +4,7 @@ Version=Lattice Semiconductor Corporation iCEcube - Release: 2017.08.27940 - Bui
 ProjectName=icecube2
 Vendor=SiliconBlue
 Synthesis=synplify
-ProjectVFiles=../../../netlist/Up5kPerfEvaluationBoard.v=work
+ProjectVFiles=../../../netlist/Up5kPerfEvn.v=work
 ProjectCFiles=constraints.sdc
 CurImplementation=icecube2_Implmnt
 Implementations=icecube2_Implmnt
@@ -19,9 +19,9 @@ DevicePower=
 NetlistFile=icecube2_Implmnt/icecube2.edf
 AdditionalEDIFFile=
 IPEDIFFile=
-DesignLib=icecube2_Implmnt/sbt/netlist/oadb-Up5kPerfEvaluationBoard
+DesignLib=icecube2_Implmnt/sbt/netlist/oadb-Up5kPerfEvn
 DesignView=_rt
-DesignCell=Up5kPerfEvaluationBoard
+DesignCell=Up5kPerfEvn
 SynthesisSDCFile=icecube2_Implmnt/icecube2.scf
 UserPinConstraintFile=
 UserSDCFile=constraints.sdc

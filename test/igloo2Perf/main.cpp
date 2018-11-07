@@ -116,8 +116,8 @@ public:
 };
 
 #define SYSTEM_CLK_HZ 25000000
-#define SERIAL_BAUDRATE 115200
-#define SERIAL_LOAD_BAUDRATE 115200
+#define SERIAL_BAUDRATE 2500000
+#define SERIAL_LOAD_BAUDRATE 921600
 #define TIMESCALE uint64_t(1e12)
 
 int main(int argc, char **argv) {

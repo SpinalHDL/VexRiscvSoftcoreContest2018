@@ -82,3 +82,27 @@ case class Spram() extends Component{
   io.bus.rsp.valid := rspPending && rspTarget
   io.bus.rsp.data  := readData
 }
+
+
+case class SB_PLL40_PAD() extends BlackBox{
+  val PACKAGEPIN = in Bool()
+  val PLLOUTCORE = out Bool()
+  val PLLOUTGLOBAL = out Bool()
+  val RESETB = in Bool()
+  val BYPASS = in Bool()
+
+
+  addGeneric("DIVR", B"0000")
+  addGeneric("DIVF", B"0111111")
+  addGeneric("DIVQ",B"101")
+  addGeneric("FILTER_RANGE", B"001")
+  addGeneric("FEEDBACK_PATH", "SIMPLE")
+  addGeneric("DELAY_ADJUSTMENT_MODE_FEEDBACK", "FIXED")
+  addGeneric("FDA_FEEDBACK", B"0000")
+  addGeneric("DELAY_ADJUSTMENT_MODE_RELATIVE", "FIXED")
+  addGeneric("FDA_RELATIVE", B"0000")
+  addGeneric("SHIFTREG_DIV_MODE", B"00")
+  addGeneric("PLLOUT_SELECT", "GENCLK")
+  addGeneric("ENABLE_ICEGATE", False)
+
+}

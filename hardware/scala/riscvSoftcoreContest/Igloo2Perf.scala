@@ -5,6 +5,8 @@ import spinal.lib._
 import spinal.lib.bus.avalon.{AvalonMM, AvalonMMSlaveFactory, SYMBOLS, WORDS}
 import spinal.lib.bus.misc._
 import spinal.lib.com.spi.SpiMaster
+import spinal.lib.eda.bench.{AlteraStdTargets, Bench, Rtl, XilinxStdTargets}
+import spinal.lib.eda.icestorm.IcestormStdTargets
 import spinal.lib.fsm.{State, StateMachine}
 import vexriscv.{plugin, _}
 import vexriscv.demo.{SimpleBus, _}
@@ -18,7 +20,7 @@ object Igloo2Perf {
   def main(args: Array[String]): Unit = {
     SpinalRtlConfig().includeSimulation.generateVerilog(Igloo2Perf(Igloo2PerfParameters(
       ioClkFrequency = 25 MHz,
-      ioSerialBaudRate = 115200
+      ioSerialBaudRate = 2500000
     )))
   }
 
@@ -29,7 +31,7 @@ object Igloo2Perf {
           resetVector = 0x00020000l,
           cmdForkOnSecondStage = true,
           cmdForkPersistence = true,
-          prediction = NONE,
+          prediction = DYNAMIC_TARGET,
           catchAccessFault = false,
           compressedGen = false,
           injectorStage = true,
@@ -57,7 +59,8 @@ object Igloo2Perf {
         new DBusSimplePlugin(
           catchAddressMisaligned = true,
           catchAccessFault = false,
-          earlyInjection = false
+          earlyInjection = false,
+          emitCmdInMemoryStage = true
         ),
         new CsrPlugin(
           new CsrPluginConfig(
@@ -81,7 +84,7 @@ object Igloo2Perf {
             wfiGenAsWait   = false,
             wfiGenAsNop    = true,
             ucycleAccess   = CsrAccess.NONE,
-            pipelineCsrRead = false
+            pipelineCsrRead = true
           )
         ),
         new DecoderSimplePlugin(
@@ -125,7 +128,7 @@ object Igloo2Perf {
 
 
 
-case class SimpleBusRam(onChipRamSize : BigInt, revertClockEdge : Boolean = false) extends Component{
+case class SimpleBusRam(onChipRamSize : BigInt, relaxedCmd : Boolean = false, relaxedRsp : Boolean = false) extends Component{
   val io = new Bundle{
     val bus = slave(SimpleBus(log2Up(onChipRamSize), 32))
   }
@@ -133,24 +136,39 @@ case class SimpleBusRam(onChipRamSize : BigInt, revertClockEdge : Boolean = fals
 
   val ram = Mem(Bits(32 bits), onChipRamSize / 4).addTag(Verilator.public)
   io.bus.rsp.valid := RegNext(io.bus.cmd.fire && !io.bus.cmd.wr) init(False)
-  val readLogic = if(!revertClockEdge) {
-    io.bus.rsp.data := ram.readWriteSync(
-      address = (io.bus.cmd.address >> 2).resized,
-      data = io.bus.cmd.data,
-      enable = io.bus.cmd.valid,
-      write = io.bus.cmd.wr,
-      mask = io.bus.cmd.mask
-    )
-  } else new Area{
-    val cmd = RegNext(io.bus.cmd.asFlow)
-    ClockDomain.current.withRevertedClockEdge() {
+  val readLogic = (relaxedCmd, relaxedRsp) match {
+    case (false, false) => new Area {
       io.bus.rsp.data := ram.readWriteSync(
-        address = (cmd.address >> 2).resized,
-        data = cmd.data,
-        enable = cmd.valid,
-        write = cmd.wr,
-        mask = cmd.mask
+        address = (io.bus.cmd.address >> 2).resized,
+        data = io.bus.cmd.data,
+        enable = io.bus.cmd.valid,
+        write = io.bus.cmd.wr,
+        mask = io.bus.cmd.mask
       )
+    }
+    case (true, false) => new Area {
+      val cmd = RegNext(io.bus.cmd.asFlow)
+      ClockDomain.current.withRevertedClockEdge() {
+        io.bus.rsp.data := ram.readWriteSync(
+          address = (cmd.address >> 2).resized,
+          data = cmd.data,
+          enable = cmd.valid,
+          write = cmd.wr,
+          mask = cmd.mask
+        )
+      }
+    }
+    case (false, true) => new Area {
+      val rsp = ClockDomain.current.withRevertedClockEdge() (
+        ram.readWriteSync(
+          address = (io.bus.cmd.address >> 2).resized,
+          data = io.bus.cmd.data,
+          enable = io.bus.cmd.valid,
+          write = io.bus.cmd.wr,
+          mask = io.bus.cmd.mask
+        )
+      )
+      io.bus.rsp.data := RegNext(rsp)
     }
   }
 }
@@ -213,7 +231,10 @@ case class Igloo2Perf(p : Igloo2PerfParameters) extends Component {
   val systemClockDomain = ClockDomain(
     clock = io.clk,
     reset = resetCtrl.systemReset,
-    frequency = FixedFrequency(p.ioClkFrequency)
+    frequency = FixedFrequency(p.ioClkFrequency),
+    config = ClockDomainConfig(
+      resetKind = spinal.core.ASYNC
+    )
   )
 
   val system = new ClockingArea(systemClockDomain) {
@@ -230,7 +251,7 @@ case class Igloo2Perf(p : Igloo2PerfParameters) extends Component {
     val interconnect = SimpleBusInterconnect()
 
     val iRam = SimpleBusRam(20 kB)
-    val dRam = SimpleBusRam(16 kB, revertClockEdge = true)
+    val dRam = SimpleBusRam(16 kB, relaxedCmd = false, relaxedRsp = false)
 
     val peripherals = Peripherals(serialBaudRate = p.ioSerialBaudRate)
     peripherals.io.serialTx <> io.serialTx
@@ -239,9 +260,9 @@ case class Igloo2Perf(p : Igloo2PerfParameters) extends Component {
 
     val flashXip = FlashXpi(addressWidth = 20, slowDownFactor = 3)
     interconnect.addSlaves(
-      iRam.io.bus         -> SizeMapping(0x80000,  32 kB),
-      dRam.io.bus         -> SizeMapping(0x90000,  16 kB),
-      peripherals.io.bus  -> SizeMapping(0xF0000, 256 Byte),
+      iRam.io.bus         -> SizeMapping(0x80000,  64 kB),
+      dRam.io.bus         -> SizeMapping(0x90000,  64 kB),
+      peripherals.io.bus  -> SizeMapping(0xF0000,  64 Byte),
       flashXip.io.bus     -> SizeMapping(0x00000, 512 kB),
       slowBus             -> DefaultMapping
     )
@@ -250,6 +271,9 @@ case class Igloo2Perf(p : Igloo2PerfParameters) extends Component {
       iBus   -> List(iRam.io.bus,              slowBus),
       slowBus-> List(iRam.io.bus, dRam.io.bus,           peripherals.io.bus, flashXip.io.bus)
     )
+
+    interconnect.noTransactionLockOn(List(iRam.io.bus, dRam.io.bus))
+
 
     interconnect.setConnector(dBus, slowBus){(i,b) =>
       i.cmd.halfPipe() >> b.cmd
@@ -282,10 +306,10 @@ case class Igloo2Perf(p : Igloo2PerfParameters) extends Component {
 //    }
 
 
-//    interconnect.setConnector(dBus){(i,b) =>
-//      i.cmd.halfPipe() >> b.cmd
-//      i.rsp << b.rsp
-//    }
+    interconnect.setConnector(dBus){(i,b) =>
+      i.cmd.s2mPipe() >> b.cmd
+      i.rsp << b.rsp
+    }
 
 
 
@@ -306,7 +330,7 @@ case class Igloo2Perf(p : Igloo2PerfParameters) extends Component {
         rsp.error := False
         rsp.inst := iBus.rsp.data
       case plugin: DBusSimplePlugin => {
-        val cmd = plugin.dBus.cmd.s2mPipe() //TODO improve
+        val cmd = plugin.dBus.cmd //.s2mPipe() //TODO improve
         val rsp = plugin.dBus.rsp
         dBus.cmd.valid := cmd.valid
         dBus.cmd.wr := cmd.wr
@@ -331,7 +355,7 @@ case class Igloo2Perf(p : Igloo2PerfParameters) extends Component {
   }
 
   val prog = new ClockingArea(progClockDomain){
-    val ctrl = SerialRxOutput(115200,0x07)
+    val ctrl = SerialRxOutput(921600,0x07)
     ctrl.io.serialRx := io.serialRx
     resetCtrl.systemResetBuffered setWhen(ctrl.io.output(7))
 
@@ -379,8 +403,8 @@ object Igloo2PerfCreative{
     por.DEVRST_N := DEVRST_N
 
     val soc = Igloo2Perf(Igloo2PerfParameters(
-      ioClkFrequency = 25 MHz,
-      ioSerialBaudRate = 115200
+      ioClkFrequency = 100 MHz,
+      ioSerialBaudRate = 921600
     ))
     soc.io.clk      <> cccInst.GL0
     soc.io.reset    <> !por.POWER_ON_RESET_N
@@ -397,5 +421,38 @@ object Igloo2PerfCreative{
 
   def main(args: Array[String]) {
     SpinalRtlConfig().generateVerilog(Igloo2PerfCreative())
+  }
+}
+
+
+object Igloo2PerfArtixBench {
+  def main(args: Array[String]): Unit = {
+
+
+    val igloo2Perf = new Rtl {
+      override def getName(): String = "Igloo2Perf"
+      override def getRtlPath(): String = "Igloo2Perf.v"
+      SpinalVerilog({
+        val c = Igloo2Perf(Igloo2PerfParameters(
+          ioClkFrequency = 25 MHz,
+          ioSerialBaudRate = 2500000
+        ))
+        c.io.clk.setName("clk")
+        c
+      })
+    }
+
+    val rtls = List( igloo2Perf)
+
+    val targets = XilinxStdTargets(
+      vivadoArtix7Path = "/eda/Xilinx/Vivado/2017.2/bin"
+    ) ++ AlteraStdTargets(
+      quartusCycloneIVPath = "/eda/intelFPGA_lite/17.0/quartus/bin/",
+      quartusCycloneVPath  = "/eda/intelFPGA_lite/17.0/quartus/bin/"
+    )
+
+
+    Bench(rtls, targets, "/eda/tmp/")
+
   }
 }
