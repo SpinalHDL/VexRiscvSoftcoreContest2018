@@ -1,5 +1,5 @@
 // Generator : SpinalHDL v1.2.2    git head : ec5e7e191d669ded826c34b7aaa74f2563574157
-// Date      : 06/11/2018, 15:59:28
+// Date      : 09/11/2018, 00:12:00
 // Component : Igloo2Perf
 
 
@@ -8,6 +8,12 @@
 `define Src2CtrlEnum_defaultEncoding_IMI 2'b01
 `define Src2CtrlEnum_defaultEncoding_IMS 2'b10
 `define Src2CtrlEnum_defaultEncoding_PC 2'b11
+
+`define BranchCtrlEnum_defaultEncoding_type [1:0]
+`define BranchCtrlEnum_defaultEncoding_INC 2'b00
+`define BranchCtrlEnum_defaultEncoding_B 2'b01
+`define BranchCtrlEnum_defaultEncoding_JAL 2'b10
+`define BranchCtrlEnum_defaultEncoding_JALR 2'b11
 
 `define EnvCtrlEnum_defaultEncoding_type [1:0]
 `define EnvCtrlEnum_defaultEncoding_NONE 2'b00
@@ -21,6 +27,18 @@
 `define AluBitwiseCtrlEnum_defaultEncoding_AND_1 2'b10
 `define AluBitwiseCtrlEnum_defaultEncoding_SRC1 2'b11
 
+`define AluCtrlEnum_defaultEncoding_type [1:0]
+`define AluCtrlEnum_defaultEncoding_ADD_SUB 2'b00
+`define AluCtrlEnum_defaultEncoding_SLT_SLTU 2'b01
+`define AluCtrlEnum_defaultEncoding_BITWISE 2'b10
+
+`define fsm_enumDefinition_defaultEncoding_type [2:0]
+`define fsm_enumDefinition_defaultEncoding_boot 3'b000
+`define fsm_enumDefinition_defaultEncoding_fsm_SETUP 3'b001
+`define fsm_enumDefinition_defaultEncoding_fsm_IDLE 3'b010
+`define fsm_enumDefinition_defaultEncoding_fsm_CMD 3'b011
+`define fsm_enumDefinition_defaultEncoding_fsm_PAYLOAD 3'b100
+
 `define ShiftCtrlEnum_defaultEncoding_type [1:0]
 `define ShiftCtrlEnum_defaultEncoding_DISABLE_1 2'b00
 `define ShiftCtrlEnum_defaultEncoding_SLL_1 2'b01
@@ -32,24 +50,6 @@
 `define Src1CtrlEnum_defaultEncoding_IMU 2'b01
 `define Src1CtrlEnum_defaultEncoding_PC_INCREMENT 2'b10
 `define Src1CtrlEnum_defaultEncoding_URS1 2'b11
-
-`define fsm_enumDefinition_defaultEncoding_type [2:0]
-`define fsm_enumDefinition_defaultEncoding_boot 3'b000
-`define fsm_enumDefinition_defaultEncoding_fsm_SETUP 3'b001
-`define fsm_enumDefinition_defaultEncoding_fsm_IDLE 3'b010
-`define fsm_enumDefinition_defaultEncoding_fsm_CMD 3'b011
-`define fsm_enumDefinition_defaultEncoding_fsm_PAYLOAD 3'b100
-
-`define AluCtrlEnum_defaultEncoding_type [1:0]
-`define AluCtrlEnum_defaultEncoding_ADD_SUB 2'b00
-`define AluCtrlEnum_defaultEncoding_SLT_SLTU 2'b01
-`define AluCtrlEnum_defaultEncoding_BITWISE 2'b10
-
-`define BranchCtrlEnum_defaultEncoding_type [1:0]
-`define BranchCtrlEnum_defaultEncoding_INC 2'b00
-`define BranchCtrlEnum_defaultEncoding_B 2'b01
-`define BranchCtrlEnum_defaultEncoding_JAL 2'b10
-`define BranchCtrlEnum_defaultEncoding_JALR 2'b11
 
 module StreamFifoLowLatency (
       input   io_push_valid,
@@ -225,7 +225,7 @@ module StreamArbiter (
   reg [3:0] _zz_7_;
   wire [1:0] _zz_8_;
   wire [1:0] _zz_9_;
-  reg  locked;
+  wire  locked;
   wire  maskProposal_0;
   wire  maskProposal_1;
   reg  maskLocked_0;
@@ -254,6 +254,7 @@ module StreamArbiter (
     endcase
   end
 
+  assign locked = 1'b0;
   assign maskRouted_0 = (locked ? maskLocked_0 : maskProposal_0);
   assign maskRouted_1 = (locked ? maskLocked_1 : maskProposal_1);
   assign _zz_1_ = {io_inputs_1_1,io_inputs_0_0};
@@ -270,200 +271,10 @@ module StreamArbiter (
   assign io_chosenOH = {maskRouted_1,maskRouted_0};
   assign _zz_3_ = io_chosenOH[1];
   assign io_chosen = _zz_3_;
-  always @ (posedge io_clk or posedge resetCtrl_systemReset) begin
-    if (resetCtrl_systemReset) begin
-      locked <= 1'b0;
-    end else begin
-      if(io_output_valid)begin
-        locked <= 1'b1;
-      end
-      if((io_output_valid && io_output_ready))begin
-        locked <= 1'b0;
-      end
-    end
-  end
-
   always @ (posedge io_clk) begin
     if(io_output_valid)begin
       maskLocked_0 <= maskRouted_0;
       maskLocked_1 <= maskRouted_1;
-    end
-  end
-
-endmodule
-
-module StreamFork (
-      input   io_input_valid,
-      output reg  io_input_ready,
-      input   io_input_payload_wr,
-      input  [14:0] io_input_payload_address,
-      input  [31:0] io_input_payload_data,
-      input  [3:0] io_input_payload_mask,
-      output  io_outputs_0_valid,
-      input   io_outputs_0_ready,
-      output  io_outputs_0_payload_wr,
-      output [14:0] io_outputs_0_payload_address,
-      output [31:0] io_outputs_0_payload_data,
-      output [3:0] io_outputs_0_payload_mask,
-      output  io_outputs_1_valid,
-      input   io_outputs_1_ready,
-      output  io_outputs_1_payload_wr,
-      output [14:0] io_outputs_1_payload_address,
-      output [31:0] io_outputs_1_payload_data,
-      output [3:0] io_outputs_1_payload_mask,
-      input   io_clk,
-      input   resetCtrl_systemReset);
-  reg  linkEnable_0;
-  reg  linkEnable_1;
-  always @ (*) begin
-    io_input_ready = 1'b1;
-    if(((! io_outputs_0_ready) && linkEnable_0))begin
-      io_input_ready = 1'b0;
-    end
-    if(((! io_outputs_1_ready) && linkEnable_1))begin
-      io_input_ready = 1'b0;
-    end
-  end
-
-  assign io_outputs_0_valid = (io_input_valid && linkEnable_0);
-  assign io_outputs_0_payload_wr = io_input_payload_wr;
-  assign io_outputs_0_payload_address = io_input_payload_address;
-  assign io_outputs_0_payload_data = io_input_payload_data;
-  assign io_outputs_0_payload_mask = io_input_payload_mask;
-  assign io_outputs_1_valid = (io_input_valid && linkEnable_1);
-  assign io_outputs_1_payload_wr = io_input_payload_wr;
-  assign io_outputs_1_payload_address = io_input_payload_address;
-  assign io_outputs_1_payload_data = io_input_payload_data;
-  assign io_outputs_1_payload_mask = io_input_payload_mask;
-  always @ (posedge io_clk or posedge resetCtrl_systemReset) begin
-    if (resetCtrl_systemReset) begin
-      linkEnable_0 <= 1'b1;
-      linkEnable_1 <= 1'b1;
-    end else begin
-      if((io_outputs_0_valid && io_outputs_0_ready))begin
-        linkEnable_0 <= 1'b0;
-      end
-      if((io_outputs_1_valid && io_outputs_1_ready))begin
-        linkEnable_1 <= 1'b0;
-      end
-      if(io_input_ready)begin
-        linkEnable_0 <= 1'b1;
-        linkEnable_1 <= 1'b1;
-      end
-    end
-  end
-
-endmodule
-
-module StreamFifoLowLatency_1_ (
-      input   io_push_valid,
-      output  io_push_ready,
-      input  [0:0] io_push_payload,
-      output  io_pop_valid,
-      input   io_pop_ready,
-      output [0:0] io_pop_payload,
-      input   io_flush,
-      output [1:0] io_occupancy,
-      input   io_clk,
-      input   resetCtrl_systemReset);
-  wire [0:0] _zz_2_;
-  wire [0:0] _zz_3_;
-  reg  _zz_1_;
-  reg  pushPtr_willIncrement;
-  reg  pushPtr_willClear;
-  reg [0:0] pushPtr_valueNext;
-  reg [0:0] pushPtr_value;
-  wire  pushPtr_willOverflowIfInc;
-  wire  pushPtr_willOverflow;
-  reg  popPtr_willIncrement;
-  reg  popPtr_willClear;
-  reg [0:0] popPtr_valueNext;
-  reg [0:0] popPtr_value;
-  wire  popPtr_willOverflowIfInc;
-  wire  popPtr_willOverflow;
-  wire  ptrMatch;
-  reg  risingOccupancy;
-  wire  empty;
-  wire  full;
-  wire  pushing;
-  wire  popping;
-  wire [0:0] ptrDif;
-  reg [0:0] ram [0:1];
-  assign _zz_3_ = io_push_payload;
-  always @ (posedge io_clk) begin
-    if(_zz_1_) begin
-      ram[pushPtr_value] <= _zz_3_;
-    end
-  end
-
-  assign _zz_2_ = ram[popPtr_value];
-  always @ (*) begin
-    _zz_1_ = 1'b0;
-    pushPtr_willIncrement = 1'b0;
-    if(pushing)begin
-      _zz_1_ = 1'b1;
-      pushPtr_willIncrement = 1'b1;
-    end
-  end
-
-  always @ (*) begin
-    pushPtr_willClear = 1'b0;
-    popPtr_willClear = 1'b0;
-    if(io_flush)begin
-      pushPtr_willClear = 1'b1;
-      popPtr_willClear = 1'b1;
-    end
-  end
-
-  assign pushPtr_willOverflowIfInc = (pushPtr_value == (1'b1));
-  assign pushPtr_willOverflow = (pushPtr_willOverflowIfInc && pushPtr_willIncrement);
-  always @ (*) begin
-    pushPtr_valueNext = (pushPtr_value + pushPtr_willIncrement);
-    if(pushPtr_willClear)begin
-      pushPtr_valueNext = (1'b0);
-    end
-  end
-
-  always @ (*) begin
-    popPtr_willIncrement = 1'b0;
-    if(popping)begin
-      popPtr_willIncrement = 1'b1;
-    end
-  end
-
-  assign popPtr_willOverflowIfInc = (popPtr_value == (1'b1));
-  assign popPtr_willOverflow = (popPtr_willOverflowIfInc && popPtr_willIncrement);
-  always @ (*) begin
-    popPtr_valueNext = (popPtr_value + popPtr_willIncrement);
-    if(popPtr_willClear)begin
-      popPtr_valueNext = (1'b0);
-    end
-  end
-
-  assign ptrMatch = (pushPtr_value == popPtr_value);
-  assign empty = (ptrMatch && (! risingOccupancy));
-  assign full = (ptrMatch && risingOccupancy);
-  assign pushing = (io_push_valid && io_push_ready);
-  assign popping = (io_pop_valid && io_pop_ready);
-  assign io_push_ready = (! full);
-  assign io_pop_valid = (! empty);
-  assign io_pop_payload = _zz_2_;
-  assign ptrDif = (pushPtr_value - popPtr_value);
-  assign io_occupancy = {(risingOccupancy && ptrMatch),ptrDif};
-  always @ (posedge io_clk or posedge resetCtrl_systemReset) begin
-    if (resetCtrl_systemReset) begin
-      pushPtr_value <= (1'b0);
-      popPtr_value <= (1'b0);
-      risingOccupancy <= 1'b0;
-    end else begin
-      pushPtr_value <= pushPtr_valueNext;
-      popPtr_value <= popPtr_valueNext;
-      if((pushing != popping))begin
-        risingOccupancy <= pushing;
-      end
-      if(io_flush)begin
-        risingOccupancy <= 1'b0;
-      end
     end
   end
 
@@ -498,7 +309,7 @@ module StreamArbiter_1_ (
   reg [3:0] _zz_7_;
   wire [1:0] _zz_8_;
   wire [1:0] _zz_9_;
-  reg  locked;
+  wire  locked;
   wire  maskProposal_0;
   wire  maskProposal_1;
   reg  maskLocked_0;
@@ -527,6 +338,7 @@ module StreamArbiter_1_ (
     endcase
   end
 
+  assign locked = 1'b0;
   assign maskRouted_0 = (locked ? maskLocked_0 : maskProposal_0);
   assign maskRouted_1 = (locked ? maskLocked_1 : maskProposal_1);
   assign _zz_1_ = {io_inputs_1_1,io_inputs_0_0};
@@ -543,19 +355,6 @@ module StreamArbiter_1_ (
   assign io_chosenOH = {maskRouted_1,maskRouted_0};
   assign _zz_3_ = io_chosenOH[1];
   assign io_chosen = _zz_3_;
-  always @ (posedge io_clk or posedge resetCtrl_systemReset) begin
-    if (resetCtrl_systemReset) begin
-      locked <= 1'b0;
-    end else begin
-      if(io_output_valid)begin
-        locked <= 1'b1;
-      end
-      if((io_output_valid && io_output_ready))begin
-        locked <= 1'b0;
-      end
-    end
-  end
-
   always @ (posedge io_clk) begin
     if(io_output_valid)begin
       maskLocked_0 <= maskRouted_0;
@@ -564,72 +363,6 @@ module StreamArbiter_1_ (
   end
 
 endmodule
-
-module StreamFork_1_ (
-      input   io_input_valid,
-      output reg  io_input_ready,
-      input   io_input_payload_wr,
-      input  [13:0] io_input_payload_address,
-      input  [31:0] io_input_payload_data,
-      input  [3:0] io_input_payload_mask,
-      output  io_outputs_0_valid,
-      input   io_outputs_0_ready,
-      output  io_outputs_0_payload_wr,
-      output [13:0] io_outputs_0_payload_address,
-      output [31:0] io_outputs_0_payload_data,
-      output [3:0] io_outputs_0_payload_mask,
-      output  io_outputs_1_valid,
-      input   io_outputs_1_ready,
-      output  io_outputs_1_payload_wr,
-      output [13:0] io_outputs_1_payload_address,
-      output [31:0] io_outputs_1_payload_data,
-      output [3:0] io_outputs_1_payload_mask,
-      input   io_clk,
-      input   resetCtrl_systemReset);
-  reg  linkEnable_0;
-  reg  linkEnable_1;
-  always @ (*) begin
-    io_input_ready = 1'b1;
-    if(((! io_outputs_0_ready) && linkEnable_0))begin
-      io_input_ready = 1'b0;
-    end
-    if(((! io_outputs_1_ready) && linkEnable_1))begin
-      io_input_ready = 1'b0;
-    end
-  end
-
-  assign io_outputs_0_valid = (io_input_valid && linkEnable_0);
-  assign io_outputs_0_payload_wr = io_input_payload_wr;
-  assign io_outputs_0_payload_address = io_input_payload_address;
-  assign io_outputs_0_payload_data = io_input_payload_data;
-  assign io_outputs_0_payload_mask = io_input_payload_mask;
-  assign io_outputs_1_valid = (io_input_valid && linkEnable_1);
-  assign io_outputs_1_payload_wr = io_input_payload_wr;
-  assign io_outputs_1_payload_address = io_input_payload_address;
-  assign io_outputs_1_payload_data = io_input_payload_data;
-  assign io_outputs_1_payload_mask = io_input_payload_mask;
-  always @ (posedge io_clk or posedge resetCtrl_systemReset) begin
-    if (resetCtrl_systemReset) begin
-      linkEnable_0 <= 1'b1;
-      linkEnable_1 <= 1'b1;
-    end else begin
-      if((io_outputs_0_valid && io_outputs_0_ready))begin
-        linkEnable_0 <= 1'b0;
-      end
-      if((io_outputs_1_valid && io_outputs_1_ready))begin
-        linkEnable_1 <= 1'b0;
-      end
-      if(io_input_ready)begin
-        linkEnable_0 <= 1'b1;
-        linkEnable_1 <= 1'b1;
-      end
-    end
-  end
-
-endmodule
-
-
-//StreamFifoLowLatency_2_ remplaced by StreamFifoLowLatency_1_
 
 module StreamArbiter_2_ (
       input   io_inputs_0_0,
@@ -726,72 +459,6 @@ module StreamArbiter_2_ (
   end
 
 endmodule
-
-module StreamFork_2_ (
-      input   io_input_valid,
-      output reg  io_input_ready,
-      input   io_input_payload_wr,
-      input  [19:0] io_input_payload_address,
-      input  [31:0] io_input_payload_data,
-      input  [3:0] io_input_payload_mask,
-      output  io_outputs_0_valid,
-      input   io_outputs_0_ready,
-      output  io_outputs_0_payload_wr,
-      output [19:0] io_outputs_0_payload_address,
-      output [31:0] io_outputs_0_payload_data,
-      output [3:0] io_outputs_0_payload_mask,
-      output  io_outputs_1_valid,
-      input   io_outputs_1_ready,
-      output  io_outputs_1_payload_wr,
-      output [19:0] io_outputs_1_payload_address,
-      output [31:0] io_outputs_1_payload_data,
-      output [3:0] io_outputs_1_payload_mask,
-      input   io_clk,
-      input   resetCtrl_systemReset);
-  reg  linkEnable_0;
-  reg  linkEnable_1;
-  always @ (*) begin
-    io_input_ready = 1'b1;
-    if(((! io_outputs_0_ready) && linkEnable_0))begin
-      io_input_ready = 1'b0;
-    end
-    if(((! io_outputs_1_ready) && linkEnable_1))begin
-      io_input_ready = 1'b0;
-    end
-  end
-
-  assign io_outputs_0_valid = (io_input_valid && linkEnable_0);
-  assign io_outputs_0_payload_wr = io_input_payload_wr;
-  assign io_outputs_0_payload_address = io_input_payload_address;
-  assign io_outputs_0_payload_data = io_input_payload_data;
-  assign io_outputs_0_payload_mask = io_input_payload_mask;
-  assign io_outputs_1_valid = (io_input_valid && linkEnable_1);
-  assign io_outputs_1_payload_wr = io_input_payload_wr;
-  assign io_outputs_1_payload_address = io_input_payload_address;
-  assign io_outputs_1_payload_data = io_input_payload_data;
-  assign io_outputs_1_payload_mask = io_input_payload_mask;
-  always @ (posedge io_clk or posedge resetCtrl_systemReset) begin
-    if (resetCtrl_systemReset) begin
-      linkEnable_0 <= 1'b1;
-      linkEnable_1 <= 1'b1;
-    end else begin
-      if((io_outputs_0_valid && io_outputs_0_ready))begin
-        linkEnable_0 <= 1'b0;
-      end
-      if((io_outputs_1_valid && io_outputs_1_ready))begin
-        linkEnable_1 <= 1'b0;
-      end
-      if(io_input_ready)begin
-        linkEnable_0 <= 1'b1;
-        linkEnable_1 <= 1'b1;
-      end
-    end
-  end
-
-endmodule
-
-
-//StreamFifoLowLatency_3_ remplaced by StreamFifoLowLatency_1_
 
 module BufferCC_1_ (
       input   io_dataIn,
@@ -2219,7 +1886,7 @@ module VexRiscv (
   reg [3:0] CsrPlugin_interruptCode /* verilator public */ ;
   reg [1:0] CsrPlugin_interruptTargetPrivilege;
   wire  CsrPlugin_exception;
-  wire  CsrPlugin_writeBackWasWfi;
+  wire  CsrPlugin_lastStageWasWfi;
   reg  CsrPlugin_pipelineLiberator_done;
   wire  CsrPlugin_interruptJump /* verilator public */ ;
   reg  CsrPlugin_hadException;
@@ -2981,7 +2648,7 @@ module VexRiscv (
     if((CsrPlugin_interrupt && decode_arbitration_isValid))begin
       decode_arbitration_haltByOther = 1'b1;
     end
-    if(((execute_arbitration_isValid && (execute_ENV_CTRL == `EnvCtrlEnum_defaultEncoding_XRET)) || (memory_arbitration_isValid && (memory_ENV_CTRL == `EnvCtrlEnum_defaultEncoding_XRET))))begin
+    if(({(memory_arbitration_isValid && (memory_ENV_CTRL == `EnvCtrlEnum_defaultEncoding_XRET)),(execute_arbitration_isValid && (execute_ENV_CTRL == `EnvCtrlEnum_defaultEncoding_XRET))} != (2'b00)))begin
       decode_arbitration_haltByOther = 1'b1;
     end
   end
@@ -3435,7 +3102,7 @@ module VexRiscv (
   end
 
   assign CsrPlugin_exception = (CsrPlugin_exceptionPortCtrl_exceptionValids_writeBack && 1'b1);
-  assign CsrPlugin_writeBackWasWfi = 1'b0;
+  assign CsrPlugin_lastStageWasWfi = 1'b0;
   always @ (*) begin
     CsrPlugin_pipelineLiberator_done = ((! ((execute_arbitration_isValid || memory_arbitration_isValid) || writeBack_arbitration_isValid)) && IBusSimplePlugin_injector_nextPcCalc_3);
     if(((CsrPlugin_exceptionPortCtrl_exceptionValidsRegs_execute || CsrPlugin_exceptionPortCtrl_exceptionValidsRegs_memory) || CsrPlugin_exceptionPortCtrl_exceptionValidsRegs_writeBack))begin
@@ -3464,7 +3131,7 @@ module VexRiscv (
   assign contextSwitching = _zz_101_;
   assign _zz_81_ = (! (((decode_INSTRUCTION[14 : 13] == (2'b01)) && (decode_INSTRUCTION[19 : 15] == (5'b00000))) || ((decode_INSTRUCTION[14 : 13] == (2'b11)) && (decode_INSTRUCTION[19 : 15] == (5'b00000)))));
   assign _zz_80_ = (decode_INSTRUCTION[13 : 7] != (7'b0100000));
-  assign execute_CsrPlugin_blockedBySideEffects = (memory_arbitration_isValid || writeBack_arbitration_isValid);
+  assign execute_CsrPlugin_blockedBySideEffects = ({writeBack_arbitration_isValid,memory_arbitration_isValid} != (2'b00));
   always @ (*) begin
     execute_CsrPlugin_illegalAccess = (execute_arbitration_isValid && execute_IS_CSR);
     execute_CsrPlugin_readData = (32'b00000000000000000000000000000000);
@@ -4678,7 +4345,7 @@ module SerialRxOutput (
       input   resetCtrl_progReset);
   wire  _zz_1_;
   wire  _zz_2_;
-  reg [8:0] timer;
+  reg [5:0] timer;
   wire  timerTick;
   reg [1:0] state;
   reg [2:0] bitCounter;
@@ -4691,20 +4358,20 @@ module SerialRxOutput (
     .io_clk(io_clk),
     .resetCtrl_progReset(resetCtrl_progReset) 
   );
-  assign timerTick = (timer == (9'b000000000));
+  assign timerTick = (timer == (6'b000000));
   assign serialRx = _zz_1_;
   assign io_output = outputReg;
   always @ (posedge io_clk) begin
-    timer <= (timer - (9'b000000001));
+    timer <= (timer - (6'b000001));
     case(state)
       2'b00 : begin
         if(_zz_2_)begin
-          timer <= (9'b101000100);
+          timer <= (6'b100111);
         end
       end
       2'b01 : begin
         if(timerTick)begin
-          timer <= (9'b011011000);
+          timer <= (6'b011010);
           bitCounter <= (bitCounter + (3'b001));
         end
       end
@@ -5160,112 +4827,79 @@ module SimpleBusArbiter (
       input  [31:0] io_output_rsp_payload_data,
       input   io_clk,
       input   resetCtrl_systemReset);
+  wire  _zz_2_;
   wire  _zz_3_;
   wire  _zz_4_;
   wire  _zz_5_;
   wire  _zz_6_;
-  wire  _zz_7_;
-  wire [14:0] _zz_8_;
-  wire [31:0] _zz_9_;
-  wire [3:0] _zz_10_;
-  wire [0:0] _zz_11_;
-  wire [1:0] _zz_12_;
-  wire  _zz_13_;
-  wire  _zz_14_;
-  wire  _zz_15_;
-  wire [14:0] _zz_16_;
-  wire [31:0] _zz_17_;
-  wire [3:0] _zz_18_;
-  wire  _zz_19_;
-  wire  _zz_20_;
-  wire [14:0] _zz_21_;
-  wire [31:0] _zz_22_;
-  wire [3:0] _zz_23_;
-  wire  _zz_24_;
-  wire  _zz_25_;
-  wire [0:0] _zz_26_;
-  wire [1:0] _zz_27_;
-  reg  _zz_1_;
-  reg  _zz_2_;
+  wire [14:0] _zz_7_;
+  wire [31:0] _zz_8_;
+  wire [3:0] _zz_9_;
+  wire [0:0] _zz_10_;
+  wire [1:0] _zz_11_;
+  wire  _zz_12_;
+  wire [1:0] logic_rspRouteOh;
+  reg  logic_rsp_pending;
+  reg [1:0] logic_rsp_target;
+  wire  _zz_1_;
+  assign _zz_12_ = ((io_output_cmd_valid && io_output_cmd_ready) && (! io_output_cmd_payload_wr));
   StreamArbiter logic_arbiter ( 
     .io_inputs_0_0(io_inputs_0_cmd_valid),
-    .io_inputs_0_ready(_zz_4_),
+    .io_inputs_0_ready(_zz_3_),
     .io_inputs_0_0_wr(io_inputs_0_cmd_payload_wr),
     .io_inputs_0_0_address(io_inputs_0_cmd_payload_address),
     .io_inputs_0_0_data(io_inputs_0_cmd_payload_data),
     .io_inputs_0_0_mask(io_inputs_0_cmd_payload_mask),
     .io_inputs_1_1(io_inputs_1_cmd_valid),
-    .io_inputs_1_ready(_zz_5_),
+    .io_inputs_1_ready(_zz_4_),
     .io_inputs_1_1_wr(io_inputs_1_cmd_payload_wr),
     .io_inputs_1_1_address(io_inputs_1_cmd_payload_address),
     .io_inputs_1_1_data(io_inputs_1_cmd_payload_data),
     .io_inputs_1_1_mask(io_inputs_1_cmd_payload_mask),
-    .io_output_valid(_zz_6_),
-    .io_output_ready(_zz_13_),
-    .io_output_payload_wr(_zz_7_),
-    .io_output_payload_address(_zz_8_),
-    .io_output_payload_data(_zz_9_),
-    .io_output_payload_mask(_zz_10_),
-    .io_chosen(_zz_11_),
-    .io_chosenOH(_zz_12_),
+    .io_output_valid(_zz_5_),
+    .io_output_ready(_zz_2_),
+    .io_output_payload_wr(_zz_6_),
+    .io_output_payload_address(_zz_7_),
+    .io_output_payload_data(_zz_8_),
+    .io_output_payload_mask(_zz_9_),
+    .io_chosen(_zz_10_),
+    .io_chosenOH(_zz_11_),
     .io_clk(io_clk),
     .resetCtrl_systemReset(resetCtrl_systemReset) 
   );
-  StreamFork streamFork_3_ ( 
-    .io_input_valid(_zz_6_),
-    .io_input_ready(_zz_13_),
-    .io_input_payload_wr(_zz_7_),
-    .io_input_payload_address(_zz_8_),
-    .io_input_payload_data(_zz_9_),
-    .io_input_payload_mask(_zz_10_),
-    .io_outputs_0_valid(_zz_14_),
-    .io_outputs_0_ready(io_output_cmd_ready),
-    .io_outputs_0_payload_wr(_zz_15_),
-    .io_outputs_0_payload_address(_zz_16_),
-    .io_outputs_0_payload_data(_zz_17_),
-    .io_outputs_0_payload_mask(_zz_18_),
-    .io_outputs_1_valid(_zz_19_),
-    .io_outputs_1_ready(_zz_1_),
-    .io_outputs_1_payload_wr(_zz_20_),
-    .io_outputs_1_payload_address(_zz_21_),
-    .io_outputs_1_payload_data(_zz_22_),
-    .io_outputs_1_payload_mask(_zz_23_),
-    .io_clk(io_clk),
-    .resetCtrl_systemReset(resetCtrl_systemReset) 
-  );
-  StreamFifoLowLatency_1_ streamFifoLowLatency_4_ ( 
-    .io_push_valid(_zz_2_),
-    .io_push_ready(_zz_24_),
-    .io_push_payload(_zz_11_),
-    .io_pop_valid(_zz_25_),
-    .io_pop_ready(io_output_rsp_valid),
-    .io_pop_payload(_zz_26_),
-    .io_flush(_zz_3_),
-    .io_occupancy(_zz_27_),
-    .io_clk(io_clk),
-    .resetCtrl_systemReset(resetCtrl_systemReset) 
-  );
-  assign io_inputs_0_cmd_ready = _zz_4_;
-  assign io_inputs_1_cmd_ready = _zz_5_;
-  assign io_output_cmd_valid = _zz_14_;
-  assign io_output_cmd_payload_wr = _zz_15_;
-  assign io_output_cmd_payload_address = _zz_16_;
-  assign io_output_cmd_payload_data = _zz_17_;
-  assign io_output_cmd_payload_mask = _zz_18_;
-  always @ (*) begin
-    _zz_2_ = _zz_19_;
-    _zz_1_ = _zz_24_;
-    if(_zz_20_)begin
-      _zz_2_ = 1'b0;
-      _zz_1_ = 1'b1;
+  assign io_inputs_0_cmd_ready = _zz_3_;
+  assign io_inputs_1_cmd_ready = _zz_4_;
+  assign logic_rspRouteOh = logic_rsp_target;
+  assign _zz_1_ = (! (logic_rsp_pending && (! io_output_rsp_valid)));
+  assign _zz_2_ = (io_output_cmd_ready && _zz_1_);
+  assign io_output_cmd_valid = (_zz_5_ && _zz_1_);
+  assign io_output_cmd_payload_wr = _zz_6_;
+  assign io_output_cmd_payload_address = _zz_7_;
+  assign io_output_cmd_payload_data = _zz_8_;
+  assign io_output_cmd_payload_mask = _zz_9_;
+  assign io_inputs_0_rsp_valid = (io_output_rsp_valid && logic_rspRouteOh[0]);
+  assign io_inputs_0_rsp_payload_data = io_output_rsp_payload_data;
+  assign io_inputs_1_rsp_valid = (io_output_rsp_valid && logic_rspRouteOh[1]);
+  assign io_inputs_1_rsp_payload_data = io_output_rsp_payload_data;
+  always @ (posedge io_clk or posedge resetCtrl_systemReset) begin
+    if (resetCtrl_systemReset) begin
+      logic_rsp_pending <= 1'b0;
+    end else begin
+      if(io_output_rsp_valid)begin
+        logic_rsp_pending <= 1'b0;
+      end
+      if(_zz_12_)begin
+        logic_rsp_pending <= 1'b1;
+      end
     end
   end
 
-  assign io_inputs_0_rsp_valid = (io_output_rsp_valid && (_zz_26_ == (1'b0)));
-  assign io_inputs_0_rsp_payload_data = io_output_rsp_payload_data;
-  assign io_inputs_1_rsp_valid = (io_output_rsp_valid && (_zz_26_ == (1'b1)));
-  assign io_inputs_1_rsp_payload_data = io_output_rsp_payload_data;
-  assign _zz_3_ = 1'b0;
+  always @ (posedge io_clk) begin
+    if(_zz_12_)begin
+      logic_rsp_target <= _zz_11_;
+    end
+  end
+
 endmodule
 
 module SimpleBusArbiter_1_ (
@@ -5295,112 +4929,79 @@ module SimpleBusArbiter_1_ (
       input  [31:0] io_output_rsp_payload_data,
       input   io_clk,
       input   resetCtrl_systemReset);
+  wire  _zz_2_;
   wire  _zz_3_;
   wire  _zz_4_;
   wire  _zz_5_;
   wire  _zz_6_;
-  wire  _zz_7_;
-  wire [13:0] _zz_8_;
-  wire [31:0] _zz_9_;
-  wire [3:0] _zz_10_;
-  wire [0:0] _zz_11_;
-  wire [1:0] _zz_12_;
-  wire  _zz_13_;
-  wire  _zz_14_;
-  wire  _zz_15_;
-  wire [13:0] _zz_16_;
-  wire [31:0] _zz_17_;
-  wire [3:0] _zz_18_;
-  wire  _zz_19_;
-  wire  _zz_20_;
-  wire [13:0] _zz_21_;
-  wire [31:0] _zz_22_;
-  wire [3:0] _zz_23_;
-  wire  _zz_24_;
-  wire  _zz_25_;
-  wire [0:0] _zz_26_;
-  wire [1:0] _zz_27_;
-  reg  _zz_1_;
-  reg  _zz_2_;
+  wire [13:0] _zz_7_;
+  wire [31:0] _zz_8_;
+  wire [3:0] _zz_9_;
+  wire [0:0] _zz_10_;
+  wire [1:0] _zz_11_;
+  wire  _zz_12_;
+  wire [1:0] logic_rspRouteOh;
+  reg  logic_rsp_pending;
+  reg [1:0] logic_rsp_target;
+  wire  _zz_1_;
+  assign _zz_12_ = ((io_output_cmd_valid && io_output_cmd_ready) && (! io_output_cmd_payload_wr));
   StreamArbiter_1_ logic_arbiter ( 
     .io_inputs_0_0(io_inputs_0_cmd_valid),
-    .io_inputs_0_ready(_zz_4_),
+    .io_inputs_0_ready(_zz_3_),
     .io_inputs_0_0_wr(io_inputs_0_cmd_payload_wr),
     .io_inputs_0_0_address(io_inputs_0_cmd_payload_address),
     .io_inputs_0_0_data(io_inputs_0_cmd_payload_data),
     .io_inputs_0_0_mask(io_inputs_0_cmd_payload_mask),
     .io_inputs_1_1(io_inputs_1_cmd_valid),
-    .io_inputs_1_ready(_zz_5_),
+    .io_inputs_1_ready(_zz_4_),
     .io_inputs_1_1_wr(io_inputs_1_cmd_payload_wr),
     .io_inputs_1_1_address(io_inputs_1_cmd_payload_address),
     .io_inputs_1_1_data(io_inputs_1_cmd_payload_data),
     .io_inputs_1_1_mask(io_inputs_1_cmd_payload_mask),
-    .io_output_valid(_zz_6_),
-    .io_output_ready(_zz_13_),
-    .io_output_payload_wr(_zz_7_),
-    .io_output_payload_address(_zz_8_),
-    .io_output_payload_data(_zz_9_),
-    .io_output_payload_mask(_zz_10_),
-    .io_chosen(_zz_11_),
-    .io_chosenOH(_zz_12_),
+    .io_output_valid(_zz_5_),
+    .io_output_ready(_zz_2_),
+    .io_output_payload_wr(_zz_6_),
+    .io_output_payload_address(_zz_7_),
+    .io_output_payload_data(_zz_8_),
+    .io_output_payload_mask(_zz_9_),
+    .io_chosen(_zz_10_),
+    .io_chosenOH(_zz_11_),
     .io_clk(io_clk),
     .resetCtrl_systemReset(resetCtrl_systemReset) 
   );
-  StreamFork_1_ streamFork_3_ ( 
-    .io_input_valid(_zz_6_),
-    .io_input_ready(_zz_13_),
-    .io_input_payload_wr(_zz_7_),
-    .io_input_payload_address(_zz_8_),
-    .io_input_payload_data(_zz_9_),
-    .io_input_payload_mask(_zz_10_),
-    .io_outputs_0_valid(_zz_14_),
-    .io_outputs_0_ready(io_output_cmd_ready),
-    .io_outputs_0_payload_wr(_zz_15_),
-    .io_outputs_0_payload_address(_zz_16_),
-    .io_outputs_0_payload_data(_zz_17_),
-    .io_outputs_0_payload_mask(_zz_18_),
-    .io_outputs_1_valid(_zz_19_),
-    .io_outputs_1_ready(_zz_1_),
-    .io_outputs_1_payload_wr(_zz_20_),
-    .io_outputs_1_payload_address(_zz_21_),
-    .io_outputs_1_payload_data(_zz_22_),
-    .io_outputs_1_payload_mask(_zz_23_),
-    .io_clk(io_clk),
-    .resetCtrl_systemReset(resetCtrl_systemReset) 
-  );
-  StreamFifoLowLatency_1_ streamFifoLowLatency_4_ ( 
-    .io_push_valid(_zz_2_),
-    .io_push_ready(_zz_24_),
-    .io_push_payload(_zz_11_),
-    .io_pop_valid(_zz_25_),
-    .io_pop_ready(io_output_rsp_valid),
-    .io_pop_payload(_zz_26_),
-    .io_flush(_zz_3_),
-    .io_occupancy(_zz_27_),
-    .io_clk(io_clk),
-    .resetCtrl_systemReset(resetCtrl_systemReset) 
-  );
-  assign io_inputs_0_cmd_ready = _zz_4_;
-  assign io_inputs_1_cmd_ready = _zz_5_;
-  assign io_output_cmd_valid = _zz_14_;
-  assign io_output_cmd_payload_wr = _zz_15_;
-  assign io_output_cmd_payload_address = _zz_16_;
-  assign io_output_cmd_payload_data = _zz_17_;
-  assign io_output_cmd_payload_mask = _zz_18_;
-  always @ (*) begin
-    _zz_2_ = _zz_19_;
-    _zz_1_ = _zz_24_;
-    if(_zz_20_)begin
-      _zz_2_ = 1'b0;
-      _zz_1_ = 1'b1;
+  assign io_inputs_0_cmd_ready = _zz_3_;
+  assign io_inputs_1_cmd_ready = _zz_4_;
+  assign logic_rspRouteOh = logic_rsp_target;
+  assign _zz_1_ = (! (logic_rsp_pending && (! io_output_rsp_valid)));
+  assign _zz_2_ = (io_output_cmd_ready && _zz_1_);
+  assign io_output_cmd_valid = (_zz_5_ && _zz_1_);
+  assign io_output_cmd_payload_wr = _zz_6_;
+  assign io_output_cmd_payload_address = _zz_7_;
+  assign io_output_cmd_payload_data = _zz_8_;
+  assign io_output_cmd_payload_mask = _zz_9_;
+  assign io_inputs_0_rsp_valid = (io_output_rsp_valid && logic_rspRouteOh[0]);
+  assign io_inputs_0_rsp_payload_data = io_output_rsp_payload_data;
+  assign io_inputs_1_rsp_valid = (io_output_rsp_valid && logic_rspRouteOh[1]);
+  assign io_inputs_1_rsp_payload_data = io_output_rsp_payload_data;
+  always @ (posedge io_clk or posedge resetCtrl_systemReset) begin
+    if (resetCtrl_systemReset) begin
+      logic_rsp_pending <= 1'b0;
+    end else begin
+      if(io_output_rsp_valid)begin
+        logic_rsp_pending <= 1'b0;
+      end
+      if(_zz_12_)begin
+        logic_rsp_pending <= 1'b1;
+      end
     end
   end
 
-  assign io_inputs_0_rsp_valid = (io_output_rsp_valid && (_zz_26_ == (1'b0)));
-  assign io_inputs_0_rsp_payload_data = io_output_rsp_payload_data;
-  assign io_inputs_1_rsp_valid = (io_output_rsp_valid && (_zz_26_ == (1'b1)));
-  assign io_inputs_1_rsp_payload_data = io_output_rsp_payload_data;
-  assign _zz_3_ = 1'b0;
+  always @ (posedge io_clk) begin
+    if(_zz_12_)begin
+      logic_rsp_target <= _zz_11_;
+    end
+  end
+
 endmodule
 
 module SimpleBusArbiter_2_ (
@@ -5484,112 +5085,79 @@ module SimpleBusArbiter_4_ (
       input  [31:0] io_output_rsp_payload_data,
       input   io_clk,
       input   resetCtrl_systemReset);
+  wire  _zz_2_;
   wire  _zz_3_;
   wire  _zz_4_;
   wire  _zz_5_;
   wire  _zz_6_;
-  wire  _zz_7_;
-  wire [19:0] _zz_8_;
-  wire [31:0] _zz_9_;
-  wire [3:0] _zz_10_;
-  wire [0:0] _zz_11_;
-  wire [1:0] _zz_12_;
-  wire  _zz_13_;
-  wire  _zz_14_;
-  wire  _zz_15_;
-  wire [19:0] _zz_16_;
-  wire [31:0] _zz_17_;
-  wire [3:0] _zz_18_;
-  wire  _zz_19_;
-  wire  _zz_20_;
-  wire [19:0] _zz_21_;
-  wire [31:0] _zz_22_;
-  wire [3:0] _zz_23_;
-  wire  _zz_24_;
-  wire  _zz_25_;
-  wire [0:0] _zz_26_;
-  wire [1:0] _zz_27_;
-  reg  _zz_1_;
-  reg  _zz_2_;
+  wire [19:0] _zz_7_;
+  wire [31:0] _zz_8_;
+  wire [3:0] _zz_9_;
+  wire [0:0] _zz_10_;
+  wire [1:0] _zz_11_;
+  wire  _zz_12_;
+  wire [1:0] logic_rspRouteOh;
+  reg  logic_rsp_pending;
+  reg [1:0] logic_rsp_target;
+  wire  _zz_1_;
+  assign _zz_12_ = ((io_output_cmd_valid && io_output_cmd_ready) && (! io_output_cmd_payload_wr));
   StreamArbiter_2_ logic_arbiter ( 
     .io_inputs_0_0(io_inputs_0_cmd_valid),
-    .io_inputs_0_ready(_zz_4_),
+    .io_inputs_0_ready(_zz_3_),
     .io_inputs_0_0_wr(io_inputs_0_cmd_payload_wr),
     .io_inputs_0_0_address(io_inputs_0_cmd_payload_address),
     .io_inputs_0_0_data(io_inputs_0_cmd_payload_data),
     .io_inputs_0_0_mask(io_inputs_0_cmd_payload_mask),
     .io_inputs_1_1(io_inputs_1_cmd_valid),
-    .io_inputs_1_ready(_zz_5_),
+    .io_inputs_1_ready(_zz_4_),
     .io_inputs_1_1_wr(io_inputs_1_cmd_payload_wr),
     .io_inputs_1_1_address(io_inputs_1_cmd_payload_address),
     .io_inputs_1_1_data(io_inputs_1_cmd_payload_data),
     .io_inputs_1_1_mask(io_inputs_1_cmd_payload_mask),
-    .io_output_valid(_zz_6_),
-    .io_output_ready(_zz_13_),
-    .io_output_payload_wr(_zz_7_),
-    .io_output_payload_address(_zz_8_),
-    .io_output_payload_data(_zz_9_),
-    .io_output_payload_mask(_zz_10_),
-    .io_chosen(_zz_11_),
-    .io_chosenOH(_zz_12_),
+    .io_output_valid(_zz_5_),
+    .io_output_ready(_zz_2_),
+    .io_output_payload_wr(_zz_6_),
+    .io_output_payload_address(_zz_7_),
+    .io_output_payload_data(_zz_8_),
+    .io_output_payload_mask(_zz_9_),
+    .io_chosen(_zz_10_),
+    .io_chosenOH(_zz_11_),
     .io_clk(io_clk),
     .resetCtrl_systemReset(resetCtrl_systemReset) 
   );
-  StreamFork_2_ streamFork_3_ ( 
-    .io_input_valid(_zz_6_),
-    .io_input_ready(_zz_13_),
-    .io_input_payload_wr(_zz_7_),
-    .io_input_payload_address(_zz_8_),
-    .io_input_payload_data(_zz_9_),
-    .io_input_payload_mask(_zz_10_),
-    .io_outputs_0_valid(_zz_14_),
-    .io_outputs_0_ready(io_output_cmd_ready),
-    .io_outputs_0_payload_wr(_zz_15_),
-    .io_outputs_0_payload_address(_zz_16_),
-    .io_outputs_0_payload_data(_zz_17_),
-    .io_outputs_0_payload_mask(_zz_18_),
-    .io_outputs_1_valid(_zz_19_),
-    .io_outputs_1_ready(_zz_1_),
-    .io_outputs_1_payload_wr(_zz_20_),
-    .io_outputs_1_payload_address(_zz_21_),
-    .io_outputs_1_payload_data(_zz_22_),
-    .io_outputs_1_payload_mask(_zz_23_),
-    .io_clk(io_clk),
-    .resetCtrl_systemReset(resetCtrl_systemReset) 
-  );
-  StreamFifoLowLatency_1_ streamFifoLowLatency_4_ ( 
-    .io_push_valid(_zz_2_),
-    .io_push_ready(_zz_24_),
-    .io_push_payload(_zz_11_),
-    .io_pop_valid(_zz_25_),
-    .io_pop_ready(io_output_rsp_valid),
-    .io_pop_payload(_zz_26_),
-    .io_flush(_zz_3_),
-    .io_occupancy(_zz_27_),
-    .io_clk(io_clk),
-    .resetCtrl_systemReset(resetCtrl_systemReset) 
-  );
-  assign io_inputs_0_cmd_ready = _zz_4_;
-  assign io_inputs_1_cmd_ready = _zz_5_;
-  assign io_output_cmd_valid = _zz_14_;
-  assign io_output_cmd_payload_wr = _zz_15_;
-  assign io_output_cmd_payload_address = _zz_16_;
-  assign io_output_cmd_payload_data = _zz_17_;
-  assign io_output_cmd_payload_mask = _zz_18_;
-  always @ (*) begin
-    _zz_2_ = _zz_19_;
-    _zz_1_ = _zz_24_;
-    if(_zz_20_)begin
-      _zz_2_ = 1'b0;
-      _zz_1_ = 1'b1;
+  assign io_inputs_0_cmd_ready = _zz_3_;
+  assign io_inputs_1_cmd_ready = _zz_4_;
+  assign logic_rspRouteOh = logic_rsp_target;
+  assign _zz_1_ = (! (logic_rsp_pending && (! io_output_rsp_valid)));
+  assign _zz_2_ = (io_output_cmd_ready && _zz_1_);
+  assign io_output_cmd_valid = (_zz_5_ && _zz_1_);
+  assign io_output_cmd_payload_wr = _zz_6_;
+  assign io_output_cmd_payload_address = _zz_7_;
+  assign io_output_cmd_payload_data = _zz_8_;
+  assign io_output_cmd_payload_mask = _zz_9_;
+  assign io_inputs_0_rsp_valid = (io_output_rsp_valid && logic_rspRouteOh[0]);
+  assign io_inputs_0_rsp_payload_data = io_output_rsp_payload_data;
+  assign io_inputs_1_rsp_valid = (io_output_rsp_valid && logic_rspRouteOh[1]);
+  assign io_inputs_1_rsp_payload_data = io_output_rsp_payload_data;
+  always @ (posedge io_clk or posedge resetCtrl_systemReset) begin
+    if (resetCtrl_systemReset) begin
+      logic_rsp_pending <= 1'b0;
+    end else begin
+      if(io_output_rsp_valid)begin
+        logic_rsp_pending <= 1'b0;
+      end
+      if(_zz_12_)begin
+        logic_rsp_pending <= 1'b1;
+      end
     end
   end
 
-  assign io_inputs_0_rsp_valid = (io_output_rsp_valid && (_zz_26_ == (1'b0)));
-  assign io_inputs_0_rsp_payload_data = io_output_rsp_payload_data;
-  assign io_inputs_1_rsp_valid = (io_output_rsp_valid && (_zz_26_ == (1'b1)));
-  assign io_inputs_1_rsp_payload_data = io_output_rsp_payload_data;
-  assign _zz_3_ = 1'b0;
+  always @ (posedge io_clk) begin
+    if(_zz_12_)begin
+      logic_rsp_target <= _zz_11_;
+    end
+  end
+
 endmodule
 
 module Igloo2Perf (

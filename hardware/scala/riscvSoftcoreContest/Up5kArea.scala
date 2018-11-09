@@ -14,74 +14,56 @@ import vexriscv.plugin._
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
-object Up5kPerf {
+
+object Up5kArea {
   def main(args: Array[String]): Unit = {
-    SpinalRtlConfig().generateVerilog(Up5kPerf(Up5kPerfParameters(
+    SpinalRtlConfig().generateVerilog(Up5kArea(Up5kAreaParameters(
       ioClkFrequency = 12 MHz,
       ioSerialBaudRate = 115200
     )))
   }
 
-  def up5kCustomMul(rs1 : UInt, rs2 : UInt, stage : Stage, vexriscv : VexRiscv) = new Area{
-    import MulDivIterativePlugin._
-    import stage._
-    import Riscv._
-    import vexriscv.config._
-//    val mul = S(rs1)*S(False ## rs2)
-//    val mul = S(rs1)*S(False ## rs2(15 downto 0)) + (S(rs1)*S(False ## rs2(31 downto 16)) << 16)
-    val rs2LowS = S(False ## rs2(0, 16 bits))
-    val rs2HighS = S(False ## rs2(16, 16 bits))
-    val mulA = S(0, 90 bits) +  S(False ## (rs1(0, 16 bits) * rs2(0, 16 bits)))   +  (S(False ## (rs1(16, 16 bits) * rs2(0, 16 bits)))  << 16) + ((S(rs1(32, 1 bits)) * S(False ## rs2( 0, 16 bits))) << (32))
-    val mulB = S(0, 90 bits) + (S(False ## (rs1(0, 16 bits) * rs2(16, 16 bits)))) +  (S(False ## (rs1(16, 16 bits) * rs2(16, 16 bits))) << 16) +  (S(rs1(32, 1 bits)) * S(False ## rs2(16, 16 bits))  << (32))
-
-    //    val mulA = S(0, 90 bits) +  S(False ## (rs1(0, 16 bits) * rs2(0, 16 bits)))   + ((S(rs1(16, 17 bits)) * S(False ## rs2( 0, 16 bits))) << (16))
-//    val mulB = S(0, 90 bits) + (S(False ## (rs1(0, 16 bits) * rs2(16, 16 bits)))) +  (S(rs1(16, 17 bits)) * S(False ## rs2(16, 16 bits))  << (16))
-//    val mulA = S(0, 90 bits) + S(rs1(0, 16 bits)*rs2(0, 16 bits) + U(S(rs1(0, 16 bits))*rs2HighS << (16)))
-//    val mulB = S(0, 90 bits) + (S(rs1(16, 17 bits))*rs2LowS << 16) + S(rs1(16, 17 bits))*rs2HighS << (16+16)
-    val mul = mulA + (mulB << 16)
-    when(arbitration.isValid && input(IS_MUL)){
-      output(REGFILE_WRITE_DATA) := ((input(INSTRUCTION)(13 downto 12) === B"00") ? mul(31 downto 0) | mul(63 downto 32)).asBits
-    }
-  }
-
   def core() = new VexRiscv(
     config = VexRiscvConfig(
+      withMemoryStage = true,
+      withWriteBackStage = false,
       List(
         new IBusSimplePlugin(
-          resetVector = 0x00020000l,
-          cmdForkOnSecondStage = true,
-          cmdForkPersistence = true,
-          prediction = DYNAMIC_TARGET,
+          resetVector = 0x000A0000l,
+          cmdForkOnSecondStage = false,
+          cmdForkPersistence = false,
+          prediction = NONE,
           catchAccessFault = false,
           compressedGen = false,
-          injectorStage = true,
-          rspHoldValue = false,
-          historyRamSizeLog2 = 8
+          injectorStage = false,
+          rspHoldValue = false
         ),
-//        new IBusCachedPlugin(
-//          resetVector = 0x80000000l,
-//          config = InstructionCacheConfig(
-//            cacheSize = 4096,
-//            bytePerLine = 32,
-//            wayCount = 1,
-//            addressWidth = 32,
-//            cpuDataWidth = 32,
-//            memDataWidth = 32,
-//            catchIllegalAccess = false,
-//            catchAccessFault = true,
-//            catchMemoryTranslationMiss = false,
-//            asyncTagMemory = false,
-//            twoCycleRam = true,
-//            twoCycleCache = true
-//          )
-//        ),
         new DBusSimplePlugin(
           catchAddressMisaligned = true,
-          catchAccessFault = false,
-          emitCmdInMemoryStage = true
+          catchAccessFault = false
         ),
         new CsrPlugin(
           new CsrPluginConfig(
+//            catchIllegalAccess = false,
+//            mvendorid      = null,
+//            marchid        = null,
+//            mimpid         = null,
+//            mhartid        = null,
+//            misaExtensionsInit = 0,
+//            misaAccess     = CsrAccess.NONE,
+//            mtvecAccess    = CsrAccess.NONE,
+//            mtvecInit      = 0x00000l,
+//            mepcAccess     = CsrAccess.READ_WRITE,
+//            mscratchGen    = false,
+//            mcauseAccess   = CsrAccess.READ_ONLY,
+//            mbadaddrAccess = CsrAccess.NONE,
+//            mcycleAccess   = CsrAccess.NONE,
+//            minstretAccess = CsrAccess.NONE,
+//            ecallGen       = false,
+//            ebreakGen      = false,
+//            wfiGenAsWait   = false,
+//            wfiGenAsNop    = true,
+//            ucycleAccess   = CsrAccess.NONE
             catchIllegalAccess = false,
             mvendorid      = null,
             marchid        = null,
@@ -90,7 +72,7 @@ object Up5kPerf {
             misaExtensionsInit = 0,
             misaAccess     = CsrAccess.READ_ONLY,
             mtvecAccess    = CsrAccess.WRITE_ONLY,
-            mtvecInit      = 0x80000020l,
+            mtvecInit      = null,
             mepcAccess     = CsrAccess.READ_WRITE,
             mscratchGen    = true,
             mcauseAccess   = CsrAccess.READ_ONLY,
@@ -109,32 +91,21 @@ object Up5kPerf {
         ),
         new RegFilePlugin(
           regFileReadyKind = plugin.SYNC,
-          zeroBoot = false
-        ),
-//        new DivPlugin,
-//        new MulPlugin,
-        new MulDivIterativePlugin(
-          genMul = true,
-          genDiv = true,
-          mulUnrollFactor = 4,
-          divUnrollFactor = 1//,
-//          customMul = up5kCustomMul
+          zeroBoot = false,
+          readInExecute = true
         ),
         new IntAluPlugin,
         new SrcPlugin(
-          separatedAddSub = true,
-          executeInsertion = false,
+          separatedAddSub = false,
+          executeInsertion = true,
           decodeAddSub = false
         ),
-        new FullBarrelShifterPlugin(
-          earlyInjection = false
-        ),
-        new HazardSimplePlugin(
-          bypassExecute = true,
-          bypassMemory = true,
-          bypassWriteBack = true,
-          bypassWriteBackBuffer = true
-        ),
+        new LightShifterPlugin(),
+//        new HazardSimplePlugin(
+//          bypassExecute = false,
+//          bypassWriteBackBuffer = false
+//        ),
+        new HazardPessimisticPlugin,
         new BranchPlugin(
           earlyBranch = false,
           catchAddressMisaligned = true,
@@ -148,12 +119,12 @@ object Up5kPerf {
 
 
 
-case class Up5kPerfParameters(ioClkFrequency : HertzNumber,
+case class Up5kAreaParameters(ioClkFrequency : HertzNumber,
                                ioSerialBaudRate : Int)
 
 
 
-case class Up5kPerf(p : Up5kPerfParameters) extends Component {
+case class Up5kArea(p : Up5kAreaParameters) extends Component {
   val io = new Bundle {
     val clk, reset = in Bool()
     val leds = out Bits(3 bits)
@@ -192,10 +163,7 @@ case class Up5kPerf(p : Up5kPerfParameters) extends Component {
   val systemClockDomain = ClockDomain(
     clock = io.clk,
     reset = resetCtrl.systemReset,
-    frequency = FixedFrequency(p.ioClkFrequency),
-      config = ClockDomainConfig(
-      resetKind = spinal.core.SYNC
-    )
+    frequency = FixedFrequency(p.ioClkFrequency)
   )
 
   val system = new ClockingArea(systemClockDomain) {
@@ -208,79 +176,41 @@ case class Up5kPerf(p : Up5kPerfParameters) extends Component {
 
     val dBus = SimpleBus(mainBusConfig)
     val iBus = SimpleBus(mainBusConfig)
-    val slowBus = SimpleBus(mainBusConfig)
+    val mainBus = SimpleBus(mainBusConfig)
     val interconnect = SimpleBusInterconnect()
 
-    val iRam = Spram()
-    val dRam = Spram()
+    val ram = Spram()
 
     val peripherals = Peripherals(serialBaudRate = p.ioSerialBaudRate)
     peripherals.io.serialTx <> io.serialTx
     peripherals.io.leds <> io.leds
 
 
-    val flashXip = FlashXpi(addressWidth = 20)
+    val flashXip = FlashXpi(addressWidth = 19)
     RegNext(flashXip.io.flash.ss).init(1) <> io.flash.ss
     RegNext(flashXip.io.flash.sclk).init(False) <> io.flash.sclk
     RegNext(flashXip.io.flash.mosi) <> io.flash.mosi
     flashXip.io.flash.miso <> io.flash.miso
 
     interconnect.addSlaves(
-      iRam.io.bus         -> SizeMapping(0x80000,  64 kB),
-      dRam.io.bus         -> SizeMapping(0x90000,  64 kB),
-      peripherals.io.bus  -> SizeMapping(0xF0000, 256 Byte),
-      flashXip.io.bus     -> SizeMapping(0x00000, 512 kB),
-      slowBus             -> DefaultMapping
+      ram.io.bus          -> SizeMapping(0x00000,  64 kB),
+      peripherals.io.bus  -> SizeMapping(0x70000,  64 kB),
+      flashXip.io.bus     -> SizeMapping(0x80000,  512 kB),
+      mainBus             -> DefaultMapping
     )
     interconnect.addMasters(
-      dBus   -> List(             dRam.io.bus, slowBus),
-      iBus   -> List(iRam.io.bus,              slowBus),
-      slowBus-> List(iRam.io.bus, dRam.io.bus,           peripherals.io.bus, flashXip.io.bus)
+      dBus   -> List(mainBus),
+      iBus   -> List(mainBus),
+      mainBus-> List(ram.io.bus, peripherals.io.bus, flashXip.io.bus)
     )
 
-    //interconnect.noTransactionLockOn(List(iRam.io.bus, dRam.io.bus))
-
-    interconnect.setConnector(dBus, slowBus){(i,b) =>
-      i.cmd.halfPipe() >> b.cmd
-      i.rsp            << b.rsp
-    }
-    interconnect.setConnector(iBus, slowBus){(i,b) =>
-      i.cmd.halfPipe() >> b.cmd
-      i.rsp            << b.rsp
-    }
-    interconnect.setConnector(slowBus){(i,b) =>
-      i.cmd >> b.cmd
-      i.rsp << b.rsp.stage()
-    }
-//    interconnect.setConnector(slowBus, iRam.io.bus){(i,b) =>
-//      i.cmd.halfPipe() >> b.cmd
-//      i.rsp            << b.rsp
-//    }
-//    interconnect.setConnector(slowBus, dRam.io.bus){(i,b) =>
-//      i.cmd.halfPipe() >> b.cmd
-//      i.rsp            << b.rsp
-//    }
-
-//      interconnect.setConnector(dBus){(i,b) =>
-//        i.cmd.halfPipe() >> b.cmd
-//        i.rsp            << b.rsp.stage()
-//      }
-//      interconnect.setConnector(iBus){(i,b) =>
-//        i.cmd.halfPipe() >> b.cmd
-//        i.rsp            << b.rsp.stage()
-//      }
-
-
-    interconnect.setConnector(dBus){(i,b) =>
+    interconnect.setConnector(mainBus){(i,b) =>
       i.cmd.s2mPipe() >> b.cmd
       i.rsp << b.rsp
     }
 
-
-
-
     //Map the CPU into the SoC
-    val cpu = Up5kPerf.core()
+    val cpu = Up5kArea.core()
     for (plugin <- cpu.plugins) plugin match {
       case plugin: IBusSimplePlugin =>
         val cmd = plugin.iBus.cmd
@@ -322,14 +252,14 @@ case class Up5kPerf(p : Up5kPerfParameters) extends Component {
 }
 
 
-object Up5kPerfEvn{
+
+object Up5kAreaEvn{
   def main(args: Array[String]) {
     SpinalRtlConfig().generateVerilog(Up5kAreaEvn())
   }
 }
 
-
-case class Up5kPerfEvn() extends Component{
+case class Up5kAreaEvn() extends Component{
   val io = new Bundle {
     val iceClk  = in  Bool() //35
 
@@ -342,19 +272,15 @@ case class Up5kPerfEvn() extends Component{
     }
   }
 
-  //    val mainClkBuffer = SB_GB()
-  //    mainClkBuffer.USER_SIGNAL_TO_GLOBAL_BUFFER <> io.iceClk
-  val pll = SB_PLL40_PAD()
-  pll.PACKAGEPIN := io.iceClk
-  pll.RESETB := True
-  pll.BYPASS := False
+  val mainClkBuffer = SB_GB()
+  mainClkBuffer.USER_SIGNAL_TO_GLOBAL_BUFFER <> io.iceClk
 
-  val soc = Up5kPerf(Up5kPerfParameters(
-    ioClkFrequency = 24 MHz,
+  val soc = Up5kArea(Up5kAreaParameters(
+    ioClkFrequency = 12 MHz,
     ioSerialBaudRate = 115200
   ))
 
-  soc.io.clk      <> pll.PLLOUTCORE
+  soc.io.clk      <> mainClkBuffer.GLOBAL_BUFFER_OUTPUT
   soc.io.reset    <> False
   soc.io.flash    <> io.flashSpi
   soc.io.serialTx <> io.serialTx

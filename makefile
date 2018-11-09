@@ -7,15 +7,23 @@ ROOT=$(shell pwd)
 clean:
 	rm -rf ext/zephyr/samples/synchronization/vexriscv_*
 	rm -rf ext/zephyr/samples/philosophers/vexriscv_*
-	make -C software/bootloader/up5k clean
-	make -C software/bootloader/igloo2 clean
+	make -C software/bootloader/up5kPerf clean
+	make -C software/bootloader/up5kArea clean
+	make -C software/bootloader/igloo2Perf clean
+	make -C software/dhrystone/igloo2Perf clean
+	make -C software/dhrystone/up5kPerf clean
+	make -C software/dhrystone/up5kArea clean
+	make -C test/up5kPerf clean
+	make -C test/up5kArea clean
+	make -C test/igloo2Perf clean
 
 
 .PHONY: software/bootloader
 software/bootloader:
 	source ${ZEPHYR}/zephyr-env.sh
-	make -C software/bootloader/up5k all
-	make -C software/bootloader/igloo2 all
+	make -C software/bootloader/up5kPerf all
+	make -C software/bootloader/up5kArea all
+	make -C software/bootloader/igloo2Perf all
 
 ${ZEPHYR}/samples/%/zephyr/zephyr.bin:
 	cd ${ZEPHYR}
@@ -38,32 +46,38 @@ software/dhrystone/igloo2Perf/build/dhrystone.bin:
 	make -C software/dhrystone/igloo2Perf
 
 
+.PHONY: software/dhrystone/up5kArea/build/dhrystone.bin
+software/dhrystone/up5kArea/build/dhrystone.bin:
+	source ${ZEPHYR}/zephyr-env.sh
+	make -C software/dhrystone/up5kArea
+
+
 
 hardware/netlist/%.v: ${NETLIST_DEPENDENCIES}
 	sbt "run-main riscvSoftcoreContest.$(subst hardware/netlist/,,$(subst .v,,$@))"
 
 
-up5kPerf_sim_compliance_rv32i: software/dhrystone/up5kPerf/build/dhrystone.bin software/bootloader
+up5kPerf_sim_compliance_rv32i:  software/bootloader
 	make -C ext/riscv-compliance variant RISCV_TARGET=vexriscv_contest RISCV_DEVICE=up5kPerf RISCV_ISA=rv32i
 
-up5kPerf_sim_compliance_rv32im: software/dhrystone/up5kPerf/build/dhrystone.bin software/bootloader
+up5kPerf_sim_compliance_rv32im: software/bootloader
 	make -C ext/riscv-compliance variant RISCV_TARGET=vexriscv_contest RISCV_DEVICE=up5kPerf RISCV_ISA=rv32im
 
 up5kPerf_sim_dhrystone: software/dhrystone/up5kPerf/build/dhrystone.bin software/bootloader
-	make -C test/up5kPerf run ARGS='--iramBin ${ROOT}/software/dhrystone/up5kPerf/build/dhrystone.bin --bootloader ${ROOT}/software/bootloader/up5k/noFlash.bin'
+	make -C test/up5kPerf run ARGS='--iramBin ${ROOT}/software/dhrystone/up5kPerf/build/dhrystone.bin --bootloader ${ROOT}/software/bootloader/up5kPerf/noFlash.bin'
 
 up5kPerf_sim_synchronization: ext/zephyr/samples/synchronization/vexriscv_contest_up5kperf_evn/zephyr/zephyr.bin software/bootloader
-	make -C test/up5kPerf run ARGS='--iramBin ${ROOT}/ext/zephyr/samples/synchronization/vexriscv_contest_up5kperf_evn/zephyr/zephyr.bin --bootloader ${ROOT}/software/bootloader/up5k/noFlash.bin'
+	make -C test/up5kPerf run ARGS='--iramBin ${ROOT}/ext/zephyr/samples/synchronization/vexriscv_contest_up5kperf_evn/zephyr/zephyr.bin --bootloader ${ROOT}/software/bootloader/up5kPerf/noFlash.bin'
 
 up5kPerf_sim_philosophers: ext/zephyr/samples/philosophers/vexriscv_contest_up5kperf_evn/zephyr/zephyr.bin software/bootloader
-	make -C test/up5kPerf run ARGS='--iramBin ${ROOT}/ext/zephyr/samples/philosophers/vexriscv_contest_up5kperf_evn/zephyr/zephyr.bin --bootloader ${ROOT}/software/bootloader/up5k/noFlash.bin'
+	make -C test/up5kPerf run ARGS='--iramBin ${ROOT}/ext/zephyr/samples/philosophers/vexriscv_contest_up5kperf_evn/zephyr/zephyr.bin --bootloader ${ROOT}/software/bootloader/up5kPerf/noFlash.bin'
 
 
 up5kPerf_evn_prog_icecube2:
-	iceprog -o 0x00000 hardware/synthesis/up5kDmipsEvaluationBoard/icecube2/icecube2_Implmnt/sbt/outputs/bitmap/Up5kPerfEvaluationBoard_bitmap.bin
+	iceprog -o 0x00000 hardware/synthesis/up5kPerfEvn/icecube2/icecube2_Implmnt/sbt/outputs/bitmap/Up5kPerfEvn_bitmap.bin
 
-up5kPerf_evn_prog_bootloader:
-	iceprog -o 0x20000 software/bootloader/up5k/copyFlash.bin
+up5kPerf_evn_prog_bootloader: software/bootloader
+	iceprog -o 0x20000 software/bootloader/up5kPerf/copyFlash.bin
 
 up5kPerf_evn_prog_dhrystone: software/dhrystone/up5kPerf/build/dhrystone.bin
 	iceprog -o 0x30000 software/dhrystone/up5kPerf/build/dhrystone.bin
@@ -79,17 +93,47 @@ up5kPerf_evn_prog_philosophers: ext/zephyr/samples/philosophers/vexriscv_contest
 
 
 
-igloo2Perf_sim_compliance_rv32i: software/dhrystone/igloo2Perf/build/dhrystone.bin software/bootloader
+igloo2Perf_sim_compliance_rv32i: software/bootloader
 	make -C ext/riscv-compliance variant RISCV_TARGET=vexriscv_contest RISCV_DEVICE=igloo2Perf RISCV_ISA=rv32i
 
-igloo2Perf_sim_compliance_rv32im: software/dhrystone/igloo2Perf/build/dhrystone.bin software/bootloader
+igloo2Perf_sim_compliance_rv32im: software/bootloader
 	make -C ext/riscv-compliance variant RISCV_TARGET=vexriscv_contest RISCV_DEVICE=igloo2Perf RISCV_ISA=rv32im
 
 igloo2Perf_sim_dhrystone: software/dhrystone/igloo2Perf/build/dhrystone.bin software/bootloader
-	make -C test/igloo2Perf run ARGS='--iramBin ${ROOT}/software/dhrystone/igloo2Perf/build/dhrystone.bin --bootloader ${ROOT}/software/bootloader/igloo2/noFlash.bin'
+	make -C test/igloo2Perf run ARGS='--iramBin ${ROOT}/software/dhrystone/igloo2Perf/build/dhrystone.bin --bootloader ${ROOT}/software/bootloader/igloo2Perf/noFlash.bin'
 
 igloo2Perf_sim_synchronization: ext/zephyr/samples/synchronization/vexriscv_contest_igloo2perf_creative/zephyr/zephyr.bin software/bootloader
-	make -C test/igloo2Perf run ARGS='--iramBin ${ROOT}/ext/zephyr/samples/synchronization/vexriscv_contest_igloo2perf_creative/zephyr/zephyr.bin --bootloader ${ROOT}/software/bootloader/igloo2/noFlash.bin'
+	make -C test/igloo2Perf run ARGS='--iramBin ${ROOT}/ext/zephyr/samples/synchronization/vexriscv_contest_igloo2perf_creative/zephyr/zephyr.bin --bootloader ${ROOT}/software/bootloader/igloo2Perf/noFlash.bin'
 
 igloo2Perf_sim_philosophers: ext/zephyr/samples/philosophers/vexriscv_contest_igloo2perf_creative/zephyr/zephyr.bin software/bootloader
-	make -C test/igloo2Perf run ARGS='--iramBin ${ROOT}/ext/zephyr/samples/philosophers/vexriscv_contest_igloo2perf_creative/zephyr/zephyr.bin --bootloader ${ROOT}/software/bootloader/igloo2/noFlash.bin'
+	make -C test/igloo2Perf run ARGS='--iramBin ${ROOT}/ext/zephyr/samples/philosophers/vexriscv_contest_igloo2perf_creative/zephyr/zephyr.bin --bootloader ${ROOT}/software/bootloader/igloo2Perf/noFlash.bin'
+
+igloo2Perf_creative_serial_bootloader: software/bootloader
+	python scripts/binToFlash.py software/bootloader/up5kPerf/copyFlash.bin 0x20000 921600 igloo2Perf_creative_serial_bootloader.bin
+
+igloo2Perf_creative_serial_dhrystone: software/dhrystone/igloo2Perf/build/dhrystone.bin
+	python scripts/binToFlash.py software/dhrystone/igloo2Perf/build/dhrystone.bin 0x30000 921600 igloo2Perf_creative_serial_dhrystone.bin
+
+igloo2Perf_creative_serial_synchronization: ext/zephyr/samples/synchronization/vexriscv_contest_igloo2perf_creative/zephyr/zephyr.bin
+	python scripts/binToFlash.py ext/zephyr/samples/synchronization/vexriscv_contest_igloo2perf_creative/zephyr/zephyr.bin 0x30000 921600 igloo2Perf_creative_serial_synchronization.bin
+
+igloo2Perf_creative_serial_philosophers: ext/zephyr/samples/philosophers/vexriscv_contest_igloo2perf_creative/zephyr/zephyr.bin
+	python scripts/binToFlash.py ext/zephyr/samples/philosophers/vexriscv_contest_igloo2perf_creative/zephyr/zephyr.bin 0x30000 921600 igloo2Perf_creative_serial_philosophers.bin
+
+
+
+
+
+
+up5kArea_sim_compliance_rv32i: software/bootloader
+	make -C ext/riscv-compliance variant RISCV_TARGET=vexriscv_contest RISCV_DEVICE=up5kArea RISCV_ISA=rv32i
+
+up5kArea_sim_dhrystone: software/dhrystone/up5kArea/build/dhrystone.bin software/bootloader
+	make -C test/up5kArea run ARGS='--iramBin ${ROOT}/software/dhrystone/up5kArea/build/dhrystone.bin --bootloader ${ROOT}/software/bootloader/up5kArea/noFlash.bin'
+
+up5kArea_sim_synchronization: ext/zephyr/samples/synchronization/vexriscv_contest_up5karea_evn/zephyr/zephyr.bin software/bootloader
+	make -C test/up5kArea run ARGS='--iramBin ${ROOT}/ext/zephyr/samples/synchronization/vexriscv_contest_up5karea_evn/zephyr/zephyr.bin --bootloader ${ROOT}/software/bootloader/up5kArea/noFlash.bin'
+
+up5kArea_sim_philosophers: ext/zephyr/samples/philosophers/vexriscv_contest_up5karea_evn/zephyr/zephyr.bin software/bootloader
+	make -C test/up5kArea run ARGS='--iramBin ${ROOT}/ext/zephyr/samples/philosophers/vexriscv_contest_up5karea_evn/zephyr/zephyr.bin --bootloader ${ROOT}/software/bootloader/up5kArea/noFlash.bin'
+
