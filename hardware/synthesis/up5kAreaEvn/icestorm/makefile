@@ -1,13 +1,15 @@
 TOPLEVEL = Up5kAreaEvn
 
+ROOT = ../../../..
 PIN_DEF = mapping.pcf
-VERILOGS = ../../../netlist/${TOPLEVEL}.v
+VERILOGS = $(ROOT)/hardware/netlist/${TOPLEVEL}.v
 DEVICE = up5k
-
 
 all: $(TOPLEVEL).rpt $(TOPLEVEL).bin
 
 %.blif: ${VERILOGS}
+	rm -f ${TOPLEVEL}.v*.bin
+	cp -f  ${ROOT}/hardware/netlist/${TOPLEVEL}.v*.bin . | true
 	yosys -p 'synth_ice40 -top ${TOPLEVEL} -blif $@' $<
 
 %.asc: $(PIN_DEF) %.blif

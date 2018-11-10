@@ -15,6 +15,12 @@ import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
 
+object Up5kAreaCore {
+  def main(args: Array[String]): Unit = {
+    SpinalRtlConfig().generateVerilog(Up5kArea.core())
+  }
+}
+
 object Up5kArea {
   def main(args: Array[String]): Unit = {
     SpinalRtlConfig().generateVerilog(Up5kArea(Up5kAreaParameters(
@@ -23,10 +29,16 @@ object Up5kArea {
     )))
   }
 
-  def core() = new VexRiscv(
-    config = VexRiscvConfig(
-      withMemoryStage = true,
+  def core(withMemoryStage : Boolean = true,
+           withEmulation : Boolean = false,
+           withPessimisticInterlock : Boolean = true,
+           withRfBypass : Boolean = false,
+           withCsr : Boolean = true) = {
+    assert(!(withRfBypass && withPessimisticInterlock))
+    val config = VexRiscvConfig(
+      withMemoryStage = withMemoryStage,
       withWriteBackStage = false,
+      fullyInterlocked = false,
       List(
         new IBusSimplePlugin(
           resetVector = 0x000A0000l,
@@ -39,59 +51,16 @@ object Up5kArea {
           rspHoldValue = false
         ),
         new DBusSimplePlugin(
-          catchAddressMisaligned = true,
+          catchAddressMisaligned = withCsr,
           catchAccessFault = false
         ),
-        new CsrPlugin(
-          new CsrPluginConfig(
-//            catchIllegalAccess = false,
-//            mvendorid      = null,
-//            marchid        = null,
-//            mimpid         = null,
-//            mhartid        = null,
-//            misaExtensionsInit = 0,
-//            misaAccess     = CsrAccess.NONE,
-//            mtvecAccess    = CsrAccess.NONE,
-//            mtvecInit      = 0x00000l,
-//            mepcAccess     = CsrAccess.READ_WRITE,
-//            mscratchGen    = false,
-//            mcauseAccess   = CsrAccess.READ_ONLY,
-//            mbadaddrAccess = CsrAccess.NONE,
-//            mcycleAccess   = CsrAccess.NONE,
-//            minstretAccess = CsrAccess.NONE,
-//            ecallGen       = false,
-//            ebreakGen      = false,
-//            wfiGenAsWait   = false,
-//            wfiGenAsNop    = true,
-//            ucycleAccess   = CsrAccess.NONE
-            catchIllegalAccess = false,
-            mvendorid      = null,
-            marchid        = null,
-            mimpid         = null,
-            mhartid        = null,
-            misaExtensionsInit = 0,
-            misaAccess     = CsrAccess.READ_ONLY,
-            mtvecAccess    = CsrAccess.WRITE_ONLY,
-            mtvecInit      = null,
-            mepcAccess     = CsrAccess.READ_WRITE,
-            mscratchGen    = true,
-            mcauseAccess   = CsrAccess.READ_ONLY,
-            mbadaddrAccess = CsrAccess.READ_ONLY,
-            mcycleAccess   = CsrAccess.NONE,
-            minstretAccess = CsrAccess.NONE,
-            ecallGen       = true,
-            ebreakGen      = true,
-            wfiGenAsWait   = false,
-            wfiGenAsNop    = true,
-            ucycleAccess   = CsrAccess.NONE
-          )
-        ),
         new DecoderSimplePlugin(
-          catchIllegalInstruction = false
+          catchIllegalInstruction = withEmulation && withCsr
         ),
         new RegFilePlugin(
           regFileReadyKind = plugin.SYNC,
-          zeroBoot = false,
+          zeroBoot = true,
+          x0Init = false,
           readInExecute = true
         ),
         new IntAluPlugin,
@@ -101,19 +70,69 @@ object Up5kArea {
           decodeAddSub = false
         ),
         new LightShifterPlugin(),
-//        new HazardSimplePlugin(
-//          bypassExecute = false,
-//          bypassWriteBackBuffer = false
-//        ),
-        new HazardPessimisticPlugin,
+        if (withPessimisticInterlock) {
+          new HazardPessimisticPlugin
+        } else {
+          new HazardSimplePlugin(
+            bypassExecute = withRfBypass,
+            bypassWriteBackBuffer = withRfBypass
+          )
+        },
         new BranchPlugin(
-          earlyBranch = false,
-          catchAddressMisaligned = true,
-          fenceiGenAsAJump = true
+          earlyBranch = !withMemoryStage,
+          catchAddressMisaligned = withCsr,
+          fenceiGenAsAJump = !withEmulation
         )
       )
     )
-  )
+    if(withCsr) config.plugins += new CsrPlugin(
+      if (withEmulation) new CsrPluginConfig(
+        catchIllegalAccess = true,
+        mvendorid = null,
+        marchid = null,
+        mimpid = null,
+        mhartid = null,
+        misaExtensionsInit = 0,
+        misaAccess = CsrAccess.NONE,
+        mtvecAccess = CsrAccess.NONE,
+        mtvecInit = 0x00000l,
+        mepcAccess = CsrAccess.READ_WRITE,
+        mscratchGen = false,
+        mcauseAccess = CsrAccess.READ_ONLY,
+        mbadaddrAccess = CsrAccess.NONE,
+        mcycleAccess = CsrAccess.NONE,
+        minstretAccess = CsrAccess.NONE,
+        ecallGen = false,
+        ebreakGen = false,
+        wfiGenAsWait = false,
+        wfiGenAsNop = false,
+        ucycleAccess = CsrAccess.NONE
+      )
+      else new CsrPluginConfig(
+        catchIllegalAccess = false,
+        mvendorid = null,
+        marchid = null,
+        mimpid = null,
+        mhartid = null,
+        misaExtensionsInit = 0,
+        misaAccess = CsrAccess.NONE,
+        mtvecAccess = CsrAccess.WRITE_ONLY,
+        mtvecInit = null,
+        mepcAccess = CsrAccess.READ_WRITE,
+        mscratchGen = true,
+        mcauseAccess = CsrAccess.READ_ONLY,
+        mbadaddrAccess = CsrAccess.READ_ONLY,
+        mcycleAccess = CsrAccess.NONE,
+        minstretAccess = CsrAccess.NONE,
+        ecallGen = true,
+        ebreakGen = true,
+        wfiGenAsWait = false,
+        wfiGenAsNop = true,
+        ucycleAccess = CsrAccess.NONE
+      )
+    )
+    new VexRiscv(config)
+  }
 }
 
 
@@ -205,7 +224,7 @@ case class Up5kArea(p : Up5kAreaParameters) extends Component {
     )
 
     interconnect.setConnector(mainBus){(i,b) =>
-      i.cmd.s2mPipe() >> b.cmd
+      i.cmd.stage() >> b.cmd
       i.rsp << b.rsp
     }
 
@@ -225,6 +244,10 @@ case class Up5kArea(p : Up5kAreaParameters) extends Component {
         rsp.valid := iBus.rsp.valid
         rsp.error := False
         rsp.inst := iBus.rsp.data
+
+//        rsp.valid := RegNext(iBus.rsp.valid) init(False)
+//        rsp.error := False
+//        rsp.inst := RegNextWhen(iBus.rsp.data, iBus.rsp.valid)
       case plugin: DBusSimplePlugin => {
         val cmd = plugin.dBus.cmd
         val rsp = plugin.dBus.rsp

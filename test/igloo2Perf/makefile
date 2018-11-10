@@ -28,7 +28,7 @@ run: ./obj_dir/V${TOPLEVEL}
 	rm -rf ./obj_dir
 	rm -f ${TOPLEVEL}.v*.bin
 	cp -f ../../../../${TOPLEVEL}.v*.bin . | true
-	verilator --cc --top-module  ${TOPLEVEL}   ${VERILOGS}  -O3 -CFLAGS -std=c++11  ${ADDCFLAGS} --gdbbt ${VERILATOR_ARGS} -Wno-UNOPTFLAT -Wno-WIDTH --x-assign 0 --exe ${SRCS}
+	verilator --cc --top-module  ${TOPLEVEL}   ${VERILOGS}  -O3 -CFLAGS -std=c++11  ${ADDCFLAGS} --gdbbt ${VERILATOR_ARGS} -Wno-UNOPTFLAT -Wno-WIDTH --x-assign unique --exe ${SRCS}
  	
 ./obj_dir/V${TOPLEVEL}: ./obj_dir ${SRCS} ${HEADERS}
 	make  -j${THREAD_COUNT} -C obj_dir/ -f V${TOPLEVEL}.mk V${TOPLEVEL}
