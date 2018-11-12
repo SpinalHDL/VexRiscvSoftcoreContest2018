@@ -38,6 +38,10 @@ _start:
 	call atexit
 	call __libc_init_array
 
+    //disable timer CMP
+    li a0, 0x70018
+    li a1, -1
+    sw a1, 0(a0)
 
 	call main
     li a0, 0xFF

@@ -5,11 +5,11 @@
 
 
 #project files
-add_file -verilog "../../../netlist/Up5kAreaEvn.v"
-add_file -constraint "constraints.sdc"
 
 
 
+add_file -verilog -lib work "../../../netlist/Up5kAreaEvn.v" 
+add_file -constraint -lib work "constraints.sdc"
 #implementation: "icecube2_Implmnt"
 impl -add icecube2_Implmnt -type fpga
 
@@ -23,7 +23,7 @@ set_option -project_relative_includes 1
 set_option -technology SBTiCE40UP
 set_option -part iCE40UP5K
 set_option -package SG48
-set_option -speed_grade ""
+set_option -speed_grade 
 set_option -part_companion ""
 
 #compilation/mapping options
@@ -68,4 +68,5 @@ set_option -write_apr_constraint 1
 
 #set result format/file last
 project -result_file "icecube2_Implmnt/icecube2.edf"
-impl -active "icecube2_Implmnt"
+impl -active icecube2_Implmnt
+project -run synthesis -clean

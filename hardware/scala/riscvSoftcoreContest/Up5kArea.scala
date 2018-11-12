@@ -17,9 +17,20 @@ import scala.collection.mutable.ArrayBuffer
 
 object Up5kAreaCore {
   def main(args: Array[String]): Unit = {
-    SpinalRtlConfig().generateVerilog(Up5kArea.core())
+    SpinalRtlConfig().generateVerilog(Up5kArea.core(Up5kAreaParameters(1 MHz, 115200)))
   }
 }
+
+case class Up5kAreaParameters(ioClkFrequency : HertzNumber,
+                              ioSerialBaudRate : Int,
+                              withMemoryStage : Boolean = false,
+                              withEmulation : Boolean = false,
+                              withRfBypass : Boolean = false,
+                              withPessimisticInterlock : Boolean = true,
+                              withPipelining : Boolean = false,
+                              withCsr : Boolean = true)
+
+
 
 object Up5kArea {
   def main(args: Array[String]): Unit = {
@@ -29,16 +40,12 @@ object Up5kArea {
     )))
   }
 
-  def core(withMemoryStage : Boolean = true,
-           withEmulation : Boolean = false,
-           withPessimisticInterlock : Boolean = true,
-           withRfBypass : Boolean = false,
-           withCsr : Boolean = true) = {
+  def core(p : Up5kAreaParameters) = {
+    import p._
     assert(!(withRfBypass && withPessimisticInterlock))
     val config = VexRiscvConfig(
       withMemoryStage = withMemoryStage,
       withWriteBackStage = false,
-      fullyInterlocked = false,
       List(
         new IBusSimplePlugin(
           resetVector = 0x000A0000l,
@@ -48,7 +55,10 @@ object Up5kArea {
           catchAccessFault = false,
           compressedGen = false,
           injectorStage = false,
-          rspHoldValue = false
+          rspHoldValue = !withPipelining,
+          singleInstructionPipeline = !withPipelining,
+          busLatencyMin = 1,
+          pendingMax = if(withPipelining) 3 else 1
         ),
         new DBusSimplePlugin(
           catchAddressMisaligned = withCsr,
@@ -61,7 +71,8 @@ object Up5kArea {
           regFileReadyKind = plugin.SYNC,
           zeroBoot = true,
           x0Init = false,
-          readInExecute = true
+          readInExecute = true,
+          syncUpdateOnStall = withPipelining
         ),
         new IntAluPlugin,
         new SrcPlugin(
@@ -70,14 +81,6 @@ object Up5kArea {
           decodeAddSub = false
         ),
         new LightShifterPlugin(),
-        if (withPessimisticInterlock) {
-          new HazardPessimisticPlugin
-        } else {
-          new HazardSimplePlugin(
-            bypassExecute = withRfBypass,
-            bypassWriteBackBuffer = withRfBypass
-          )
-        },
         new BranchPlugin(
           earlyBranch = !withMemoryStage,
           catchAddressMisaligned = withCsr,
@@ -85,6 +88,16 @@ object Up5kArea {
         )
       )
     )
+    if(withPipelining){
+      config.plugins += (if(withPessimisticInterlock) {
+        new HazardPessimisticPlugin
+      } else {
+        new HazardSimplePlugin(
+          bypassExecute = withRfBypass,
+          bypassWriteBackBuffer = withRfBypass
+        )
+      })
+    }
     if(withCsr) config.plugins += new CsrPlugin(
       if (withEmulation) new CsrPluginConfig(
         catchIllegalAccess = true,
@@ -95,17 +108,17 @@ object Up5kArea {
         misaExtensionsInit = 0,
         misaAccess = CsrAccess.NONE,
         mtvecAccess = CsrAccess.NONE,
-        mtvecInit = 0x00000l,
+        mtvecInit = 0x00008l,
         mepcAccess = CsrAccess.READ_WRITE,
         mscratchGen = false,
         mcauseAccess = CsrAccess.READ_ONLY,
         mbadaddrAccess = CsrAccess.NONE,
         mcycleAccess = CsrAccess.NONE,
         minstretAccess = CsrAccess.NONE,
-        ecallGen = false,
-        ebreakGen = false,
+        ecallGen = true,
+        ebreakGen = true,
         wfiGenAsWait = false,
-        wfiGenAsNop = false,
+        wfiGenAsNop = true,
         ucycleAccess = CsrAccess.NONE
       )
       else new CsrPluginConfig(
@@ -136,10 +149,6 @@ object Up5kArea {
 }
 
 
-
-
-case class Up5kAreaParameters(ioClkFrequency : HertzNumber,
-                               ioSerialBaudRate : Int)
 
 
 
@@ -200,7 +209,10 @@ case class Up5kArea(p : Up5kAreaParameters) extends Component {
 
     val ram = Spram()
 
-    val peripherals = Peripherals(serialBaudRate = p.ioSerialBaudRate)
+    val peripherals = Peripherals(
+      serialBaudRate = p.ioSerialBaudRate,
+      smallTimer = true
+    )
     peripherals.io.serialTx <> io.serialTx
     peripherals.io.leds <> io.leds
 
@@ -223,13 +235,32 @@ case class Up5kArea(p : Up5kAreaParameters) extends Component {
       mainBus-> List(ram.io.bus, peripherals.io.bus, flashXip.io.bus)
     )
 
-    interconnect.setConnector(mainBus){(i,b) =>
-      i.cmd.stage() >> b.cmd
-      i.rsp << b.rsp
+    if(p.withPipelining) {
+      interconnect.setConnector(mainBus) { (i, b) =>
+        i.cmd.stage() >> b.cmd
+        i.rsp << b.rsp
+      }
     }
 
+//    interconnect.setConnector(dBus) { (i, b) =>
+////      i.cmd >> b.cmd
+//      i.cmd.valid <> (b.cmd.valid)
+//      i.cmd.payload <> (b.cmd.payload)
+//      (i.cmd.ready):= RegNext(b.cmd.ready)
+//
+//      i.rsp << b.rsp
+//    }
+
+
+//    interconnect.setConnector(iBus) { (i, b) =>
+//      i.cmd.stage >> b.cmd
+//
+//      i.rsp << b.rsp.stage
+//    }
+
+
     //Map the CPU into the SoC
-    val cpu = Up5kArea.core()
+    val cpu = Up5kArea.core(p)
     for (plugin <- cpu.plugins) plugin match {
       case plugin: IBusSimplePlugin =>
         val cmd = plugin.iBus.cmd
@@ -325,3 +356,4 @@ case class Up5kAreaEvn() extends Component{
   ledDriver.RGB1 <> io.leds.g
   ledDriver.RGB2 <> io.leds.r
 }
+

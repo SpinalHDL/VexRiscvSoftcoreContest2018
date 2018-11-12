@@ -89,7 +89,7 @@ void putchar(char c){
 
 //Time in microsecond
 long time(){
-  return MTIME_BASE[0];
+  return MTIME_BASE[0] & 0xFFFFF;
 }
 
 //See https://github.com/zephyrproject-rtos/meta-zephyr-sdk/issues/110

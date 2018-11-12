@@ -3,8 +3,8 @@ ProjectVersion=2.0
 Version=Lattice Semiconductor Corporation iCEcube - Release: 2017.08.27940 - Build Date: Sep 12 2017 08:41:24
 ProjectName=icecube2
 Vendor=SiliconBlue
-Synthesis=synplify
-ProjectVFiles=../../../netlist/Up5kAreaEvn.v
+Synthesis=lse
+ProjectVFiles=../../../netlist/Up5kAreaEvn.v=work
 ProjectCFiles=constraints.sdc
 CurImplementation=icecube2_Implmnt
 Implementations=icecube2_Implmnt
