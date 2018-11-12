@@ -24,7 +24,7 @@ object Up5kAreaCore {
 case class Up5kAreaParameters(ioClkFrequency : HertzNumber,
                               ioSerialBaudRate : Int,
                               withMemoryStage : Boolean = false,
-                              withEmulation : Boolean = false,
+                              withEmulation : Boolean = true,
                               withRfBypass : Boolean = false,
                               withPessimisticInterlock : Boolean = true,
                               withPipelining : Boolean = false,
@@ -65,7 +65,7 @@ object Up5kArea {
           catchAccessFault = false
         ),
         new DecoderSimplePlugin(
-          catchIllegalInstruction = withEmulation && withCsr
+          catchIllegalInstruction = false
         ),
         new RegFilePlugin(
           regFileReadyKind = plugin.SYNC,
@@ -84,7 +84,8 @@ object Up5kArea {
         new BranchPlugin(
           earlyBranch = !withMemoryStage,
           catchAddressMisaligned = withCsr,
-          fenceiGenAsAJump = !withEmulation
+          fenceiGenAsAJump = withPipelining,
+          fenceiGenAsANop = !withPipelining
         )
       )
     )
