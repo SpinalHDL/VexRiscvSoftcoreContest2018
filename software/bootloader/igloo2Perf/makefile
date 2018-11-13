@@ -22,3 +22,6 @@ clean:
 	rm -f *.o
 	rm -f *.elf
 	rm -f *.bin
+	rm -f *.map
+	rm -f *.asm
+	rm -f *.d

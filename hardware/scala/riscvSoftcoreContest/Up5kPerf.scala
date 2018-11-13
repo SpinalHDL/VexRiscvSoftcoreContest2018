@@ -48,7 +48,7 @@ object Up5kPerf {
     config = VexRiscvConfig(
       List(
         new IBusSimplePlugin(
-          resetVector = 0x00020000l,
+          resetVector = 0x000A0000l,
           cmdForkOnSecondStage = true,
           cmdForkPersistence = true,
           prediction = DYNAMIC_TARGET,
@@ -90,7 +90,7 @@ object Up5kPerf {
             misaExtensionsInit = 0,
             misaAccess     = CsrAccess.READ_ONLY,
             mtvecAccess    = CsrAccess.WRITE_ONLY,
-            mtvecInit      = 0x80000020l,
+            mtvecInit      = null,
             mepcAccess     = CsrAccess.READ_WRITE,
             mscratchGen    = true,
             mcauseAccess   = CsrAccess.READ_ONLY,
@@ -219,17 +219,17 @@ case class Up5kPerf(p : Up5kPerfParameters) extends Component {
     peripherals.io.leds <> io.leds
 
 
-    val flashXip = FlashXpi(addressWidth = 20)
+    val flashXip = FlashXpi(addressWidth = 19)
     RegNext(flashXip.io.flash.ss).init(1) <> io.flash.ss
     RegNext(flashXip.io.flash.sclk).init(False) <> io.flash.sclk
     RegNext(flashXip.io.flash.mosi) <> io.flash.mosi
     flashXip.io.flash.miso <> io.flash.miso
 
     interconnect.addSlaves(
-      iRam.io.bus         -> SizeMapping(0x80000,  64 kB),
-      dRam.io.bus         -> SizeMapping(0x90000,  64 kB),
-      peripherals.io.bus  -> SizeMapping(0xF0000, 256 Byte),
-      flashXip.io.bus     -> SizeMapping(0x00000, 512 kB),
+      dRam.io.bus         -> SizeMapping(0x00000,  64 kB),
+      iRam.io.bus         -> SizeMapping(0x10000,  64 kB),
+      peripherals.io.bus  -> SizeMapping(0x70000, 256 Byte),
+      flashXip.io.bus     -> SizeMapping(0x80000, 512 kB),
       slowBus             -> DefaultMapping
     )
     interconnect.addMasters(
@@ -324,7 +324,7 @@ case class Up5kPerf(p : Up5kPerfParameters) extends Component {
 
 object Up5kPerfEvn{
   def main(args: Array[String]) {
-    SpinalRtlConfig().generateVerilog(Up5kAreaEvn())
+    SpinalRtlConfig().generateVerilog(Up5kPerfEvn())
   }
 }
 

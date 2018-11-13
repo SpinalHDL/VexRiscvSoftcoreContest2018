@@ -11,7 +11,7 @@ OUTPUT_ARCH(riscv)
 ENTRY(crtStart)
 
 MEMORY {
-  mem : ORIGIN = 0x00020000, LENGTH = 0x00000400
+  mem : ORIGIN = 0x000A0000, LENGTH = 0x00000400
 }
 
 _stack_size = DEFINED(_stack_size) ? _stack_size : 0;

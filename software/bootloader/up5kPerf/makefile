@@ -19,7 +19,9 @@ RISCV_OBJDUMP=${RISCV_BIN}objdump
 all: copyFlash.bin noFlash.bin
 
 clean:
-	rm -rf *.d
-	rm -rf *.bin
-	rm -rf *.o
-	rm -rf *.elf.*
+	rm -f *.o
+	rm -f *.elf
+	rm -f *.bin
+	rm -f *.map
+	rm -f *.asm
+	rm -f *.d

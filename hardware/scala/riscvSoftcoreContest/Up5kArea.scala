@@ -24,7 +24,7 @@ object Up5kAreaCore {
 case class Up5kAreaParameters(ioClkFrequency : HertzNumber,
                               ioSerialBaudRate : Int,
                               withMemoryStage : Boolean = false,
-                              withEmulation : Boolean = true,
+                              withEmulation : Boolean = false,
                               withRfBypass : Boolean = false,
                               withPessimisticInterlock : Boolean = true,
                               withPipelining : Boolean = false,

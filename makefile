@@ -13,6 +13,7 @@ clean:
 	make -C software/dhrystone/igloo2Perf clean
 	make -C software/dhrystone/up5kPerf clean
 	make -C software/dhrystone/up5kArea clean
+	make -C software/emulation/area clean
 	make -C test/up5kPerf clean
 	make -C test/up5kArea clean
 	make -C test/igloo2Perf clean
@@ -24,6 +25,11 @@ software/bootloader:
 	make -C software/bootloader/up5kPerf all
 	make -C software/bootloader/up5kArea all
 	make -C software/bootloader/igloo2Perf all
+
+.PHONY: software/bootloader
+software/emulation:
+	source ${ZEPHYR}/zephyr-env.sh
+	make -C software/emulation/area all
 
 ${ZEPHYR}/samples/%/zephyr/zephyr.bin:
 	cd ${ZEPHYR}
@@ -121,19 +127,24 @@ igloo2Perf_creative_serial_philosophers: ext/zephyr/samples/philosophers/vexrisc
 	python scripts/binToFlash.py ext/zephyr/samples/philosophers/vexriscv_contest_igloo2perf_creative/zephyr/zephyr.bin 0x30000 921600 igloo2Perf_creative_serial_philosophers.bin
 
 
-
-
-
-
-up5kArea_sim_compliance_rv32i: software/bootloader
+up5kArea_sim_compliance_rv32i: software/bootloader software/emulation
 	make -C ext/riscv-compliance variant RISCV_TARGET=vexriscv_contest RISCV_DEVICE=up5kArea RISCV_ISA=rv32i
 
-up5kArea_sim_dhrystone: software/dhrystone/up5kArea/build/dhrystone.bin software/bootloader
+up5kArea_sim_dhrystone: software/dhrystone/up5kArea/build/dhrystone.bin software/bootloader software/emulation
 	make -C test/up5kArea run ARGS='--iramBin ${ROOT}/software/dhrystone/up5kArea/build/dhrystone.bin --bootloader ${ROOT}/software/bootloader/up5kArea/noFlash.bin'
 
-up5kArea_sim_synchronization: ext/zephyr/samples/synchronization/vexriscv_contest_up5karea_evn/zephyr/zephyr.bin software/bootloader
+up5kArea_sim_synchronization: ext/zephyr/samples/synchronization/vexriscv_contest_up5karea_evn/zephyr/zephyr.bin software/bootloader software/emulation
 	make -C test/up5kArea run ARGS='--iramBin ${ROOT}/ext/zephyr/samples/synchronization/vexriscv_contest_up5karea_evn/zephyr/zephyr.bin --bootloader ${ROOT}/software/bootloader/up5kArea/noFlash.bin'
 
-up5kArea_sim_philosophers: ext/zephyr/samples/philosophers/vexriscv_contest_up5karea_evn/zephyr/zephyr.bin software/bootloader
+up5kArea_sim_philosophers: ext/zephyr/samples/philosophers/vexriscv_contest_up5karea_evn/zephyr/zephyr.bin software/bootloader software/emulation
 	make -C test/up5kArea run ARGS='--iramBin ${ROOT}/ext/zephyr/samples/philosophers/vexriscv_contest_up5karea_evn/zephyr/zephyr.bin --bootloader ${ROOT}/software/bootloader/up5kArea/noFlash.bin'
 
+
+
+play:
+	make -C software/emulation/area/ all
+	rm -rf tmp.bin
+	cat software/emulation/area/emu.bin >> tmp.bin
+	dd if=/dev/null of=tmp.bin bs=1 count=0 seek=2048
+	cat ext/riscv-compliance/work/I-CSRRW-01.elf.bin >> tmp.bin
+	make -C /home/spinalvm/hdl/riscvSoftcoreContest/ext/riscv-compliance/riscv-test-suite/rv32i/../../../../test/up5kArea clean run ARGS='--iramBin ../../tmp.bin --bootloader /home/spinalvm/hdl/riscvSoftcoreContest/ext/riscv-compliance/riscv-test-suite/rv32i/../../../../software/bootloader/up5kArea/noFlash.bin  --timeout 2000000' TRACE=yes
