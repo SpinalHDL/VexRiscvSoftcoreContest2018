@@ -15,34 +15,14 @@ import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
 
-object Up5kAreaCore {
-  def main(args: Array[String]): Unit = {
-    SpinalRtlConfig().generateVerilog(Up5kArea.core(Up5kAreaParameters(1 MHz, 115200)))
-  }
-}
-
 case class Up5kAreaParameters(ioClkFrequency : HertzNumber,
                               ioSerialBaudRate : Int,
+                              noComplianceOverhead : Boolean = false,
                               withMemoryStage : Boolean = false,
-                              withEmulation : Boolean = false,
                               withRfBypass : Boolean = false,
-                              withPessimisticInterlock : Boolean = true,
                               withPipelining : Boolean = false,
-                              withCsr : Boolean = true)
-
-
-
-object Up5kArea {
-  def main(args: Array[String]): Unit = {
-    SpinalRtlConfig().generateVerilog(Up5kArea(Up5kAreaParameters(
-      ioClkFrequency = 12 MHz,
-      ioSerialBaudRate = 115200
-    )))
-  }
-
-  def core(p : Up5kAreaParameters) = {
-    import p._
-    assert(!(withRfBypass && withPessimisticInterlock))
+                              withCsr : Boolean = true){
+  def toVexRiscvConfig() = {
     val config = VexRiscvConfig(
       withMemoryStage = withMemoryStage,
       withWriteBackStage = false,
@@ -61,7 +41,7 @@ object Up5kArea {
           pendingMax = if(withPipelining) 3 else 1
         ),
         new DBusSimplePlugin(
-          catchAddressMisaligned = withCsr,
+          catchAddressMisaligned = withCsr && !noComplianceOverhead,
           catchAccessFault = false
         ),
         new DecoderSimplePlugin(
@@ -83,24 +63,20 @@ object Up5kArea {
         new LightShifterPlugin(),
         new BranchPlugin(
           earlyBranch = !withMemoryStage,
-          catchAddressMisaligned = withCsr,
+          catchAddressMisaligned = withCsr && !noComplianceOverhead,
           fenceiGenAsAJump = withPipelining,
           fenceiGenAsANop = !withPipelining
         )
       )
     )
     if(withPipelining){
-      config.plugins += (if(withPessimisticInterlock) {
-        new HazardPessimisticPlugin
-      } else {
-        new HazardSimplePlugin(
-          bypassExecute = withRfBypass,
-          bypassWriteBackBuffer = withRfBypass
-        )
-      })
+      config.plugins += new HazardSimplePlugin(
+        bypassExecute = withRfBypass,
+        bypassWriteBackBuffer = withRfBypass
+      )
     }
     if(withCsr) config.plugins += new CsrPlugin(
-      if (withEmulation) new CsrPluginConfig(
+      if (noComplianceOverhead) new CsrPluginConfig(
         catchIllegalAccess = true,
         mvendorid = null,
         marchid = null,
@@ -108,8 +84,8 @@ object Up5kArea {
         mhartid = null,
         misaExtensionsInit = 0,
         misaAccess = CsrAccess.NONE,
-        mtvecAccess = CsrAccess.NONE,
-        mtvecInit = 0x00008l,
+        mtvecAccess = CsrAccess.WRITE_ONLY,
+        mtvecInit = null,
         mepcAccess = CsrAccess.READ_WRITE,
         mscratchGen = false,
         mcauseAccess = CsrAccess.READ_ONLY,
@@ -117,7 +93,7 @@ object Up5kArea {
         mcycleAccess = CsrAccess.NONE,
         minstretAccess = CsrAccess.NONE,
         ecallGen = true,
-        ebreakGen = true,
+        ebreakGen = false,
         wfiGenAsWait = false,
         wfiGenAsNop = true,
         ucycleAccess = CsrAccess.NONE
@@ -145,12 +121,9 @@ object Up5kArea {
         ucycleAccess = CsrAccess.NONE
       )
     )
-    new VexRiscv(config)
+    config
   }
 }
-
-
-
 
 
 case class Up5kArea(p : Up5kAreaParameters) extends Component {
@@ -164,27 +137,26 @@ case class Up5kArea(p : Up5kAreaParameters) extends Component {
   val resetCtrlClockDomain = ClockDomain(
     clock = io.clk,
     config = ClockDomainConfig(
-      resetKind = BOOT
+      resetKind = BOOT //Bitstream loaded FF
     )
   )
 
 
   val resetCtrl = new ClockingArea(resetCtrlClockDomain) {
-    val mainClkResetUnbuffered  = False
+    val resetUnbuffered  = False
 
-    //Implement an counter to keep the reset mainClkResetUnbuffered high 64 cycles
-    // Also this counter will automatically do a reset when the system boot.
-    val systemClkResetCounter = Reg(UInt(6 bits)) init(0)
-    when(systemClkResetCounter =/= U(systemClkResetCounter.range -> true)){
-      systemClkResetCounter := systemClkResetCounter + 1
-      mainClkResetUnbuffered := True
+    //Power on reset counter
+    val resetCounter = Reg(UInt(6 bits)) init(0)
+    when(!resetCounter.andR){
+      resetCounter := resetCounter + 1
+      resetUnbuffered := True
     }
     when(BufferCC(io.reset)){
-      systemClkResetCounter := 0
+      resetCounter := 0
     }
 
     //Create all reset used later in the design
-    val systemResetBuffered  = RegNext(mainClkResetUnbuffered)
+    val systemResetBuffered  = RegNext(resetUnbuffered)
     val systemReset = SB_GB(systemResetBuffered)
   }
 
@@ -192,7 +164,10 @@ case class Up5kArea(p : Up5kAreaParameters) extends Component {
   val systemClockDomain = ClockDomain(
     clock = io.clk,
     reset = resetCtrl.systemReset,
-    frequency = FixedFrequency(p.ioClkFrequency)
+    frequency = FixedFrequency(p.ioClkFrequency),
+    config = ClockDomainConfig(
+      resetKind = spinal.core.SYNC
+    )
   )
 
   val system = new ClockingArea(systemClockDomain) {
@@ -237,68 +212,21 @@ case class Up5kArea(p : Up5kAreaParameters) extends Component {
     )
 
     if(p.withPipelining) {
-      interconnect.setConnector(mainBus) { (i, b) =>
-        i.cmd.stage() >> b.cmd
-        i.rsp << b.rsp
+      interconnect.setConnector(mainBus) { (m, s) =>
+        m.cmd.s2mPipe() >> s.cmd
+        m.rsp << s.rsp
       }
     }
 
-//    interconnect.setConnector(dBus) { (i, b) =>
-////      i.cmd >> b.cmd
-//      i.cmd.valid <> (b.cmd.valid)
-//      i.cmd.payload <> (b.cmd.payload)
-//      (i.cmd.ready):= RegNext(b.cmd.ready)
-//
-//      i.rsp << b.rsp
-//    }
-
-
-//    interconnect.setConnector(iBus) { (i, b) =>
-//      i.cmd.stage >> b.cmd
-//
-//      i.rsp << b.rsp.stage
-//    }
-
 
     //Map the CPU into the SoC
-    val cpu = Up5kArea.core(p)
+    val cpu = new VexRiscv(p.toVexRiscvConfig())
     for (plugin <- cpu.plugins) plugin match {
-      case plugin: IBusSimplePlugin =>
-        val cmd = plugin.iBus.cmd
-        val rsp = plugin.iBus.rsp
-        iBus.cmd.valid := cmd.valid
-        iBus.cmd.wr := False
-        iBus.cmd.address := cmd.pc.resized
-        iBus.cmd.data.assignDontCare()
-        iBus.cmd.mask.assignDontCare()
-        cmd.ready := iBus.cmd.ready
-
-        rsp.valid := iBus.rsp.valid
-        rsp.error := False
-        rsp.inst := iBus.rsp.data
-
-//        rsp.valid := RegNext(iBus.rsp.valid) init(False)
-//        rsp.error := False
-//        rsp.inst := RegNextWhen(iBus.rsp.data, iBus.rsp.valid)
-      case plugin: DBusSimplePlugin => {
-        val cmd = plugin.dBus.cmd
-        val rsp = plugin.dBus.rsp
-        dBus.cmd.valid := cmd.valid
-        dBus.cmd.wr := cmd.wr
-        dBus.cmd.address := cmd.address.resized
-        dBus.cmd.data := cmd.data
-        dBus.cmd.mask := cmd.size.mux(
-          0 -> B"0001",
-          1 -> B"0011",
-          default -> B"1111"
-        ) |<< cmd.address(1 downto 0)
-        cmd.ready := dBus.cmd.ready
-
-        rsp.ready := dBus.rsp.valid
-        rsp.data := dBus.rsp.data
-      }
-      case plugin: CsrPlugin => {
-        plugin.externalInterrupt := False
+      case plugin : IBusSimplePlugin => iBus << plugin.iBus.toSimpleBus()
+      case plugin : IBusCachedPlugin => iBus << plugin.iBus.toSimpleBus()
+      case plugin : DBusSimplePlugin => dBus << plugin.dBus.toSimpleBus()
+      case plugin : CsrPlugin => {
+        plugin.externalInterrupt := False //Not used
         plugin.timerInterrupt := peripherals.io.mTimeInterrupt
       }
       case _ =>
@@ -307,43 +235,28 @@ case class Up5kArea(p : Up5kAreaParameters) extends Component {
 }
 
 
-
-object Up5kAreaEvn{
-  def main(args: Array[String]) {
-    SpinalRtlConfig().generateVerilog(Up5kAreaEvn())
-  }
-}
-
 case class Up5kAreaEvn() extends Component{
   val io = new Bundle {
-    val iceClk  = in  Bool() //35
-
-    val serialTx  = out  Bool() //
-
-    val flashSpi  = master(SpiMaster()) //16 15 14 17
-
+    val iceClk  = in  Bool()
+    val serialTx  = out  Bool()
+    val flashSpi  = master(SpiMaster())
     val leds = new Bundle {
-      val r,g,b = out Bool() //41 40 39
+      val r,g,b = out Bool()
     }
   }
 
-  val mainClkBuffer = SB_GB()
-  mainClkBuffer.USER_SIGNAL_TO_GLOBAL_BUFFER <> io.iceClk
+  val clkBuffer = SB_GB()
+  clkBuffer.USER_SIGNAL_TO_GLOBAL_BUFFER <> io.iceClk
 
   val soc = Up5kArea(Up5kAreaParameters(
     ioClkFrequency = 12 MHz,
     ioSerialBaudRate = 115200
   ))
 
-  soc.io.clk      <> mainClkBuffer.GLOBAL_BUFFER_OUTPUT
+  soc.io.clk      <> clkBuffer.GLOBAL_BUFFER_OUTPUT
   soc.io.reset    <> False
   soc.io.flash    <> io.flashSpi
   soc.io.serialTx <> io.serialTx
-  //    soc.io.serialTx <> io.leds.b
-  //    soc.io.leds(0)  <> io.leds.r
-  //    soc.io.leds(1)  <> io.leds.g
-  //    True <> io.leds.r
-  //    True <> io.leds.g
 
 
   val ledDriver = SB_RGBA_DRV()
@@ -358,3 +271,20 @@ case class Up5kAreaEvn() extends Component{
   ledDriver.RGB2 <> io.leds.r
 }
 
+
+//Main used to generate the SoC design
+object Up5kArea {
+  def main(args: Array[String]): Unit = {
+    SpinalRtlConfig().generateVerilog(Up5kArea(Up5kAreaParameters(
+      ioClkFrequency = 12 MHz,
+      ioSerialBaudRate = 115200
+    )))
+  }
+}
+
+
+object Up5kAreaEvn{
+  def main(args: Array[String]) {
+    SpinalRtlConfig().generateVerilog(Up5kAreaEvn())
+  }
+}

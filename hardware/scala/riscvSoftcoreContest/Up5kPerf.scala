@@ -14,38 +14,13 @@ import vexriscv.plugin._
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
-object Up5kPerf {
-  def main(args: Array[String]): Unit = {
-    SpinalRtlConfig().generateVerilog(Up5kPerf(Up5kPerfParameters(
-      ioClkFrequency = 12 MHz,
-      ioSerialBaudRate = 115200
-    )))
-  }
 
-  def up5kCustomMul(rs1 : UInt, rs2 : UInt, stage : Stage, vexriscv : VexRiscv) = new Area{
-    import MulDivIterativePlugin._
-    import stage._
-    import Riscv._
-    import vexriscv.config._
-//    val mul = S(rs1)*S(False ## rs2)
-//    val mul = S(rs1)*S(False ## rs2(15 downto 0)) + (S(rs1)*S(False ## rs2(31 downto 16)) << 16)
-    val rs2LowS = S(False ## rs2(0, 16 bits))
-    val rs2HighS = S(False ## rs2(16, 16 bits))
-    val mulA = S(0, 90 bits) +  S(False ## (rs1(0, 16 bits) * rs2(0, 16 bits)))   +  (S(False ## (rs1(16, 16 bits) * rs2(0, 16 bits)))  << 16) + ((S(rs1(32, 1 bits)) * S(False ## rs2( 0, 16 bits))) << (32))
-    val mulB = S(0, 90 bits) + (S(False ## (rs1(0, 16 bits) * rs2(16, 16 bits)))) +  (S(False ## (rs1(16, 16 bits) * rs2(16, 16 bits))) << 16) +  (S(rs1(32, 1 bits)) * S(False ## rs2(16, 16 bits))  << (32))
-
-    //    val mulA = S(0, 90 bits) +  S(False ## (rs1(0, 16 bits) * rs2(0, 16 bits)))   + ((S(rs1(16, 17 bits)) * S(False ## rs2( 0, 16 bits))) << (16))
-//    val mulB = S(0, 90 bits) + (S(False ## (rs1(0, 16 bits) * rs2(16, 16 bits)))) +  (S(rs1(16, 17 bits)) * S(False ## rs2(16, 16 bits))  << (16))
-//    val mulA = S(0, 90 bits) + S(rs1(0, 16 bits)*rs2(0, 16 bits) + U(S(rs1(0, 16 bits))*rs2HighS << (16)))
-//    val mulB = S(0, 90 bits) + (S(rs1(16, 17 bits))*rs2LowS << 16) + S(rs1(16, 17 bits))*rs2HighS << (16+16)
-    val mul = mulA + (mulB << 16)
-    when(arbitration.isValid && input(IS_MUL)){
-      output(REGFILE_WRITE_DATA) := ((input(INSTRUCTION)(13 downto 12) === B"00") ? mul(31 downto 0) | mul(63 downto 32)).asBits
-    }
-  }
-
-  def core() = new VexRiscv(
-    config = VexRiscvConfig(
+case class Up5kPerfParameters(ioClkFrequency : HertzNumber,
+                              ioSerialBaudRate : Int){
+  def toVexRiscvConfig() = {
+    val config = VexRiscvConfig(
+      withMemoryStage = true,
+      withWriteBackStage = true,
       List(
         new IBusSimplePlugin(
           resetVector = 0x000A0000l,
@@ -58,23 +33,6 @@ object Up5kPerf {
           rspHoldValue = false,
           historyRamSizeLog2 = 8
         ),
-//        new IBusCachedPlugin(
-//          resetVector = 0x80000000l,
-//          config = InstructionCacheConfig(
-//            cacheSize = 4096,
-//            bytePerLine = 32,
-//            wayCount = 1,
-//            addressWidth = 32,
-//            cpuDataWidth = 32,
-//            memDataWidth = 32,
-//            catchIllegalAccess = false,
-//            catchAccessFault = true,
-//            catchMemoryTranslationMiss = false,
-//            asyncTagMemory = false,
-//            twoCycleRam = true,
-//            twoCycleCache = true
-//          )
-//        ),
         new DBusSimplePlugin(
           catchAddressMisaligned = true,
           catchAccessFault = false,
@@ -111,14 +69,11 @@ object Up5kPerf {
           regFileReadyKind = plugin.SYNC,
           zeroBoot = false
         ),
-//        new DivPlugin,
-//        new MulPlugin,
+        new MulPlugin,
         new MulDivIterativePlugin(
-          genMul = true,
+          genMul = false,
           genDiv = true,
-          mulUnrollFactor = 4,
-          divUnrollFactor = 1//,
-//          customMul = up5kCustomMul
+          divUnrollFactor = 1
         ),
         new IntAluPlugin,
         new SrcPlugin(
@@ -142,14 +97,9 @@ object Up5kPerf {
         )
       )
     )
-  )
+    config
+  }
 }
-
-
-
-
-case class Up5kPerfParameters(ioClkFrequency : HertzNumber,
-                               ioSerialBaudRate : Int)
 
 
 
@@ -170,21 +120,20 @@ case class Up5kPerf(p : Up5kPerfParameters) extends Component {
 
 
   val resetCtrl = new ClockingArea(resetCtrlClockDomain) {
-    val mainClkResetUnbuffered  = False
+    val resetUnbuffered  = False
 
-    //Implement an counter to keep the reset mainClkResetUnbuffered high 64 cycles
-    // Also this counter will automatically do a reset when the system boot.
-    val systemClkResetCounter = Reg(UInt(6 bits)) init(0)
-    when(systemClkResetCounter =/= U(systemClkResetCounter.range -> true)){
-      systemClkResetCounter := systemClkResetCounter + 1
-      mainClkResetUnbuffered := True
+    //Power on reset counter
+    val resetCounter = Reg(UInt(6 bits)) init(0)
+    when(resetCounter =/= U(resetCounter.range -> true)){
+      resetCounter := resetCounter + 1
+      resetUnbuffered := True
     }
     when(BufferCC(io.reset)){
-      systemClkResetCounter := 0
+      resetCounter := 0
     }
 
     //Create all reset used later in the design
-    val systemResetBuffered  = RegNext(mainClkResetUnbuffered)
+    val systemResetBuffered  = RegNext(resetUnbuffered)
     val systemReset = SB_GB(systemResetBuffered)
   }
 
@@ -199,16 +148,14 @@ case class Up5kPerf(p : Up5kPerfParameters) extends Component {
   )
 
   val system = new ClockingArea(systemClockDomain) {
-
-    val mainBusConfig = SimpleBusConfig(
+    val busConfig = SimpleBusConfig(
       addressWidth = 20,
       dataWidth = 32
     )
 
-
-    val dBus = SimpleBus(mainBusConfig)
-    val iBus = SimpleBus(mainBusConfig)
-    val slowBus = SimpleBus(mainBusConfig)
+    val dBus = SimpleBus(busConfig)
+    val iBus = SimpleBus(busConfig)
+    val slowBus = SimpleBus(busConfig)
     val interconnect = SimpleBusInterconnect()
 
     val iRam = Spram()
@@ -238,82 +185,28 @@ case class Up5kPerf(p : Up5kPerfParameters) extends Component {
       slowBus-> List(iRam.io.bus, dRam.io.bus,           peripherals.io.bus, flashXip.io.bus)
     )
 
-    //interconnect.noTransactionLockOn(List(iRam.io.bus, dRam.io.bus))
-
-    interconnect.setConnector(dBus, slowBus){(i,b) =>
-      i.cmd.halfPipe() >> b.cmd
-      i.rsp            << b.rsp
+    interconnect.setConnector(dBus, slowBus){(m, s) =>
+      m.cmd.halfPipe() >> s.cmd
+      m.rsp            << s.rsp
     }
-    interconnect.setConnector(iBus, slowBus){(i,b) =>
-      i.cmd.halfPipe() >> b.cmd
-      i.rsp            << b.rsp
-    }
-    interconnect.setConnector(slowBus){(i,b) =>
-      i.cmd >> b.cmd
-      i.rsp << b.rsp.stage()
-    }
-//    interconnect.setConnector(slowBus, iRam.io.bus){(i,b) =>
-//      i.cmd.halfPipe() >> b.cmd
-//      i.rsp            << b.rsp
-//    }
-//    interconnect.setConnector(slowBus, dRam.io.bus){(i,b) =>
-//      i.cmd.halfPipe() >> b.cmd
-//      i.rsp            << b.rsp
-//    }
-
-//      interconnect.setConnector(dBus){(i,b) =>
-//        i.cmd.halfPipe() >> b.cmd
-//        i.rsp            << b.rsp.stage()
-//      }
-//      interconnect.setConnector(iBus){(i,b) =>
-//        i.cmd.halfPipe() >> b.cmd
-//        i.rsp            << b.rsp.stage()
-//      }
-
-
-    interconnect.setConnector(dBus){(i,b) =>
-      i.cmd.s2mPipe() >> b.cmd
-      i.rsp << b.rsp
+    interconnect.setConnector(iBus, slowBus){(m, s) =>
+      m.cmd.halfPipe() >> s.cmd
+      m.rsp            << s.rsp
     }
 
-
-
+    interconnect.setConnector(slowBus){(m, s) =>
+      m.cmd >> s.cmd
+      m.rsp << s.rsp.stage()
+    }
 
     //Map the CPU into the SoC
-    val cpu = Up5kPerf.core()
+    val cpu = new VexRiscv(p.toVexRiscvConfig())
     for (plugin <- cpu.plugins) plugin match {
-      case plugin: IBusSimplePlugin =>
-        val cmd = plugin.iBus.cmd
-        val rsp = plugin.iBus.rsp
-        iBus.cmd.valid := cmd.valid
-        iBus.cmd.wr := False
-        iBus.cmd.address := cmd.pc.resized
-        iBus.cmd.data.assignDontCare()
-        iBus.cmd.mask.assignDontCare()
-        cmd.ready := iBus.cmd.ready
-
-        rsp.valid := iBus.rsp.valid
-        rsp.error := False
-        rsp.inst := iBus.rsp.data
-      case plugin: DBusSimplePlugin => {
-        val cmd = plugin.dBus.cmd
-        val rsp = plugin.dBus.rsp
-        dBus.cmd.valid := cmd.valid
-        dBus.cmd.wr := cmd.wr
-        dBus.cmd.address := cmd.address.resized
-        dBus.cmd.data := cmd.data
-        dBus.cmd.mask := cmd.size.mux(
-          0 -> B"0001",
-          1 -> B"0011",
-          default -> B"1111"
-        ) |<< cmd.address(1 downto 0)
-        cmd.ready := dBus.cmd.ready
-
-        rsp.ready := dBus.rsp.valid
-        rsp.data := dBus.rsp.data
-      }
-      case plugin: CsrPlugin => {
-        plugin.externalInterrupt := False
+      case plugin : IBusSimplePlugin => iBus << plugin.iBus.toSimpleBus()
+      case plugin : IBusCachedPlugin => iBus << plugin.iBus.toSimpleBus()
+      case plugin : DBusSimplePlugin => dBus << plugin.dBus.toSimpleBus()
+      case plugin : CsrPlugin => {
+        plugin.externalInterrupt := False //Not used
         plugin.timerInterrupt := peripherals.io.mTimeInterrupt
       }
       case _ =>
@@ -322,28 +215,16 @@ case class Up5kPerf(p : Up5kPerfParameters) extends Component {
 }
 
 
-object Up5kPerfEvn{
-  def main(args: Array[String]) {
-    SpinalRtlConfig().generateVerilog(Up5kPerfEvn())
-  }
-}
-
-
 case class Up5kPerfEvn() extends Component{
   val io = new Bundle {
-    val iceClk  = in  Bool() //35
-
-    val serialTx  = out  Bool() //
-
-    val flashSpi  = master(SpiMaster()) //16 15 14 17
-
+    val iceClk  = in  Bool()
+    val serialTx  = out  Bool()
+    val flashSpi  = master(SpiMaster())
     val leds = new Bundle {
-      val r,g,b = out Bool() //41 40 39
+      val r,g,b = out Bool()
     }
   }
 
-  //    val mainClkBuffer = SB_GB()
-  //    mainClkBuffer.USER_SIGNAL_TO_GLOBAL_BUFFER <> io.iceClk
   val pll = SB_PLL40_PAD()
   pll.PACKAGEPIN := io.iceClk
   pll.RESETB := True
@@ -358,11 +239,6 @@ case class Up5kPerfEvn() extends Component{
   soc.io.reset    <> False
   soc.io.flash    <> io.flashSpi
   soc.io.serialTx <> io.serialTx
-  //    soc.io.serialTx <> io.leds.b
-  //    soc.io.leds(0)  <> io.leds.r
-  //    soc.io.leds(1)  <> io.leds.g
-  //    True <> io.leds.r
-  //    True <> io.leds.g
 
 
   val ledDriver = SB_RGBA_DRV()
@@ -375,4 +251,21 @@ case class Up5kPerfEvn() extends Component{
   ledDriver.RGB0 <> io.leds.b
   ledDriver.RGB1 <> io.leds.g
   ledDriver.RGB2 <> io.leds.r
+}
+
+
+//Main used to generate the SoC design
+object Up5kPerf {
+  def main(args: Array[String]): Unit = {
+    SpinalRtlConfig().generateVerilog(Up5kPerf(Up5kPerfParameters(
+      ioClkFrequency = 12 MHz,
+      ioSerialBaudRate = 115200
+    )))
+  }
+}
+
+object Up5kPerfEvn{
+  def main(args: Array[String]) {
+    SpinalRtlConfig().generateVerilog(Up5kPerfEvn())
+  }
 }
