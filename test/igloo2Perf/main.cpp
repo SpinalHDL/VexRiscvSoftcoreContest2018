@@ -2,7 +2,7 @@
 #include "misc.h"
 #include "VIgloo2Perf.h"
 #include "VIgloo2Perf_Igloo2Perf.h"
-#include "VIgloo2Perf_SimpleBusRam.h"
+#include "VIgloo2Perf_SimpleBusMultiPortRam.h"
 
 #include <fstream>
 #include <iostream>
@@ -152,10 +152,10 @@ int main(int argc, char **argv) {
 
         for(int i = 0;i < ram_binSize;i++){
             switch(i&3){
-                case 0: tb->dut->Igloo2Perf->system_iRam->ram_symbol0[i/4] = ram_bin[i]; break;
-                case 1: tb->dut->Igloo2Perf->system_iRam->ram_symbol1[i/4] = ram_bin[i]; break;
-                case 2: tb->dut->Igloo2Perf->system_iRam->ram_symbol2[i/4] = ram_bin[i]; break;
-                case 3: tb->dut->Igloo2Perf->system_iRam->ram_symbol3[i/4] = ram_bin[i]; break;
+                case 0: tb->dut->Igloo2Perf->system_ram->ram_symbol0[(i + 0x10)/4] = ram_bin[i]; break;
+                case 1: tb->dut->Igloo2Perf->system_ram->ram_symbol1[(i + 0x10)/4] = ram_bin[i]; break;
+                case 2: tb->dut->Igloo2Perf->system_ram->ram_symbol2[(i + 0x10)/4] = ram_bin[i]; break;
+                case 3: tb->dut->Igloo2Perf->system_ram->ram_symbol3[(i + 0x10)/4] = ram_bin[i]; break;
             }
         }
     }

@@ -91,5 +91,3 @@ void putchar(char c){
 long time(){
   return MTIME_BASE[0];
 }
-
-

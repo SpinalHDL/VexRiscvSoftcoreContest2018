@@ -1,7 +1,7 @@
 #--  Synopsys, Inc.
 #--  Version L-2016.09L+ice40
 #--  Project file /home/spinalvm/hdl/riscvSoftcoreContest/hardware/synthesis/up5kAreaEvn/icecube2/icecube2_syn.prj
-#--  Written on Fri Nov  9 04:21:53 2018
+#--  Written on Tue Nov 13 23:24:07 2018
 
 
 #project files
@@ -33,7 +33,7 @@ set_option -top_module "Up5kAreaEvn"
 set_option -distributed_compile 0
 
 # mapper_without_write_options
-set_option -frequency auto
+set_option -frequency 1.000000
 set_option -srs_instrumentation 1
 
 # mapper_options

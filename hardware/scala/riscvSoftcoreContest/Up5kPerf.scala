@@ -73,7 +73,8 @@ case class Up5kPerfParameters(ioClkFrequency : HertzNumber,
         new MulDivIterativePlugin(
           genMul = false,
           genDiv = true,
-          divUnrollFactor = 1
+          divUnrollFactor = 1,
+          dhrystoneOpt = true
         ),
         new IntAluPlugin,
         new SrcPlugin(

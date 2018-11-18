@@ -10,22 +10,9 @@ _start:
 	la sp, _sp
 
 
-	/* Load data section */
-	la a0, _data_lma
-	la a1, _data
-	la a2, _edata
-	bgeu a1, a2, 2f
-1:
-	lw t0, (a0)
-	sw t0, (a1)
-	addi a0, a0, 4
-	addi a1, a1, 4
-	bltu a1, a2, 1b
-2:
-
 	/* Clear bss section */
 	la a0, __bss_start
-	la a1, _end
+	la a1, __bss_end
 	bgeu a0, a1, 2f
 1:
 	sw zero, (a0)
@@ -44,8 +31,8 @@ _start:
     sw a1, 0(a0)
 
 	call main
-    li a0, 0xFF
-    call putchar
+	li a0, 0xFF
+	call putchar
 mainDone:
     j mainDone
 

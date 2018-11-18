@@ -10,7 +10,7 @@ import spinal.lib.eda.icestorm.IcestormStdTargets
 import spinal.lib.fsm.{State, StateMachine}
 import vexriscv.{plugin, _}
 import vexriscv.demo.{SimpleBus, _}
-import vexriscv.ip.InstructionCacheConfig
+import vexriscv.ip.{DataCacheConfig, InstructionCacheConfig}
 import vexriscv.plugin._
 
 import scala.collection.mutable
@@ -35,31 +35,49 @@ case class Igloo2PerfParameters(ioClkFrequency : HertzNumber,
           rspHoldValue = false,
           historyRamSizeLog2 = 9
         ),
-        //        new IBusCachedPlugin(
-        //          resetVector = 0xA0000l,
-        //          prediction = DYNAMIC_TARGET,
-        //          relaxedPcCalculation = true,
-        //          config = InstructionCacheConfig(
-        //            cacheSize = 4096,
-        //            bytePerLine = 32,
-        //            wayCount = 1,
-        //            addressWidth = 32,
-        //            cpuDataWidth = 32,
-        //            memDataWidth = 32,
-        //            catchIllegalAccess = false,
-        //            catchAccessFault = false,
-        //            catchMemoryTranslationMiss = false,
-        //            asyncTagMemory = false,
-        //            twoCycleRam = true,
-        //            twoCycleCache = true
-        //          )
-        //        ),
+//        new IBusCachedPlugin(
+//          resetVector = 0xA0000l,
+//          prediction = DYNAMIC_TARGET,
+//          relaxedPcCalculation = true,
+//          config = InstructionCacheConfig(
+//            cacheSize = 4096,
+//            bytePerLine = 32,
+//            wayCount = 1,
+//            addressWidth = 32,
+//            cpuDataWidth = 32,
+//            memDataWidth = 32,
+//            catchIllegalAccess = false,
+//            catchAccessFault = false,
+//            catchMemoryTranslationMiss = false,
+//            asyncTagMemory = false,
+//            twoCycleRam = true,
+//            twoCycleCache = true
+//          )
+//        ),
         new DBusSimplePlugin(
           catchAddressMisaligned = true,
           catchAccessFault = false,
           earlyInjection = false,
           emitCmdInMemoryStage = true
         ),
+//        new DBusCachedPlugin(
+//          config = new DataCacheConfig(
+//            cacheSize         = 4096,
+//            bytePerLine       = 32,
+//            wayCount          = 1,
+//            addressWidth      = 32,
+//            cpuDataWidth      = 32,
+//            memDataWidth      = 32,
+//            catchAccessError  = false,
+//            catchIllegal      = false,
+//            catchUnaligned    = true,
+//            catchMemoryTranslationMiss = false
+//          ),
+//          memoryTranslatorPortConfig = null
+//        ),
+//        new StaticMemoryTranslatorPlugin(
+//          ioRange      = _(19 downto 16) === 0x7
+//        ),
         new CsrPlugin(
           new CsrPluginConfig(
             catchIllegalAccess = false,
@@ -96,7 +114,8 @@ case class Igloo2PerfParameters(ioClkFrequency : HertzNumber,
         new MulDivIterativePlugin(
           genMul = false,
           genDiv = true,
-          divUnrollFactor = 1
+          divUnrollFactor = 1,
+          dhrystoneOpt = true
         ),
         new IntAluPlugin,
         new SrcPlugin(
@@ -191,8 +210,8 @@ case class Igloo2Perf(p : Igloo2PerfParameters) extends Component {
     val slowBus = SimpleBus(busConfig)
     val interconnect = SimpleBusInterconnect()
 
-    val iRam = SimpleBusRam(32 kB)
-    val dRam = SimpleBusRam(16 kB, relaxedCmd = false, relaxedRsp = false)
+
+    val ram = SimpleBusMultiPortRam(32 kB, portCount = 2)
 
     val peripherals = Peripherals(serialBaudRate = p.ioSerialBaudRate)
     peripherals.io.serialTx <> io.serialTx
@@ -201,19 +220,19 @@ case class Igloo2Perf(p : Igloo2PerfParameters) extends Component {
     val flashXip = FlashXpi(addressWidth = 19, slowDownFactor = 3)
 
     interconnect.addSlaves(
-      dRam.io.bus         -> SizeMapping(0x00000,  64 kB),
-      iRam.io.bus         -> SizeMapping(0x10000,  64 kB),
+      ram.io.buses(0)         -> SizeMapping(0x00000,  64 kB),
+      ram.io.buses(1)         -> SizeMapping(0x00000,  64 kB),
       peripherals.io.bus  -> SizeMapping(0x70000,  64 Byte),
       flashXip.io.bus     -> SizeMapping(0x80000, 512 kB),
       slowBus             -> DefaultMapping
     )
     interconnect.addMasters(
-      dBus   -> List(             dRam.io.bus, slowBus),
-      iBus   -> List(iRam.io.bus,              slowBus),
-      slowBus-> List(iRam.io.bus, dRam.io.bus,           peripherals.io.bus, flashXip.io.bus)
+      dBus   -> List(ram.io.buses(0), slowBus),
+      iBus   -> List(ram.io.buses(1), slowBus),
+      slowBus-> List(peripherals.io.bus, flashXip.io.bus)
     )
 
-    interconnect.noTransactionLockOn(List(iRam.io.bus, dRam.io.bus))
+    interconnect.noTransactionLockOn(ram.io.buses)
 
     //Add pipelining
     interconnect.setConnector(dBus, slowBus){(m,s) =>
@@ -228,18 +247,93 @@ case class Igloo2Perf(p : Igloo2PerfParameters) extends Component {
       m.cmd >> s.cmd
       m.rsp << s.rsp.stage()
     }
-    interconnect.setConnector(slowBus, iRam.io.bus){(m,s) =>
-      m.cmd.halfPipe() >> s.cmd
-      m.rsp            << s.rsp
-    }
-    interconnect.setConnector(slowBus, dRam.io.bus){(m,s) =>
-      m.cmd.halfPipe() >> s.cmd
-      m.rsp            << s.rsp
-    }
     interconnect.setConnector(dBus){(m,s) =>
       m.cmd.s2mPipe() >> s.cmd
       m.rsp << s.rsp
     }
+
+
+
+
+
+//    val iRam = SimpleBusRam(32 kB)
+//    val dRam = SimpleBusRam(16 kB, relaxedCmd = false, relaxedRsp = false)
+//
+//    val peripherals = Peripherals(serialBaudRate = p.ioSerialBaudRate)
+//    peripherals.io.serialTx <> io.serialTx
+//    peripherals.io.leds <> io.leds
+//
+//    val flashXip = FlashXpi(addressWidth = 19, slowDownFactor = 3)
+//
+//    interconnect.addSlaves(
+//      dRam.io.bus         -> SizeMapping(0x00000,  64 kB),
+//      iRam.io.bus         -> SizeMapping(0x10000,  64 kB),
+//      peripherals.io.bus  -> SizeMapping(0x70000,  64 Byte),
+//      flashXip.io.bus     -> SizeMapping(0x80000, 512 kB),
+//      slowBus             -> DefaultMapping
+//    )
+//    interconnect.addMasters(
+//      dBus   -> List(             dRam.io.bus, slowBus),
+//      iBus   -> List(iRam.io.bus,              slowBus),
+//      slowBus-> List(iRam.io.bus, dRam.io.bus,           peripherals.io.bus, flashXip.io.bus)
+//    )
+//
+//    interconnect.noTransactionLockOn(List(iRam.io.bus, dRam.io.bus))
+//
+//    //Add pipelining
+//    interconnect.setConnector(dBus, slowBus){(m,s) =>
+//      m.cmd.halfPipe() >> s.cmd
+//      m.rsp            << s.rsp
+//    }
+//    interconnect.setConnector(iBus, slowBus){(m,s) =>
+//      m.cmd.halfPipe() >> s.cmd
+//      m.rsp            << s.rsp
+//    }
+//    interconnect.setConnector(slowBus){(m,s) =>
+//      m.cmd.stage() >> s.cmd
+//      m.rsp << s.rsp.stage()
+//    }
+//    interconnect.setConnector(slowBus, iRam.io.bus){(m,s) =>
+//      m.cmd.halfPipe() >> s.cmd
+//      m.rsp            << s.rsp
+//    }
+//    interconnect.setConnector(slowBus, dRam.io.bus){(m,s) =>
+//      m.cmd.halfPipe() >> s.cmd
+//      m.rsp            << s.rsp
+//    }
+//    interconnect.setConnector(dBus){(m,s) =>
+//      m.cmd.s2mPipe() >> s.cmd
+//      m.rsp << s.rsp
+//    }
+
+
+//    val ram = SimpleBusRam(32 kB)
+//
+//    val peripherals = Peripherals(serialBaudRate = p.ioSerialBaudRate)
+//    peripherals.io.serialTx <> io.serialTx
+//    peripherals.io.leds <> io.leds
+//
+//    val flashXip = FlashXpi(addressWidth = 19, slowDownFactor = 3)
+//
+//    interconnect.addSlaves(
+//      ram.io.bus          -> SizeMapping(0x00000,  64 kB),
+//      peripherals.io.bus  -> SizeMapping(0x70000,  64 Byte),
+//      flashXip.io.bus     -> SizeMapping(0x80000, 512 kB),
+//      slowBus             -> DefaultMapping
+//    )
+//    interconnect.addMasters(
+//      dBus   -> List(slowBus),
+//      iBus   -> List(slowBus),
+//      slowBus-> List(ram.io.bus, peripherals.io.bus, flashXip.io.bus)
+//    )
+//
+//
+//
+//    interconnect.setConnector(slowBus){(m,s) =>
+//      m.cmd.halfPipe() >> s.cmd
+//      m.rsp << s.rsp.stage()
+//    }
+
 
 
     //Map the CPU into the SoC
@@ -248,6 +342,7 @@ case class Igloo2Perf(p : Igloo2PerfParameters) extends Component {
       case plugin : IBusSimplePlugin => iBus << plugin.iBus.toSimpleBus()
       case plugin : IBusCachedPlugin => iBus << plugin.iBus.toSimpleBus()
       case plugin : DBusSimplePlugin => dBus << plugin.dBus.toSimpleBus()
+      case plugin : DBusCachedPlugin => dBus << plugin.dBus.toSimpleBus()
       case plugin : CsrPlugin => {
         plugin.externalInterrupt := False //Not used
         plugin.timerInterrupt := peripherals.io.mTimeInterrupt
