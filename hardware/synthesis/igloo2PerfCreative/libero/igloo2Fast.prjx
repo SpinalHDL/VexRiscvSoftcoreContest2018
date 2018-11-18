@@ -146,38 +146,33 @@ IS_TARGET="TRUE"
 ENDFILE
 VALUE "<project>\designer\impl1\Igloo2PerfCreative.ide_des,ide_des"
 STATE="utd"
-TIME="1541628821"
-SIZE="588"
+TIME="1541695194"
+SIZE="604"
 ENDFILE
 VALUE "<project>\designer\impl1\XTLOSC_FAB.ide_des,ide_des"
 STATE="utd"
 TIME="1540637803"
 SIZE="234"
 ENDFILE
-VALUE "<project>\hdl\Igloo2PerfCreative.v,hdl"
-STATE="utd"
-TIME="1541616504"
-SIZE="236520"
-ENDFILE
 VALUE "<project>\synthesis\Igloo2PerfCreative.edn,syn_edn"
-STATE="ood"
-TIME="1541633950"
-SIZE="4539981"
+STATE="utd"
+TIME="1542321983"
+SIZE="4573018"
 ENDFILE
 VALUE "<project>\synthesis\Igloo2PerfCreative.so,so"
 STATE="utd"
-TIME="1541633951"
+TIME="1542321984"
 SIZE="282"
 ENDFILE
 VALUE "<project>\synthesis\Igloo2PerfCreative_sdc.sdc,syn_sdc"
-STATE="ood"
-TIME="1541633950"
+STATE="utd"
+TIME="1542321983"
 SIZE="1043"
 ENDFILE
 VALUE "<project>\synthesis\Igloo2PerfCreative_syn.prj,prj"
 STATE="utd"
-TIME="1541633951"
-SIZE="2776"
+TIME="1542321985"
+SIZE="2747"
 ENDFILE
 VALUE "<project>\synthesis\Igloo2Speed.so,so"
 STATE="utd"
@@ -199,17 +194,35 @@ STATE="utd"
 TIME="1541633798"
 SIZE="0"
 ENDFILE
+VALUE "D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v,hdl"
+STATE="utd"
+TIME="1542321920"
+SIZE="235234"
+ENDFILE
 ENDLIST
 LIST UsedFile
 ENDLIST
 LIST NewModulesInfo
 LIST "Igloo2PerfCreative::work"
-FILE "<project>\hdl\Igloo2PerfCreative.v,hdl"
+FILE "D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v,hdl"
 LIST SynthesisConstraints
 VALUE "<project>\constraint\user.sdc,sdc"
 ENDLIST
 LIST TimingConstraints
 VALUE "<project>\constraint\final.sdc,sdc"
+ENDLIST
+LIST ProjectState5.1
+LIST Impl1
+LiberoState=Post_Synthesis
+ideSYNTHESIS(<project>\synthesis\Igloo2PerfCreative.edn,syn_edn)=StateSuccess
+LIST FlowOptions
+UsePhySynth=FALSE
+UseSynth=TRUE
+UseFhbAutoInst=FALSE
+ENDLIST
+Used_File_List
+ENDUsed_File_List
+ENDLIST
 ENDLIST
 ENDLIST
 ENDLIST
@@ -283,8 +296,8 @@ NAME="Synplify Pro ME"
 FUNCTION="Synthesis"
 TOOL="Synplify Pro ME"
 LOCATION="E:\Microsemi\Libero_SoC_v11.8\SynplifyPro\bin\synplify_pro.exe"
-PARAM="-licensetype synplifypro_actel -batch -log synplify.log"
-BATCH=1
+PARAM=""
+BATCH=0
 LICENSE=""
 IS32BIT="1"
 EndProfile
@@ -317,6 +330,19 @@ IS32BIT="1"
 EndProfile
 ENDLIST
 LIST ProjectState5.1
+LIST "Igloo2PerfCreative::work"
+LIST Impl1
+LiberoState=Post_Synthesis
+ideSYNTHESIS(<project>\synthesis\Igloo2PerfCreative.edn,syn_edn)=StateSuccess
+LIST FlowOptions
+UsePhySynth=FALSE
+UseSynth=TRUE
+UseFhbAutoInst=FALSE
+ENDLIST
+Used_File_List
+ENDUsed_File_List
+ENDLIST
+ENDLIST
 ENDLIST
 LIST ExcludePackageForSimulation
 ENDLIST
@@ -334,36 +360,36 @@ StartPage;StartPage;0
 ACTIVEVIEW;StartPage
 ENDLIST
 LIST ModuleSubBlockList
-LIST "BufferCC::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
+LIST "BufferCC::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
 ENDLIST
-LIST "BufferCC_1_::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
+LIST "BufferCC_1_::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
 ENDLIST
 LIST "ccc1::work","component\work\ccc1\ccc1.v","TRUE","FALSE"
 SUBBLOCK "ccc1_ccc1_0_FCCC::work","component\work\ccc1\ccc1_0\ccc1_ccc1_0_FCCC.v","FALSE","FALSE"
 ENDLIST
 LIST "ccc1_ccc1_0_FCCC::work","component\work\ccc1\ccc1_0\ccc1_ccc1_0_FCCC.v","FALSE","FALSE"
 ENDLIST
-LIST "FlashXpi::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
+LIST "FlashXpi::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
 ENDLIST
-LIST "Igloo2Perf::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
-SUBBLOCK "BufferCC_1_::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
-SUBBLOCK "FlashXpi::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
-SUBBLOCK "Peripherals::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
-SUBBLOCK "SerialRxOutput::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
-SUBBLOCK "SimpleBusArbiter::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
-SUBBLOCK "SimpleBusArbiter_1_::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
-SUBBLOCK "SimpleBusArbiter_2_::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
-SUBBLOCK "SimpleBusArbiter_3_::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
-SUBBLOCK "SimpleBusArbiter_4_::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
-SUBBLOCK "SimpleBusDecoder::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
-SUBBLOCK "SimpleBusDecoder_1_::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
-SUBBLOCK "SimpleBusDecoder_2_::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
-SUBBLOCK "SimpleBusRam::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
-SUBBLOCK "SimpleBusRam_1_::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
-SUBBLOCK "VexRiscv::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
+LIST "Igloo2Perf::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
+SUBBLOCK "BufferCC_1_::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
+SUBBLOCK "FlashXpi::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
+SUBBLOCK "Peripherals::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
+SUBBLOCK "SerialRxOutput::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
+SUBBLOCK "SimpleBusArbiter::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
+SUBBLOCK "SimpleBusArbiter_1_::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
+SUBBLOCK "SimpleBusArbiter_2_::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
+SUBBLOCK "SimpleBusArbiter_3_::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
+SUBBLOCK "SimpleBusArbiter_4_::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
+SUBBLOCK "SimpleBusDecoder::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
+SUBBLOCK "SimpleBusDecoder_1_::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
+SUBBLOCK "SimpleBusDecoder_2_::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
+SUBBLOCK "SimpleBusRam::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
+SUBBLOCK "SimpleBusRam_1_::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
+SUBBLOCK "VexRiscv::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
 ENDLIST
-LIST "Igloo2PerfCreative::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
-SUBBLOCK "Igloo2Perf::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
+LIST "Igloo2PerfCreative::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
+SUBBLOCK "Igloo2Perf::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
 SUBBLOCK "ccc1::work","component\work\ccc1\ccc1.v","TRUE","FALSE"
 SUBBLOCK "osc1::work","component\work\osc1\osc1.v","TRUE","FALSE"
 ENDLIST
@@ -373,7 +399,7 @@ ENDLIST
 LIST "osc1_osc1_0_OSC::work","component\work\osc1\osc1_0\osc1_osc1_0_OSC.v","FALSE","FALSE"
 SUBBLOCK "RCOSC_25_50MHZ::work","component\Actel\SgCore\OSC\2.0.101\osc_comps.v","FALSE","FALSE"
 ENDLIST
-LIST "Peripherals::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
+LIST "Peripherals::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
 ENDLIST
 LIST "RCOSC_1MHZ::work","component\Actel\SgCore\OSC\2.0.101\osc_comps.v","FALSE","FALSE"
 ENDLIST
@@ -383,42 +409,42 @@ LIST "RCOSC_25_50MHZ::work","component\Actel\SgCore\OSC\2.0.101\osc_comps.v","FA
 ENDLIST
 LIST "RCOSC_25_50MHZ_FAB::work","component\Actel\SgCore\OSC\2.0.101\osc_comps.v","FALSE","FALSE"
 ENDLIST
-LIST "SerialRxOutput::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
-SUBBLOCK "BufferCC::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
+LIST "SerialRxOutput::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
+SUBBLOCK "BufferCC::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
 ENDLIST
-LIST "SimpleBusArbiter::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
-SUBBLOCK "StreamArbiter::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
+LIST "SimpleBusArbiter::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
+SUBBLOCK "StreamArbiter::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
 ENDLIST
-LIST "SimpleBusArbiter_1_::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
-SUBBLOCK "StreamArbiter_1_::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
+LIST "SimpleBusArbiter_1_::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
+SUBBLOCK "StreamArbiter_1_::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
 ENDLIST
-LIST "SimpleBusArbiter_2_::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
+LIST "SimpleBusArbiter_2_::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
 ENDLIST
-LIST "SimpleBusArbiter_3_::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
+LIST "SimpleBusArbiter_3_::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
 ENDLIST
-LIST "SimpleBusArbiter_4_::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
-SUBBLOCK "StreamArbiter_2_::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
+LIST "SimpleBusArbiter_4_::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
+SUBBLOCK "StreamArbiter_2_::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
 ENDLIST
-LIST "SimpleBusDecoder::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
+LIST "SimpleBusDecoder::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
 ENDLIST
-LIST "SimpleBusDecoder_1_::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
+LIST "SimpleBusDecoder_1_::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
 ENDLIST
-LIST "SimpleBusDecoder_2_::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
+LIST "SimpleBusDecoder_2_::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
 ENDLIST
-LIST "SimpleBusRam::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
+LIST "SimpleBusRam::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
 ENDLIST
-LIST "SimpleBusRam_1_::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
+LIST "SimpleBusRam_1_::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
 ENDLIST
-LIST "StreamArbiter::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
+LIST "StreamArbiter::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
 ENDLIST
-LIST "StreamArbiter_1_::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
+LIST "StreamArbiter_1_::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
 ENDLIST
-LIST "StreamArbiter_2_::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
+LIST "StreamArbiter_2_::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
 ENDLIST
-LIST "StreamFifoLowLatency::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
+LIST "StreamFifoLowLatency::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
 ENDLIST
-LIST "VexRiscv::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
-SUBBLOCK "StreamFifoLowLatency::work","hdl\Igloo2PerfCreative.v","FALSE","FALSE"
+LIST "VexRiscv::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
+SUBBLOCK "StreamFifoLowLatency::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
 ENDLIST
 LIST "XTLOSC::work","component\Actel\SgCore\OSC\2.0.101\osc_comps.v","FALSE","FALSE"
 ENDLIST
