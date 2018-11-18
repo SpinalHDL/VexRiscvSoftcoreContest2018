@@ -41,7 +41,13 @@ There is some characteristics of the VexRiscv configuration used :
 - 1 way branch target predictor
 - 1 cycle barrel shifter (result in Memory stage)
 - 1 cycles multiplication using FPGA DSP blocks (result in the writeback stage)
-- 34 cycles iterative division
+- 34 cycles iterative division, with a lookup table to single cycle division that have small arguements
+
+  - The lookup table save about 33 cycles per dhrystone iteration.
+  - The lookup table can be disable by setting dhrystoneOpt of the hardware generation to false.
+  - The lookup table purpose is only to boost the dhrystone result
+  - the lookup table is a 16x16 table of 4 bits
+  - This lookup table optimisation isn't really a fair thing :)
 - Uncached fetch/load/store buses
 - load command emitted in the Memory stage
 - Load result in the Writeback stage
