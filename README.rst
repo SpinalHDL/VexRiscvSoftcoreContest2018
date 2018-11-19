@@ -46,7 +46,7 @@ There is some characteristics of the VexRiscv configuration used :
   - The lookup table save about 33 cycles per dhrystone iteration.
   - The lookup table can be disable by setting dhrystoneOpt of the hardware generation to false.
   - The lookup table purpose is only to boost the dhrystone result
-  - the lookup table is a 16x16 table of 4 bits
+  - The lookup table is a 16x16 table of 4 bits
   - This lookup table optimisation isn't really a fair thing :)
 - Uncached fetch/load/store buses
 - load command emitted in the Memory stage
@@ -99,6 +99,17 @@ There is a block diagram explaining the SoCs memory system :
 | |up5kPerfDiagram|  +  |igloo2PerfDiagram|  +
 +--------------------+-----------------------+
 
+Claimed performance :
+
++-------------------+--------------------+-------------+
+|                   | Up5kPerf           | Igloo2Perf  |
++===================+====================+=============+
+| Absolute DMIPS    |                    | 276695      |
++-------------------+--------------------+-------------+
+| DMIPS/Mhz         |                    | 1.38        |
++-------------------+--------------------+-------------+
+| Frequancy         |                    | 114 Mhz     |
++-------------------+--------------------+-------------+
 
 ================================================
 Up5kArea
@@ -138,8 +149,121 @@ There is some comments about the design :
 
 There is a block diagram explaining the memory system :
 
-.. image:: doc/assets/xAreaDiagram.png
+.. image:: doc/assets/up5kAreaDiagram.png
   :width: 400
+
+================================================
+How to use the thing :
+================================================
+
+the ./makefile contain a many commands:
+
+To generate the SpinalHDL netlists :
+=======================================
+
+.. code-block:: sh
+
+  # Simulation netlist
+  make Igloo2Perf.v
+  make Up5kPerf.v
+  make Up5kArea.v
+
+.. code-block:: sh
+
+  # Synthesis netlist
+  make Igloo2PerfCreative.v
+  make Up5kPerfEvn.v
+  make Up5kAreaEvn.v
+
+To run simulations :
+=======================================
+
+.. code-block:: scala
+
+  ##############################################
+  # up5kPerf evn board programmation commands
+  ##############################################
+  make up5kPerf_sim_compliance_rv32i
+  make up5kPerf_sim_compliance_rv32im
+  make up5kPerf_sim_dhrystone
+  make up5kPerf_sim_synchronization
+  make up5kPerf_sim_philosophers
+
+.. code-block:: scala
+
+  ##############################################
+  # igloo2Perf simulation commands
+  ##############################################
+  make igloo2Perf_sim_compliance_rv32i
+  make igloo2Perf_sim_compliance_rv32im
+  make igloo2Perf_sim_dhrystone
+  make igloo2Perf_sim_synchronization
+  make igloo2Perf_sim_philosophers
+
+.. code-block:: scala
+
+  ##############################################
+  # up5kArea simulation commands
+  ##############################################
+  make up5kArea_sim_compliance_rv32i
+  make up5kArea_sim_dhrystone
+  make up5kArea_sim_synchronization
+  make up5kArea_sim_philosophers
+
+Interract with the physical targets :
+=======================================
+
+The SoC print messages via their serial link. For the Igloo2 create board, it's through the FTDI, while for the UP5K it's by emiting the UART frames on the pin 6 of the package / 13B on J3. The serial configuration is 115200 baud/s 1 stop bit, no parity.
+
+All targets use a SPI flash in XIP mode to boot and copy the application into the on-chip-ram. In addition, the Up5k FPGA load it's bitstream from the same SPI flash.
+
+Boot sequance :
+
+1. FPGA boot
+2. CPU run the bootloader, which will copy the application binary from the flash to the on-chip-ram
+3. The bootloader run the application loaded in the on-chip-ram
+
+The programation on the Up5k evn board (https://www.latticesemi.com/Products/DevelopmentBoardsAndKits/iCE40UltraPlusBreakoutBoard) is done by using the USB connection and iceprog.
+
+.. code-block:: scala
+
+  ##############################################
+  # up5kPerf evn board programmation commands
+  ##############################################
+  make up5kPerf_evn_prog_icecube2
+  make up5kPerf_evn_prog_bootloader
+  make up5kPerf_evn_prog_dhrystone
+  make up5kPerf_evn_prog_syncronization
+  make up5kPerf_evn_prog_philosophers
+
+.. code-block:: scala
+
+  ##############################################
+  # up5kArea evn board programmation commands
+  ##############################################
+  make up5kArea_evn_prog_icecube2
+  make up5kArea_evn_prog_bootloader
+  make up5kArea_evn_prog_dhrystone
+  make up5kArea_evn_prog_syncronization
+  make up5kArea_evn_prog_philosophers
+
+
+For the Igloo2 creative board (https://www.microsemi.com/existing-parts/parts/143948), you have to manually run the Libero tool with the hardware/synthesis/igloo2PerfCreative/libero/igloo2Fast.prjx project in order to do the synthesis and to flash the FPGA.
+
+To load the external SPI flash with the bootloader and the app, you need to generate the corresponding programmation file via 'make igloo2Perf_creative_serial_X' and send it over the FTDI serial at a rate of 115200 baud/s 1 stop bit, no parity.
+
+There is the commands to generate the spi flash programmation files :
+
+.. code-block:: scala
+
+  ######################################################################################
+  # igloo2Perf creative board commands to generate the programmation files
+  ######################################################################################
+  make igloo2Perf_creative_serial_bootloader
+  make igloo2Perf_creative_serial_dhrystone
+  make igloo2Perf_creative_serial_synchronization
+  make igloo2Perf_creative_serial_philosophers
+
 
 
 ================================================
@@ -149,12 +273,8 @@ Cool things (SpinalHDL)
 The SpinalHDL hardware description is `there <https://github.com/SpinalHDL/riscvSoftcoreContest/tree/master/hardware/scala/riscvSoftcoreContest>`_.
 
 
-***************
-Interconnect
-***************
-
-mapping
-===============
+Interconnect mapping
+==========================
 
 The following code come from the Up5kPerf toplevel and generate the whole interconnect :
 
@@ -177,7 +297,7 @@ The following code come from the Up5kPerf toplevel and generate the whole interc
 .. image:: doc/assets/up5kPerfDiagram.png
   :width: 400
 
-pipelining
+Interconnect pipelining
 ===========================
 
 To improve the interconnect performance, the following code add pipelining stages between some nodes of the interconnect (Up5kPerf toplevel code sample):
