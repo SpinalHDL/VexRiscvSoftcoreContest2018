@@ -67,7 +67,7 @@ Repository structure
 Up5kPerf / Igloo2Perf
 ================================================
 
-Those two SoC (Up5kPerf and Igloo2Perf) are nearly similar and try to get the maximal dhrystone score.
+Those two SoC (Up5kPerf and Igloo2Perf) try to get the maximal dhrystone score. Both are very similar, as they only differ in their memory architecture.
 
 There is some characteristics of the VexRiscv configuration used :
 
@@ -191,15 +191,26 @@ There is a block diagram explaining the memory system :
 
 Claimed spec :
 
-+----------------+--------------------+
-|                | Up5kArea           |
-+================+====================+
-| Absolute DMIPS |                    |
-+----------------+--------------------+
-| DMIPS/Mhz      | 1.38               |
-+----------------+--------------------+
-| Frequancy      |                    |
-+----------------+--------------------+
++----------------+----------+
+|                | Up5kArea |
++================+==========+
+| LogicCells     | 1620     |
++----------------+----------+
+| PLBs           | 278      |
++----------------+----------+
+| BRAMs          | 4        |
++----------------+----------+
+| SPRAMs         | 2        |
++----------------+----------+
+| Absolute DMIPS | 8528    |
++----------------+----------+
+| DMIPS/Mhz      | 0.40     |
++----------------+----------+
+| Frequancy      | 12 Mhz   |
++----------------+----------+
+
+The frequancy of the design wasn't stressed at all, it could very likely run much faster.
+
 
 ================================================
 How to use the thing :
@@ -209,6 +220,13 @@ the ./makefile contain a many commands:
 
 To generate the SpinalHDL netlists :
 =======================================
+
+This is optional, as the repository already contain the verilog netlists in hardware/netlist.
+
+The simulation netlists differ from the Synthesis netlist in few minor and practical ways :
+
+- The special IP which are specific to the boards and anoying for Verilator (as PLL) aren't in the simulation netlist.
+- For the Igloo2Perf, the simulation netlist has a faster UART to avoid waisting to much simulation time.
 
 .. code-block:: sh
 
@@ -243,13 +261,17 @@ Up5kArea arguments :
 |                        | stage is enabled.                                          |
 +------------------------+------------------------------------------------------------+
 
+The default Up5kArea config (without args) will generate the slow but compliant SoC.
+
 To run simulations :
 =======================================
+
+There are the commands to run the simulations :
 
 .. code-block:: scala
 
   ##############################################
-  # up5kPerf evn board programmation commands
+  # up5kPerf simulation commands
   ##############################################
   make up5kPerf_sim_compliance_rv32i
   make up5kPerf_sim_compliance_rv32im
@@ -278,25 +300,44 @@ To run simulations :
   make up5kArea_sim_synchronization
   make up5kArea_sim_philosophers
 
-Interract with the physical targets :
+By default, the Verilator simulation do not produce a VCD waveform, as it could fill your hard drive at the speed of light.
+
+If you want to enable the VCD generation, just make a do a clean and the the same commands with an additional TRACE=yes argument, for example :
+
+.. code-block:: sh
+
+  make clean up5kArea_sim_compliance_rv32i TRACE=yes
+
+Cleaning is required each time you change this TRACE argument.
+
+The VCD will be generated in test/???/wave.vcd
+
+Note that with the Zephyr philosophers demo, some printk from multiple threads will be mixed together as the printk isn't atomic. This issue is less visible in the Igloo2Perf simulation as the serial link is much faster in this simulation.
+
+
+Interact with the physical targets :
 =======================================
 
-The SoC print messages via their serial link. For the Igloo2 create board, it's through the FTDI, while for the UP5K it's by emiting the UART frames on the pin 6 of the package / 13B on J3. The serial configuration is 115200 baud/s 1 stop bit, no parity.
+The SoC print messages via their serial link. For the Igloo2 create board, it's through the FTDI, while for the UP5K evn board it's by emiting the UART frames on the pin 6 of the package / 13B on J3. The serial configuration is 115200 baud/s 1 stop bit, no parity.
 
 All targets use a SPI flash in XIP mode to boot and copy the application into the on-chip-ram. In addition, the Up5k FPGA load it's bitstream from the same SPI flash.
 
-Boot sequance :
+Boot sequence :
 
 1. FPGA boot
 2. CPU run the bootloader, which will copy the application binary from the flash to the on-chip-ram
 3. The bootloader run the application loaded in the on-chip-ram
 
-The programation on the Up5k evn board (https://www.latticesemi.com/Products/DevelopmentBoardsAndKits/iCE40UltraPlusBreakoutBoard) is done by using the USB connection and iceprog. The board should be configured to boot on the SPI flash (PROG FLASH jumper mode, J7 mounted, J51 mounted, others jumpers in their default configuration).
+The Up5kPerfEvn an the Igloo2PerfCreative SoCs have their frequencies set at the limit. Be sure to have the same versions of Icecube2 and Libero than the one specified in the requirements.
+
+To generate the Up5k evn board bitstream, you have to manually use the icecube2 projects (hardware/synthesis/???/icecube2)
+
+The flashing on the Up5k evn board (https://www.latticesemi.com/Products/DevelopmentBoardsAndKits/iCE40UltraPlusBreakoutBoard) is done by using the USB connection and iceprog. The board should be configured to boot on the SPI flash (PROG FLASH jumper mode, J7 mounted, J51 mounted, others jumpers in their default configuration).
 
 .. code-block:: scala
 
   ##############################################
-  # up5kPerf evn board programmation commands
+  # up5kPerf evn board flashing commands
   ##############################################
   make up5kPerf_evn_prog_icecube2
   make up5kPerf_evn_prog_bootloader
@@ -307,7 +348,7 @@ The programation on the Up5k evn board (https://www.latticesemi.com/Products/Dev
 .. code-block:: scala
 
   ##############################################
-  # up5kArea evn board programmation commands
+  # up5kArea evn board flashing commands
   ##############################################
   make up5kArea_evn_prog_icecube2
   make up5kArea_evn_prog_bootloader
@@ -318,14 +359,14 @@ The programation on the Up5k evn board (https://www.latticesemi.com/Products/Dev
 
 For the Igloo2 creative board (https://www.microsemi.com/existing-parts/parts/143948), you have to manually run the Libero tool with the hardware/synthesis/igloo2PerfCreative/libero/igloo2Fast.prjx project in order to do the synthesis and to flash the FPGA.
 
-To load the external SPI flash with the bootloader and the app, you need to generate the corresponding programmation file via 'make igloo2Perf_creative_serial_X' and send it over the FTDI serial at a rate of 115200 baud/s 1 stop bit, no parity.
+To load the external SPI flash with the bootloader and the app, you need to generate the corresponding flashing files via 'make igloo2Perf_creative_serial_X' and send it over the FTDI serial at a rate of 115200 baud/s 1 stop bit, no parity.
 
-There is the commands to generate the spi flash programmation files :
+There is the commands to generate the spi flash flashing files :
 
 .. code-block:: scala
 
   ######################################################################################
-  # igloo2Perf creative board commands to generate the programmation files
+  # igloo2Perf creative board commands to generate the flashing files
   ######################################################################################
   make igloo2Perf_creative_serial_bootloader
   make igloo2Perf_creative_serial_dhrystone
@@ -335,13 +376,13 @@ There is the commands to generate the spi flash programmation files :
 
 
 ================================================
-Zone of interrest (Hardware description part)
+Zone of interest (Hardware description part)
 ================================================
 
 The SpinalHDL hardware description is `there <https://github.com/SpinalHDL/riscvSoftcoreContest/tree/master/hardware/scala/riscvSoftcoreContest>`_.
 TODO
 
-It contain some interresting hardware description parts :
+It contain some interesting hardware description parts :
 
 Interconnect mapping
 ==========================
