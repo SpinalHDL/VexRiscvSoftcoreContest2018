@@ -73,7 +73,7 @@ sectorStart = 0
 for s in sectors:
     sectorEnd = sectorStart + s
     if targetBase >= sectorStart and targetEnd <= sectorEnd:
-        print("Erase " + hex(sectorStart) + "-" + hex(sectorEnd-1))
+        #print("Erase " + hex(sectorStart) + "-" + hex(sectorEnd-1))
         frame([0x05] + [0] * 1)  # RDSR
         frame([0x06] + [0] * 1)  # WREN
         frame([0xD8] + addressToBytes(sectorStart))  # EREASE
@@ -90,7 +90,7 @@ while address != targetEnd:
     frame([0x02]+addressToBytes(address)+data)#PROGRAM
     sleep(3e-3)
     #frame([0x0B]+addressToBytes(address)+[0]+data)  # READ
-    print("Program " + hex(address) + "-" + hex(address+burstSize-1))
+    #print("Program " + hex(address) + "-" + hex(address+burstSize-1))
     address += burstSize
 
 release()

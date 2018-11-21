@@ -15,14 +15,18 @@ using namespace std;
 
 class SpiFlash : public Agent {
 	CData *ss, *sclk, *mosi, *miso;
-    enum  { IDLE, INSTRUCTION, CONFIG, READ_ADDRESS, READ_DUMMY, READ_DATA} state = IDLE;
+    enum  { IDLE, INSTRUCTION, CONFIG, READ_ADDRESS, READ_DUMMY, READ_DATA, WRITE_ADDRESS, WRITE_DATA} state = IDLE;
     uint32_t counter;
     uint32_t address;
     uint32_t buffer;
     CData sclkOld;
 public:
     uint8_t rom[1 << 24];
-    SpiFlash(CData* ss, CData* sclk, CData* mosi, CData* miso) : ss(ss), sclk(sclk), mosi(mosi), miso(miso){}
+    SpiFlash(CData* ss, CData* sclk, CData* mosi, CData* miso) : ss(ss), sclk(sclk), mosi(mosi), miso(miso){
+        for(int idx = 0;idx < (1 << 24);idx++){
+            rom[idx] = rand();
+        }
+    }
     void loadBin(uint32_t address, const char* path){
         FILE *f = fopen(path, "r");
         fseek(f, 0, SEEK_END);
@@ -64,6 +68,11 @@ public:
 							buffer = 0;
 							counter = 0;
 							break;
+						case 0x02:
+							state = WRITE_ADDRESS;
+							buffer = 0;
+							counter = 0;
+							break;
 						}
 					}
 				}
@@ -88,6 +97,19 @@ public:
 					}
 				}
 				break;
+			case WRITE_ADDRESS:
+				if(risingEdge){
+					buffer |= *mosi << (23-counter);
+					counter++;
+					if(counter == 24){
+						state = WRITE_DATA;
+						address = buffer;
+                        cout << "Flash write at " << address << endl;
+						counter = 0;
+						buffer = 0;
+					}
+				}
+				break;
 			case READ_DUMMY:
 				if(risingEdge){
 					counter++;
@@ -107,6 +129,18 @@ public:
 					}
 				}
 				break;
+			case WRITE_DATA:
+				if(risingEdge){
+					buffer |=  (*mosi) << (7-counter);
+					counter++;
+					if(counter == 8){
+					    rom[address] = buffer;
+						address++;
+						counter = 0;
+						buffer = 0;
+					}
+				}
+				break;
 			}
 
 		}
@@ -115,9 +149,9 @@ public:
     }
 };
 
-#define SYSTEM_CLK_HZ 25000000
-#define SERIAL_BAUDRATE 2500000
-#define SERIAL_LOAD_BAUDRATE 921600
+#define SYSTEM_CLK_HZ 114000000
+#define SERIAL_BAUDRATE 11400000
+#define SERIAL_LOAD_BAUDRATE 11400000
 #define TIMESCALE uint64_t(1e12)
 
 int main(int argc, char **argv) {
@@ -127,7 +161,9 @@ int main(int argc, char **argv) {
 	auto serialTx = new SerialTx([=]() {return tb->dut->io_serialTx;}, TIMESCALE/SERIAL_BAUDRATE);
 	tb->add(serialTx);
 	auto spiFlash = new SpiFlash(&tb->dut->io_flash_ss, &tb->dut->io_flash_sclk, &tb->dut->io_flash_mosi, &tb->dut->io_flash_miso);
-	spiFlash->loadBin(0x020000, argString("--bootloader", argc, argv));
+	if(argString("--bootloader", argc, argv)){
+	    spiFlash->loadBin(0x020000, argString("--bootloader", argc, argv));
+	}
     char *flashBin = argString("--flashBin", argc, argv);
 	if(flashBin) spiFlash->loadBin(0x030000, flashBin);
 	tb->add(spiFlash);
@@ -135,7 +171,7 @@ int main(int argc, char **argv) {
 
     char *serialLoad = argString("--serialLoad", argc, argv);
     if(serialLoad){
-        auto serialRx = SerialRx(&tb->dut->io_serialRx, TIMESCALE/SERIAL_LOAD_BAUDRATE,serialLoad);
+        auto serialRx = SerialRx(&tb->dut->io_serialRx, TIMESCALE/SERIAL_LOAD_BAUDRATE, serialLoad);
         tb->add(&serialRx);
     }
 

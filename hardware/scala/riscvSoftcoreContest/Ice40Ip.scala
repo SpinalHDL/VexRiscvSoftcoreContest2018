@@ -93,7 +93,7 @@ case class SB_PLL40_PAD() extends BlackBox{
 
 
   addGeneric("DIVR", B"0000")
-  addGeneric("DIVF", B"0111111")
+  addGeneric("DIVF", B"1000111")
   addGeneric("DIVQ",B"101")
   addGeneric("FILTER_RANGE", B"001")
   addGeneric("FEEDBACK_PATH", "SIMPLE")

@@ -216,7 +216,7 @@ case class Up5kPerf(p : Up5kPerfParameters) extends Component {
 }
 
 
-case class Up5kPerfEvn() extends Component{
+case class Up5kPerfEvn(p : Up5kPerfParameters) extends Component{
   val io = new Bundle {
     val iceClk  = in  Bool()
     val serialTx  = out  Bool()
@@ -231,10 +231,7 @@ case class Up5kPerfEvn() extends Component{
   pll.RESETB := True
   pll.BYPASS := False
 
-  val soc = Up5kPerf(Up5kPerfParameters(
-    ioClkFrequency = 24 MHz,
-    ioSerialBaudRate = 115200
-  ))
+  val soc = Up5kPerf(p)
 
   soc.io.clk      <> pll.PLLOUTCORE
   soc.io.reset    <> False
@@ -259,7 +256,7 @@ case class Up5kPerfEvn() extends Component{
 object Up5kPerf {
   def main(args: Array[String]): Unit = {
     SpinalRtlConfig().generateVerilog(Up5kPerf(Up5kPerfParameters(
-      ioClkFrequency = 12 MHz,
+      ioClkFrequency = 27 MHz,
       ioSerialBaudRate = 115200
     )))
   }
@@ -267,6 +264,9 @@ object Up5kPerf {
 
 object Up5kPerfEvn{
   def main(args: Array[String]) {
-    SpinalRtlConfig().generateVerilog(Up5kPerfEvn())
+    SpinalRtlConfig().generateVerilog(Up5kPerfEvn(Up5kPerfParameters(
+      ioClkFrequency = 27 MHz,
+      ioSerialBaudRate = 115200
+    )))
   }
 }

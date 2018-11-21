@@ -22,6 +22,15 @@ case class Up5kAreaParameters(ioClkFrequency : HertzNumber,
                               withRfBypass : Boolean = false,
                               withPipelining : Boolean = false,
                               withCsr : Boolean = true){
+
+  def withArgs(args : Seq[String]) = this.copy(
+    noComplianceOverhead = args.contains("--noComplianceOverhead"),
+    withMemoryStage = args.contains("--withMemoryStage"),
+    withRfBypass = args.contains("--withRfBypass"),
+    withPipelining = args.contains("--withPipelining"),
+    withCsr = !args.contains("--withoutCsr")
+  )
+
   def toVexRiscvConfig() = {
     val config = VexRiscvConfig(
       withMemoryStage = withMemoryStage,
@@ -235,7 +244,7 @@ case class Up5kArea(p : Up5kAreaParameters) extends Component {
 }
 
 
-case class Up5kAreaEvn() extends Component{
+case class Up5kAreaEvn(p : Up5kAreaParameters) extends Component{
   val io = new Bundle {
     val iceClk  = in  Bool()
     val serialTx  = out  Bool()
@@ -248,10 +257,7 @@ case class Up5kAreaEvn() extends Component{
   val clkBuffer = SB_GB()
   clkBuffer.USER_SIGNAL_TO_GLOBAL_BUFFER <> io.iceClk
 
-  val soc = Up5kArea(Up5kAreaParameters(
-    ioClkFrequency = 12 MHz,
-    ioSerialBaudRate = 115200
-  ))
+  val soc = Up5kArea(p)
 
   soc.io.clk      <> clkBuffer.GLOBAL_BUFFER_OUTPUT
   soc.io.reset    <> False
@@ -278,13 +284,15 @@ object Up5kArea {
     SpinalRtlConfig().generateVerilog(Up5kArea(Up5kAreaParameters(
       ioClkFrequency = 12 MHz,
       ioSerialBaudRate = 115200
-    )))
+    ).withArgs(args)))
   }
 }
 
-
 object Up5kAreaEvn{
   def main(args: Array[String]) {
-    SpinalRtlConfig().generateVerilog(Up5kAreaEvn())
+    SpinalRtlConfig().generateVerilog(Up5kAreaEvn(Up5kAreaParameters(
+      ioClkFrequency = 12 MHz,
+      ioSerialBaudRate = 115200
+    ).withArgs(args)))
   }
 }

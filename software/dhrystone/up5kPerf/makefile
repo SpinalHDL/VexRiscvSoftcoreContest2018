@@ -20,17 +20,12 @@ endif
 
 CFLAGS += -march=$(MARCH)
 CFLAGS += -fno-inline -fno-common
-CFLAGS += -DTIME -DCORE_HZ=28000000ll
+CFLAGS += -DTIME -DCORE_HZ=27000000ll
 
 
 SRCS = 	src/dhrystone_main.c src/dhrystone.c  src/stdlib.c src/start.S
 LDFLAGS += -lc
 LDSCRIPT = mapping.ld
-
-
-
-
-
 
 CFLAGS += -I${ZEPHYR_SDK_INSTALL_DIR}/sysroots/riscv32-zephyr-elf/usr/include
 LDFLAGS += -L/home/spinalvm/hdl/tools/zephyr-sdk/sysroots/riscv32-zephyr-elf/usr/lib/riscv32-zephyr-elf/6.1.0

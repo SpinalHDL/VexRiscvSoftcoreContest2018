@@ -14,7 +14,7 @@ using namespace std;
 
 
 
-#define SYSTEM_CLK_HZ 12000000
+#define SYSTEM_CLK_HZ 27000000
 #define SERIAL_BAUDRATE 115200
 #define TIMESCALE uint64_t(1e12)
 int main(int argc, char **argv) {

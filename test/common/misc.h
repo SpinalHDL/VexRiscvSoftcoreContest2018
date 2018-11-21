@@ -36,7 +36,7 @@ public:
         } else {
             buffer |= pin() << bitId;
             bitId++;
-            baudTimeout = time + baudPeriod;
+            baudTimeout += baudPeriod;
             if(bitId == 8) {
                 if(buffer == (char)0xFF) {
 				    logTraces.flush();
@@ -67,7 +67,7 @@ public:
         fseek(ram_binFile, 0, SEEK_SET);
         bin = new uint8_t[binSize];
         fread(bin, 1, binSize, ram_binFile);
-        baudTimeout = baudPeriod * 2;
+        baudTimeout = 2000000000; //wait boot
         *pin = 1;
     }
     int inFrame = false;

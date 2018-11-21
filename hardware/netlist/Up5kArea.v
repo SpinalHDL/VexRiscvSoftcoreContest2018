@@ -1,5 +1,5 @@
-// Generator : SpinalHDL v1.2.2    git head : ec5e7e191d669ded826c34b7aaa74f2563574157
-// Date      : 18/11/2018, 12:40:23
+// Generator : SpinalHDL v1.2.2    git head : f4f5b5b5de7c2862912612d6af8086d2075fb357
+// Date      : 21/11/2018, 19:47:56
 // Component : Up5kArea
 
 
@@ -250,8 +250,8 @@ module Peripherals (
   wire [6:0] _zz_9_;
   wire  mapper_readAtCmd_valid;
   reg [31:0] mapper_readAtCmd_payload;
-  reg  mapper_readAtRsp_valid;
-  reg [31:0] mapper_readAtRsp_payload;
+  reg  mapper_readAtCmd_m2sPipe_valid;
+  reg [31:0] mapper_readAtCmd_m2sPipe_payload;
   wire  mapper_askWrite;
   wire  mapper_askRead;
   wire  mapper_doWrite;
@@ -289,8 +289,8 @@ module Peripherals (
   assign mapper_askRead = (io_bus_cmd_valid && (! io_bus_cmd_payload_wr));
   assign mapper_doWrite = (mapper_askWrite && io_bus_cmd_ready);
   assign mapper_doRead = (mapper_askRead && io_bus_cmd_ready);
-  assign io_bus_rsp_valid = mapper_readAtRsp_valid;
-  assign io_bus_rsp_payload_data = mapper_readAtRsp_payload;
+  assign io_bus_rsp_valid = mapper_readAtCmd_m2sPipe_valid;
+  assign io_bus_rsp_payload_data = mapper_readAtCmd_m2sPipe_payload;
   assign mapper_readAtCmd_valid = mapper_doRead;
   always @ (*) begin
     mapper_readAtCmd_payload = (32'b00000000000000000000000000000000);
@@ -370,14 +370,14 @@ module Peripherals (
   assign io_mTimeInterrupt = timer_interrupt;
   always @ (posedge io_clk) begin
     if(GLOBAL_BUFFER_OUTPUT) begin
-      mapper_readAtRsp_valid <= 1'b0;
+      mapper_readAtCmd_m2sPipe_valid <= 1'b0;
       _zz_1_ <= (3'b000);
       serialTx_counter_value <= (4'b0000);
       _zz_2_ <= 1'b1;
       serialTx_timer_value <= (7'b0000000);
       timer_interrupt <= 1'b0;
     end else begin
-      mapper_readAtRsp_valid <= mapper_readAtCmd_valid;
+      mapper_readAtCmd_m2sPipe_valid <= mapper_readAtCmd_valid;
       serialTx_counter_value <= serialTx_counter_valueNext;
       _zz_2_ <= serialTx_bitstream[serialTx_counter_value];
       serialTx_timer_value <= serialTx_timer_valueNext;
@@ -406,7 +406,9 @@ module Peripherals (
   end
 
   always @ (posedge io_clk) begin
-    mapper_readAtRsp_payload <= mapper_readAtCmd_payload;
+    if(mapper_readAtCmd_valid)begin
+      mapper_readAtCmd_m2sPipe_payload <= mapper_readAtCmd_payload;
+    end
     timer_counter <= (timer_counter + (20'b00000000000000000001));
     if((timer_hit || _zz_5_))begin
       timer_counter <= (20'b00000000000000000000);
@@ -2248,7 +2250,7 @@ module VexRiscv (
   assign _zz_22_ = (decode_INSTRUCTION[13 : 7] != (7'b0100000));
   assign execute_CsrPlugin_blockedBySideEffects = 1'b0;
   always @ (*) begin
-    execute_CsrPlugin_illegalAccess = (execute_arbitration_isValid && execute_IS_CSR);
+    execute_CsrPlugin_illegalAccess = 1'b1;
     execute_CsrPlugin_readData = (32'b00000000000000000000000000000000);
     case(execute_CsrPlugin_csrAddress)
       12'b001100000000 : begin
@@ -2300,6 +2302,9 @@ module VexRiscv (
     endcase
     if((CsrPlugin_privilege < execute_CsrPlugin_csrAddress[9 : 8]))begin
       execute_CsrPlugin_illegalAccess = 1'b1;
+    end
+    if(((! execute_arbitration_isValid) || (! execute_IS_CSR)))begin
+      execute_CsrPlugin_illegalAccess = 1'b0;
     end
   end
 
@@ -3149,9 +3154,9 @@ module Up5kArea (
   wire [3:0] system_mainBus_cmd_payload_mask;
   wire  system_mainBus_rsp_valid;
   wire [31:0] system_mainBus_rsp_payload_data;
-  reg [0:0] io_flash_ss_regNext;
-  reg  io_flash_sclk_regNext;
-  reg  io_flash_mosi_regNext;
+  reg [0:0] system_flashXip_io_flash_ss_regNext;
+  reg  system_flashXip_io_flash_sclk_regNext;
+  reg  system_flashXip_io_flash_mosi_regNext;
   reg [3:0] _zz_1_;
   assign _zz_101_ = (! (resetCtrl_resetCounter == (6'b111111)));
   BufferCC bufferCC_1_ ( 
@@ -3390,9 +3395,9 @@ module Up5kArea (
 
   assign io_serialTx = _zz_18_;
   assign io_leds = _zz_17_;
-  assign io_flash_ss = io_flash_ss_regNext;
-  assign io_flash_sclk = io_flash_sclk_regNext;
-  assign io_flash_mosi = io_flash_mosi_regNext;
+  assign io_flash_ss = system_flashXip_io_flash_ss_regNext;
+  assign io_flash_sclk = system_flashXip_io_flash_sclk_regNext;
+  assign io_flash_mosi = system_flashXip_io_flash_mosi_regNext;
   assign _zz_2_ = 1'b0;
   assign system_iBus_cmd_valid = _zz_25_;
   assign system_iBus_cmd_payload_wr = 1'b0;
@@ -3451,16 +3456,16 @@ module Up5kArea (
 
   always @ (posedge io_clk) begin
     if(_zz_9_) begin
-      io_flash_ss_regNext <= (1'b1);
-      io_flash_sclk_regNext <= 1'b0;
+      system_flashXip_io_flash_ss_regNext <= (1'b1);
+      system_flashXip_io_flash_sclk_regNext <= 1'b0;
     end else begin
-      io_flash_ss_regNext <= _zz_24_;
-      io_flash_sclk_regNext <= _zz_22_;
+      system_flashXip_io_flash_ss_regNext <= _zz_24_;
+      system_flashXip_io_flash_sclk_regNext <= _zz_22_;
     end
   end
 
   always @ (posedge io_clk) begin
-    io_flash_mosi_regNext <= _zz_23_;
+    system_flashXip_io_flash_mosi_regNext <= _zz_23_;
   end
 
 endmodule

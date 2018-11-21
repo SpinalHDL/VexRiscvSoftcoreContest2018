@@ -38,7 +38,6 @@ bin/
 
 simWorkspace/
 tmp/
-*.bin
 obj_dir
 .cproject
 *.d
@@ -68,3 +67,7 @@ xxx_lse_sign_file
 *.prd
 *.rpt
 *_Implmnt
+!*_bitmap.bin
+
+
+software/emulation

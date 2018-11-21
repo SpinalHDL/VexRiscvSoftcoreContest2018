@@ -4,13 +4,44 @@ NETLIST_DEPENDENCIES=$(shell find hardware/scala -type f)
 .ONESHELL:
 ROOT=$(shell pwd)
 
+##########################################
+# Netlist generation commande (SpinalHDL)
+##########################################
+
+# Simulation netlist
+Igloo2Perf.v : 
+	rm -rf hardware/netlist/Igloo2Perf.v
+	make hardware/netlist/Igloo2Perf.v ARGS="${ARGS}"
+
+Up5kPerf.v :  
+	rm -rf hardware/netlist/Up5kPerf.v
+	make hardware/netlist/Up5kPerf.v ARGS="${ARGS}"
+
+Up5kArea.v :  
+	rm -rf hardware/netlist/Up5kArea.v
+	make hardware/netlist/Up5kArea.v ARGS="${ARGS}"
+
+# Synthesis netlist
+Igloo2PerfCreative.v :  
+	rm -rf hardware/netlist/Igloo2PerfCreative.v
+	make hardware/netlist/Igloo2PerfCreative.v ARGS="${ARGS}"
+
+Up5kPerfEvn.v :  
+	rm -rf hardware/netlist/Up5kPerfEvn.v
+	make hardware/netlist/Up5kPerfEvn.v ARGS="${ARGS}"
+
+Up5kAreaEvn.v :  
+	rm -rf hardware/netlist/Up5kAreaEvn.v
+	make hardware/netlist/Up5kAreaEvn.v ARGS="${ARGS}"
+
+
 
 ####################################
 # up5kPerf simulation commands
 ####################################
 
 up5kPerf_sim_compliance_rv32i:  software/bootloader
-	make -C ext/riscv-compliance variant RISCV_TARGET=vexriscv_contest RISCV_DEVICE=up5kPerf RISCV_ISA=rv32i
+	make -C ext/riscv-compliance variant RISCV_TARGET=vexriscv_contest RISCV_DEVICE=up5kPerf RISCV_ISA=rv32i TRACE=${TRACE}
 
 up5kPerf_sim_compliance_rv32im: software/bootloader
 	make -C ext/riscv-compliance variant RISCV_TARGET=vexriscv_contest RISCV_DEVICE=up5kPerf RISCV_ISA=rv32im
@@ -70,23 +101,34 @@ igloo2Perf_sim_synchronization: ext/zephyr/samples/synchronization/vexriscv_cont
 igloo2Perf_sim_philosophers: ext/zephyr/samples/philosophers/vexriscv_contest_igloo2perf_creative/zephyr/zephyr.bin software/bootloader
 	make -C test/igloo2Perf run ARGS='--iramBin ${ROOT}/ext/zephyr/samples/philosophers/vexriscv_contest_igloo2perf_creative/zephyr/zephyr.bin --bootloader ${ROOT}/software/bootloader/igloo2Perf/noFlash.bin'
 
+igloo2Perf_sim_dhrystone_with_preloaded_flash: software/dhrystone/igloo2Perf/build/dhrystone.bin software/bootloader
+	make -C test/igloo2Perf run ARGS='--flashBin ${ROOT}/software/dhrystone/igloo2Perf/build/dhrystone.bin --bootloader ${ROOT}/software/bootloader/igloo2Perf/copyFlash.bin'
+
+igloo2Perf_sim_dhrystone_without_preloaded_flash: software/dhrystone/igloo2Perf/build/dhrystone.bin software/bootloader
+	rm -rf ${ROOT}/tmp
+	mkdir tmp
+	python scripts/binToFlash.py software/bootloader/igloo2Perf/copyFlash.bin 0x20000 11400000 ${ROOT}/tmp/bootloader.bin
+	python scripts/binToFlash.py software/dhrystone/igloo2Perf/build/dhrystone.bin 0x30000 11400000 ${ROOT}/tmp/app.bin
+	cat ${ROOT}/tmp/bootloader.bin >> ${ROOT}/tmp/serial.bin
+	cat ${ROOT}/tmp/app.bin >> ${ROOT}/tmp/serial.bin
+	make -C test/igloo2Perf run ARGS='--serialLoad ${ROOT}/tmp/serial.bin'
 
 
-##################################################
-# igloo2Perf creative board programmation commands
-##################################################
+######################################################################################
+# igloo2Perf creative board commands to generate the programmation files
+######################################################################################
 
 igloo2Perf_creative_serial_bootloader: software/bootloader
-	python scripts/binToFlash.py software/bootloader/up5kPerf/copyFlash.bin 0x20000 921600 igloo2Perf_creative_serial_bootloader.bin
+	python scripts/binToFlash.py software/bootloader/igloo2Perf/copyFlash.bin 0x20000 115000 igloo2Perf_creative_serial_bootloader.bin
 
 igloo2Perf_creative_serial_dhrystone: software/dhrystone/igloo2Perf/build/dhrystone.bin
-	python scripts/binToFlash.py software/dhrystone/igloo2Perf/build/dhrystone.bin 0x30000 921600 igloo2Perf_creative_serial_dhrystone.bin
+	python scripts/binToFlash.py software/dhrystone/igloo2Perf/build/dhrystone.bin 0x30000 115000 igloo2Perf_creative_serial_dhrystone.bin
 
 igloo2Perf_creative_serial_synchronization: ext/zephyr/samples/synchronization/vexriscv_contest_igloo2perf_creative/zephyr/zephyr.bin
-	python scripts/binToFlash.py ext/zephyr/samples/synchronization/vexriscv_contest_igloo2perf_creative/zephyr/zephyr.bin 0x30000 921600 igloo2Perf_creative_serial_synchronization.bin
+	python scripts/binToFlash.py ext/zephyr/samples/synchronization/vexriscv_contest_igloo2perf_creative/zephyr/zephyr.bin 0x30000 115000 igloo2Perf_creative_serial_synchronization.bin
 
 igloo2Perf_creative_serial_philosophers: ext/zephyr/samples/philosophers/vexriscv_contest_igloo2perf_creative/zephyr/zephyr.bin
-	python scripts/binToFlash.py ext/zephyr/samples/philosophers/vexriscv_contest_igloo2perf_creative/zephyr/zephyr.bin 0x30000 921600 igloo2Perf_creative_serial_philosophers.bin
+	python scripts/binToFlash.py ext/zephyr/samples/philosophers/vexriscv_contest_igloo2perf_creative/zephyr/zephyr.bin 0x30000 115000 igloo2Perf_creative_serial_philosophers.bin
 
 
 
@@ -191,5 +233,5 @@ software/dhrystone/up5kArea/build/dhrystone.bin:
 
 
 hardware/netlist/%.v: ${NETLIST_DEPENDENCIES}
-	sbt "run-main riscvSoftcoreContest.$(subst hardware/netlist/,,$(subst .v,,$@))"
+	sbt "run-main riscvSoftcoreContest.$(subst hardware/netlist/,,$(subst .v,,$@)) ${ARGS}"
 
