@@ -189,27 +189,31 @@ There is a block diagram explaining the memory system :
 .. image:: doc/assets/up5kAreaDiagram.png
   :width: 400
 
-Claimed spec :
+Claimed spec of the Up5kArea :
 
-+----------------+----------+
-|                | Up5kArea |
-+================+==========+
-| LogicCells     | 1620     |
-+----------------+----------+
-| PLBs           | 278      |
-+----------------+----------+
-| BRAMs          | 4        |
-+----------------+----------+
-| SPRAMs         | 2        |
-+----------------+----------+
-| Absolute DMIPS | 8528    |
-+----------------+----------+
-| DMIPS/Mhz      | 0.40     |
-+----------------+----------+
-| Frequancy      | 12 Mhz   |
-+----------------+----------+
++------------------+-----------------------------+------------------------+-------------------------------+------------------------------------+
+| Up5kArea netlist | No args                     | --noComplianceOverhead | --noComplianceOverhead        | --noComplianceOverhead             |
+| arguments        |                             |                        | --withPipelining              | --withoutCsr                       |
++==================+=============================+========================+===============================+====================================+
+| Description      | Pass all requirements.      | Enough to run Zephyr   | Enough to run Zephyr          | Remove the CSR (no interrupts).    |
+|                  | Config to use for the entry | and dhrystone          | and drystone with more DMIPS  | Can't run zephyr but dhrystone     |
++------------------+-----------------------------+------------------------+-------------------------------+------------------------------------+
+| LogicCells       | 1620                        | 1433                   | 1645                          | 1193                               |
++------------------+-----------------------------+------------------------+-------------------------------+------------------------------------+
+| PLBs             | 278                         | 185                    | 214                           | 153                                |
++------------------+-----------------------------+------------------------+-------------------------------+------------------------------------+
+| BRAMs            | 4                           | 4                      | 4                             | 4                                  |
++------------------+-----------------------------+------------------------+-------------------------------+------------------------------------+
+| SPRAMs           | 2                           | 2                      | 2                             | 2                                  |
++------------------+-----------------------------+------------------------+-------------------------------+------------------------------------+
+| Absolute DMIPS   | 8528                        | 8528                   | 15956                         | 8528                               |
++------------------+-----------------------------+------------------------+-------------------------------+------------------------------------+
+| DMIPS/Mhz        | 0.40                        | 0.40                   | 0.75                          | 0.40                               |
++------------------+-----------------------------+------------------------+-------------------------------+------------------------------------+
+| Frequancy        | 12 Mhz                      | 12 Mhz                 | 12 Mhz                        | 12 Mhz                             |
++------------------+-----------------------------+------------------------+-------------------------------+------------------------------------+
 
-The frequancy of the design wasn't stressed at all, it could very likely run much faster.
+The frequency of the design wasn't stressed at all, it could very likely run much faster.
 
 
 ================================================
@@ -231,16 +235,16 @@ The simulation netlists differ from the Synthesis netlist in few minor and pract
 .. code-block:: sh
 
   # Simulation netlist
-  make Igloo2Perf.v
-  make Up5kPerf.v
-  make Up5kArea.v ARGS=""
+  make igloo2Perf.v
+  make up5kPerf.v
+  make up5kArea.v ARGS=""
 
 .. code-block:: sh
 
   # Synthesis netlist
-  make Igloo2PerfCreative.v
-  make Up5kPerfEvn.v
-  make Up5kAreaEvn.v ARGS=""
+  make igloo2PerfCreative.v
+  make up5kPerfEvn.v
+  make up5kAreaEvn.v ARGS=""
 
 Up5kArea arguments :
 
