@@ -6,7 +6,7 @@
 	url = https://github.com/SpinalHDL/riscvSoftcoreContest.git
 [submodule "ext/riscv-compliance"]
 	path = ext/riscv-compliance
-	url = ../riscv-compliance.git
+	url = https://github.com/SpinalHDL/riscv-compliance.git
 [submodule "ext/VexRiscv"]
 	path = ext/VexRiscv
 	url = https://github.com/SpinalHDL/VexRiscv.git
