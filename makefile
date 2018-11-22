@@ -9,28 +9,28 @@ ROOT=$(shell pwd)
 ##########################################
 
 # Simulation netlist
-Igloo2Perf.v : 
+igloo2Perf.v : 
 	rm -rf hardware/netlist/Igloo2Perf.v
 	make hardware/netlist/Igloo2Perf.v ARGS="${ARGS}"
 
-Up5kPerf.v :  
+up5kPerf.v :  
 	rm -rf hardware/netlist/Up5kPerf.v
 	make hardware/netlist/Up5kPerf.v ARGS="${ARGS}"
 
-Up5kArea.v :  
+up5kArea.v :  
 	rm -rf hardware/netlist/Up5kArea.v
 	make hardware/netlist/Up5kArea.v ARGS="${ARGS}"
 
 # Synthesis netlist
-Igloo2PerfCreative.v :  
+igloo2PerfCreative.v :  
 	rm -rf hardware/netlist/Igloo2PerfCreative.v
 	make hardware/netlist/Igloo2PerfCreative.v ARGS="${ARGS}"
 
-Up5kPerfEvn.v :  
+up5kPerfEvn.v :  
 	rm -rf hardware/netlist/Up5kPerfEvn.v
 	make hardware/netlist/Up5kPerfEvn.v ARGS="${ARGS}"
 
-Up5kAreaEvn.v :  
+up5kAreaEvn.v :  
 	rm -rf hardware/netlist/Up5kAreaEvn.v
 	make hardware/netlist/Up5kAreaEvn.v ARGS="${ARGS}"
 

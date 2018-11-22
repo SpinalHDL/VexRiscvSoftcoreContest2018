@@ -6,16 +6,16 @@ lazy val root = (project in file(".")).
       version      := "1.0.0"
     )),
     libraryDependencies ++= Seq(
-        "org.scalatest" % "scalatest_2.11" % "2.2.1",
-        "org.yaml" % "snakeyaml" % "1.8"
+      "com.github.spinalhdl" % "spinalhdl-core_2.11" % "1.2.2",
+      "com.github.spinalhdl" % "spinalhdl-lib_2.11" % "1.2.2",
+      "org.scalatest" % "scalatest_2.11" % "2.2.1",
+      "org.yaml" % "snakeyaml" % "1.8"
     ),
     name := "riscvSoftcoreContest",
     scalaSource in Compile := baseDirectory.value / "hardware" / "scala"
-  ).dependsOn(spinalHdlSim, spinalHdlCore, spinalHdlLib, vexRiscv)
-lazy val spinalHdlSim = ProjectRef(file("../SpinalHDL"), "SpinalHDL-sim")
-lazy val spinalHdlCore = ProjectRef(file("../SpinalHDL"), "SpinalHDL-core")
-lazy val spinalHdlLib = ProjectRef(file("../SpinalHDL"), "SpinalHDL-lib")
-lazy val vexRiscv = RootProject(file("/home/spinalvm/hdl/VexRiscv"))
+  ).dependsOn(vexRiscv)
+
+lazy val vexRiscv = RootProject(file("ext/VexRiscv"))
 
 addCompilerPlugin("org.scala-lang.plugins" % "scala-continuations-plugin_2.11.6" % "1.0.2")
 scalacOptions += "-P:continuations:enable"
