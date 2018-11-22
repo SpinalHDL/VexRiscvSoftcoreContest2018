@@ -31,7 +31,7 @@ Requirements
 
 This repository was developed on Linux VM. Only the Libero synthesis and the serial ports interaction where done on Windows.
 
-git clone it recursively to get the external dependencies (Zephyr, compliance)
+This repository has some git submodules (Zephyr, compliance, VexRiscv), you need to clone it recursively.
 
 Requirements :
 

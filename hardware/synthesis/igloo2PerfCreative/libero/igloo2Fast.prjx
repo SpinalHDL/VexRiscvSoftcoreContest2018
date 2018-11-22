@@ -140,8 +140,8 @@ SIZE="1979"
 ENDFILE
 VALUE "<project>\constraint\user.sdc,sdc"
 STATE="utd"
-TIME="1542752811"
-SIZE="391"
+TIME="1542826831"
+SIZE="393"
 IS_TARGET="TRUE"
 ENDFILE
 VALUE "<project>\designer\impl1\Igloo2PerfCreative.ide_des,ide_des"
@@ -196,8 +196,8 @@ SIZE="0"
 ENDFILE
 VALUE "D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v,hdl"
 STATE="utd"
-TIME="1542745231"
-SIZE="230070"
+TIME="1542844918"
+SIZE="231737"
 ENDFILE
 ENDLIST
 LIST UsedFile
@@ -296,8 +296,8 @@ NAME="Synplify Pro ME"
 FUNCTION="Synthesis"
 TOOL="Synplify Pro ME"
 LOCATION="E:\Microsemi\Libero_SoC_v11.8\SynplifyPro\bin\synplify_pro.exe"
-PARAM=""
-BATCH=0
+PARAM="-licensetype synplifypro_actel -batch -log synplify.log"
+BATCH=1
 LICENSE=""
 IS32BIT="1"
 EndProfile
@@ -356,8 +356,17 @@ LIST UserCustomizedFileList
 ENDLIST
 LIST OpenedFileList
 ORIENTATION;HORIZONTAL
+Reports;Reports;0
+ReportsCurrentItem;Verify Timing:Igloo2PerfCreative_max_timing_slow_1.14V_85C.xml
+HDL;constraint\final.sdc;0
+HDL;constraint\user.sdc;0
+HDL;constraint\io\toplevel.pdc;0
+Constraint Manager;Constraint Manager;0
+HDL;component\work\ccc1\ccc1.v;0
 StartPage;StartPage;0
-ACTIVEVIEW;StartPage
+HDL;component\work\osc1\osc1.v;0
+HDL;D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v;0
+ACTIVEVIEW;Reports
 ENDLIST
 LIST ModuleSubBlockList
 LIST "BufferCC::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
@@ -426,7 +435,10 @@ LIST "SimpleBusMultiPortRam::work","D:\pro\hdl\riscvSoftcoreContest\hardware\net
 ENDLIST
 LIST "StreamArbiter::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
 ENDLIST
+LIST "StreamFifoLowLatency::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
+ENDLIST
 LIST "VexRiscv::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
+SUBBLOCK "StreamFifoLowLatency::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"
 ENDLIST
 LIST "XTLOSC::work","component\Actel\SgCore\OSC\2.0.101\osc_comps.v","FALSE","FALSE"
 ENDLIST
