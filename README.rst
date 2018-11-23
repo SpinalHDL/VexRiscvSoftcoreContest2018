@@ -8,6 +8,12 @@ This repository is a RISC-V SoftCPU Contest entry. It implement 3 SoC :
 - Up5kPerf : Performance Lattice iCE40 UltraPlus™ implementation
 - Up5kArea : Small Lattice iCE40 UltraPlus™ implementation
 
+For each of those SoC a port was made for a physical board :
+
+- Igloo2PerfCreative : https://www.microsemi.com/existing-parts/parts/143948
+- Up5kPerfEvn : https://www.latticesemi.com/Products/DevelopmentBoardsAndKits/iCE40UltraPlusBreakoutBoard
+- Up5kAreaEvn : https://www.latticesemi.com/Products/DevelopmentBoardsAndKits/iCE40UltraPlusBreakoutBoard
+
 There are some general informations :
 
 - Hardware description made in SpinalHDL/Scala
@@ -31,7 +37,11 @@ Requirements
 
 This repository was developed on Linux VM. Only the Libero synthesis and the serial ports interaction where done on Windows.
 
-This repository has some git submodules (Zephyr, compliance, VexRiscv), you need to clone it recursively.
+This repository has some git submodules (Zephyr, compliance, VexRiscv), you need to clone it recursively:
+
+.. code-block:: sh
+
+  git clone https://github.com/SpinalHDL/riscvSoftcoreContest.git --recursive
 
 Requirements :
 
@@ -89,6 +99,7 @@ There is some characteristics of the VexRiscv configuration used :
 - load command emitted in the Memory stage
 - Load result in the Writeback stage
 - No emulation
+- The CPU configuration isn't set to get the maximal DMIPS/Mhz but the maximal Dhrystones/s
 
 There is some comments about the design :
 
@@ -138,15 +149,16 @@ There is a block diagram explaining the SoCs memory system :
 
 Claimed spec :
 
-+----------------+--------------------+------------+
-|                | Up5kPerf           | Igloo2Perf |
-+================+====================+============+
-| Absolute DMIPS | 65532              | 276695     |
-+----------------+--------------------+------------+
-| DMIPS/Mhz      | 1.38               | 1.38       |
-+----------------+--------------------+------------+
-| Frequancy      | 27 Mhz             | 114 Mhz    |
-+----------------+--------------------+------------+
++--------------+--------------------+------------+
+|              | Up5kPerf           | Igloo2Perf |
++==============+====================+============+
+| Dhrystones/s | 65532              | 276695     |
++--------------+--------------------+------------+
+| DMIPS/Mhz    | 1.38               | 1.38       |
++--------------+--------------------+------------+
+| Frequancy    | 27 Mhz             | 114 Mhz    |
++--------------+--------------------+------------+
+
 
 ================================================
 Up5kArea
@@ -206,7 +218,7 @@ Claimed spec of the Up5kArea :
 +------------------+-----------------------------+------------------------+-------------------------------+------------------------------------+
 | SPRAMs           | 2                           | 2                      | 2                             | 2                                  |
 +------------------+-----------------------------+------------------------+-------------------------------+------------------------------------+
-| Absolute DMIPS   | 8528                        | 8528                   | 15956                         | 8528                               |
+| Dhrystones/s     | 8528                        | 8528                   | 15956                         | 8528                               |
 +------------------+-----------------------------+------------------------+-------------------------------+------------------------------------+
 | DMIPS/Mhz        | 0.40                        | 0.40                   | 0.75                          | 0.40                               |
 +------------------+-----------------------------+------------------------+-------------------------------+------------------------------------+
@@ -217,7 +229,7 @@ The frequency of the design wasn't stressed at all, it could very likely run muc
 
 
 ================================================
-How to use the thing :
+How to use the thing
 ================================================
 
 the ./makefile contain a many commands:
@@ -372,21 +384,20 @@ There is the commands to generate the spi flash flashing files :
   ######################################################################################
   # igloo2Perf creative board commands to generate the flashing files
   ######################################################################################
-  make igloo2Perf_creative_serial_bootloader
-  make igloo2Perf_creative_serial_dhrystone
-  make igloo2Perf_creative_serial_synchronization
-  make igloo2Perf_creative_serial_philosophers
-
-
+  make igloo2Perf_creative_serial_bootloader       # Generate igloo2Perf_creative_serial_bootloader.bin
+  make igloo2Perf_creative_serial_dhrystone        # Generate igloo2Perf_creative_serial_dhrystone.bin
+  make igloo2Perf_creative_serial_synchronization  # Generate igloo2Perf_creative_serial_philosophers.bin
+  make igloo2Perf_creative_serial_philosophers     # Generate igloo2Perf_creative_serial_synchronization.bin
 
 ================================================
 Zone of interest (Hardware description part)
 ================================================
 
-The SpinalHDL hardware description is `there <https://github.com/SpinalHDL/riscvSoftcoreContest/tree/master/hardware/scala/riscvSoftcoreContest>`_.
-TODO
+There is a video introducing advanced possibilities offered by mixing Scala/SpinalHDL : https://www.youtube.com/watch?v=Ee7mQDVSHW8
 
-It contain some interesting hardware description parts :
+The SoC hardware description is there : https://github.com/SpinalHDL/riscvSoftcoreContest/tree/master/hardware/scala/riscvSoftcoreContest
+
+The VexRiscv hardware description is there : https://github.com/SpinalHDL/VexRiscv/tree/dev/src/main/scala/vexriscv
 
 Interconnect mapping
 ==========================
@@ -412,7 +423,7 @@ The following code come from the Up5kPerf toplevel and generate the whole interc
 .. image:: doc/assets/up5kPerfDiagram.png
   :width: 400
 
-To explaine a bit, SimpleBusInterconnect is a scala class in which we can specify multiple slave buses and their memory mapping. The first arguement of SizeMapping is the base addresse where the slave should be mapped, and the second argument is over which range.
+To explain a bit, SimpleBusInterconnect is a scala class in which we can specify multiple slave buses and their memory mapping. The first arguement of SizeMapping is the base addresse where the slave should be mapped, and the second argument is over which range.
 
 slowBus -> DefaultMapping specify that if an master do a memory request which isn't mapped by any accessible slave, the memory request is mapped to the slowBus.
 
