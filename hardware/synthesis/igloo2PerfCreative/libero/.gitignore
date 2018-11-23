@@ -8,7 +8,6 @@
 #ignore miscellaneous files in the following directories
 simulation/*
 package/*
-component/Actel
 tooldata/*
 viewdraw/*
 
