@@ -35,7 +35,7 @@ There is some informations about VexRiscv (CPU used) :
 Requirements
 ================================================
 
-This repository was developed on Linux VM. Only the Libero synthesis and the serial ports interaction where done on Windows.
+This repository was developed on a Linux VM. Only the Libero synthesis and the serial ports interaction where done on Windows.
 
 This repository has some git submodules (Zephyr, compliance, VexRiscv), you need to clone it recursively:
 
@@ -45,6 +45,7 @@ This repository has some git submodules (Zephyr, compliance, VexRiscv), you need
 
 Requirements :
 
+- Verilator
 - Icestorm
 - Libero 11.8 SP2 (11.8.2.4)
 - Icecube 2 2017.08.27940
@@ -152,8 +153,14 @@ There is a block diagram of the CPU made by the VexRiscv configuration used in b
 .. image:: doc/assets/xPerfCpuDiagram.png
   :width: 800
 
+Note that the purpose of the double PC register between the pc-gen and the Fetch1 stage is to produce a consistent iBus_cmd.
+- Transaction on the iBus_cmd will always stay unchanged until their completion
+- One of this PC register is used to make the iBus_cmd address consistant
+- One of this PC register is used to store the value of a branch request while the Fetch1 stage is blocked.
 
-
+There are the CPU configuration used :
+- Up5kPerf : TODO
+- Igloo2Perf : TODO
 
 Claimed spec :
 
@@ -168,6 +175,16 @@ Claimed spec :
 +--------------+--------------------+------------+
 
 Note that without the lookup table divider optimisation, the performance for both SoC is reduced to 1.27 DMIPS/Mhz
+
+Notes about the synthesis/place/route of the Igloo2PerfCreative :
+
+- The maximal frequency from one synthesis to another one with a different seed can easily vary between 107 Mhz to 121 Mhz
+- The critical combinatorial paths are dominated by routing delays (85% for the routing delay vs 15% for the cells delay)
+- The synthesis was done without retiming, as it wasn't providing a visible frequency gain.
+
+Notes about the synthesis/place/route of the Up5kPerfEvn :
+
+- Stressing the synthesis tool with crazy timing requirements realy help to get better final timings.
 
 ================================================
 Up5kArea
@@ -214,6 +231,10 @@ There is a block diagram of the CPU made by the VexRiscv configuration used (No 
 
 .. image:: doc/assets/up5kAreaCpuDiagram.png
   :width: 400
+
+There is the CPU configuration used :
+- Up5kArea : TODO
+
 
 Claimed spec of the Up5kArea :
 
@@ -344,6 +365,7 @@ The VCD will be generated in test/???/wave.vcd
 
 Note that with the Zephyr philosophers demo, some printk from multiple threads will be mixed together as the printk isn't atomic. This issue is less visible in the Igloo2Perf simulation as the serial link is much faster in this simulation.
 
+Also, to speed up the simulation boot time, the software bootloader and the application are directly written into the SoC on-chip-ram. If you are interrested into running the full simulation, checkout the makefile igloo2Perf_sim_dhrystone_with_preloaded_flash and igloo2Perf_sim_dhrystone_without_preloaded_flash commands.
 
 Interact with the physical targets :
 =======================================
@@ -368,15 +390,15 @@ The Up5kPerfEvn an the Igloo2PerfCreative SoCs have their frequencies set at the
 
 To generate the Up5k evn board bitstream, you have to manually use the icecube2 projects (hardware/synthesis/???/icecube2)
 
-The flashing on the Up5k evn board (https://www.latticesemi.com/Products/DevelopmentBoardsAndKits/iCE40UltraPlusBreakoutBoard) is done by using the USB connection and iceprog. The board should be configured to boot on the SPI flash (PROG FLASH jumper mode, J7 mounted, J51 mounted, others jumpers in their default configuration).
+The flashing on the Up5k evn board (https://www.latticesemi.com/Products/DevelopmentBoardsAndKits/iCE40UltraPlusBreakoutBoard) FPGA bitstream, software bootloader and application is done by using the USB connection and iceprog. The board should be configured to boot on the SPI flash (PROG FLASH jumper mode, J7 mounted, J51 mounted, others jumpers in their default configuration).
 
 .. code-block:: scala
 
   ##############################################
   # up5kPerf evn board flashing commands
   ##############################################
-  make up5kPerf_evn_prog_icecube2
-  make up5kPerf_evn_prog_bootloader
+  make up5kPerf_evn_prog_icecube2        # Flash the FPGA bitstream from icecube2
+  make up5kPerf_evn_prog_bootloader      # Flash the bootloader which will copy the software application into the ram
   make up5kPerf_evn_prog_dhrystone
   make up5kPerf_evn_prog_syncronization
   make up5kPerf_evn_prog_philosophers
@@ -386,8 +408,8 @@ The flashing on the Up5k evn board (https://www.latticesemi.com/Products/Develop
   ##############################################
   # up5kArea evn board flashing commands
   ##############################################
-  make up5kArea_evn_prog_icecube2
-  make up5kArea_evn_prog_bootloader
+  make up5kArea_evn_prog_icecube2        # Flash the FPGA bitstream from icecube2
+  make up5kArea_evn_prog_bootloader      # Flash the bootloader which will copy the software application into the ram
   make up5kArea_evn_prog_dhrystone
   make up5kArea_evn_prog_syncronization
   make up5kArea_evn_prog_philosophers
@@ -397,7 +419,7 @@ For the Igloo2 creative board (https://www.microsemi.com/existing-parts/parts/14
 
 To flash the Igloo2 itself, you have to manually use FlashPro with the hardware/synthesis/igloo2PerfCreative/libero/designer/Igloo2PerfCreative/export/Igloo2PerfCreative.stp file.
 
-To load the external SPI flash with the bootloader and the app, you need to generate the corresponding flashing files via 'make igloo2Perf_creative_serial_X' and send it over the FTDI serial at a rate of 115200 baud/s 1 stop bit, no parity.
+To load the external SPI flash with the bootloader and the app, after the FPGA flashing, you need to generate the corresponding flashing files via 'make igloo2Perf_creative_serial_X' and send it over the FTDI serial at a rate of 115200 baud/s 1 stop bit, no parity. As my host OS is windows (Gameing necessity ^^), i used realterm for this purpose.
 
 There is the commands to generate the spi flash flashing files :
 
@@ -410,6 +432,8 @@ There is the commands to generate the spi flash flashing files :
   make igloo2Perf_creative_serial_dhrystone        # Generate igloo2Perf_creative_serial_dhrystone.bin
   make igloo2Perf_creative_serial_synchronization  # Generate igloo2Perf_creative_serial_philosophers.bin
   make igloo2Perf_creative_serial_philosophers     # Generate igloo2Perf_creative_serial_synchronization.bin
+
+This way of flashing the Igloo2Creative board spi flash via the serial port isn't the fastest as it can take up to 30 seconds.
 
 ================================================
 Zone of interest (Hardware description part)
@@ -661,7 +685,7 @@ There is an example of this parametrization where the plugin which implement the
       }
 
       //****************************************************************************************
-      //Get the stage in which should be implemented the second part of the full barrel shifter.
+      //"injectionStage" will get the stage in which should be implemented the second part of the full barrel shifter.
       //It can be in the execute stage or in the memory stage
       //The dataflow abstraction will manage the required pipelining
       //****************************************************************************************
