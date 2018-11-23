@@ -1,0 +1,103 @@
+
+set_io io_serialTx             \
+    -pinname G3       \
+    -fixed yes        \
+    -DIRECTION INPUT
+
+
+set_io io_serialRx              \
+    -pinname H3        \
+    -fixed yes         \
+    -DIRECTION OUTPUT
+
+
+set_io {io_flashSpi_ss[0]}             \
+    -pinname J12       \
+    -fixed yes        \
+    -DIRECTION OUTPUT
+
+set_io io_flashSpi_sclk             \
+    -pinname J14       \
+    -fixed yes        \
+    -DIRECTION OUTPUT
+
+set_io io_flashSpi_mosi             \
+    -pinname K12       \
+    -fixed yes        \
+    -DIRECTION OUTPUT
+
+set_io io_flashSpi_miso             \
+    -pinname J13       \
+    -fixed yes        \
+    -DIRECTION INPUT
+
+set_io {io_leds[0]}   \
+    -pinname K16       \
+    -fixed yes         \
+    -DIRECTION OUTPUT
+
+
+set_io {io_leds[1]}   \
+    -pinname M16       \
+    -fixed yes         \
+    -DIRECTION OUTPUT
+
+
+set_io {io_leds[2]}   \
+    -pinname J16       \
+    -fixed yes         \
+    -DIRECTION OUTPUT
+
+
+set_io DEVRST_N  \
+    -pinname M11     
+
+set_io {io_probes[0]}   \
+    -pinname P6       \
+    -fixed yes         \
+    -DIRECTION OUTPUT
+
+set_io {io_probes[1]}   \
+    -pinname P7       \
+    -fixed yes         \
+    -DIRECTION OUTPUT
+
+set_io {io_probes[2]}  \
+    -pinname N7       \
+    -fixed yes         \
+    -DIRECTION OUTPUT
+
+set_io {io_probes[3]}   \
+    -pinname M7       \
+    -fixed yes         \
+    -DIRECTION OUTPUT
+
+set_io {io_probes[4]}   \
+    -pinname P8       \
+    -fixed yes         \
+    -DIRECTION OUTPUT
+
+set_io {io_probes[5]}   \
+    -pinname M8       \
+    -fixed yes         \
+    -DIRECTION OUTPUT
+
+set_io {io_probes[6]}   \
+    -pinname N8       \
+    -fixed yes         \
+    -DIRECTION OUTPUT
+
+set_io {io_probes[7]}   \
+    -pinname P9       \
+    -fixed yes         \
+    -DIRECTION OUTPUT
+
+#set_io io_button   \
+    #-pinname H12       \
+    #-fixed yes         \
+    #-DIRECTION OUTPUT
+
+
+
+
+

@@ -12,9 +12,7 @@ tooldata/*
 viewdraw/*
 
 #auto-generated constraint log files
-constraint/*
-!constraint/**.sdc
-!constraint/**.pdc
+
 
 #synthesis log files
 synthesis/*
