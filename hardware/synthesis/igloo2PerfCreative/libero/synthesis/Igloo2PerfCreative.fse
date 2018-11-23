@@ -1,0 +1,24 @@
+
+fsm_encoding {585128512} onehot
+
+fsm_state_encoding {585128512} 000 {00001}
+
+fsm_state_encoding {585128512} 001 {00010}
+
+fsm_state_encoding {585128512} 010 {00100}
+
+fsm_state_encoding {585128512} 011 {01000}
+
+fsm_state_encoding {585128512} 100 {10000}
+
+fsm_registers {585128512} {fsm_stateReg[4]}  {fsm_stateReg[3]}  {fsm_stateReg[2]}  {fsm_stateReg[1]}  {fsm_stateReg[0]} 
+
+fsm_encoding {54949249491} sequential
+
+fsm_state_encoding {54949249491} 00 {00}
+
+fsm_state_encoding {54949249491} 01 {01}
+
+fsm_state_encoding {54949249491} 10 {10}
+
+fsm_registers {54949249491} {state[1]}  {state[0]} 

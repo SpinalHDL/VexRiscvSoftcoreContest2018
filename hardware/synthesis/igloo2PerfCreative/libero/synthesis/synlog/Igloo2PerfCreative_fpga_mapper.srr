@@ -1,0 +1,780 @@
+# Thu Nov 22 01:03:16 2018
+
+Synopsys Generic Technology Mapper, Version map201609actrcp1, Build 005R, Built Jan 25 2017 01:01:33
+Copyright (C) 1994-2016 Synopsys, Inc. All rights reserved. This Synopsys software and all associated documentation are proprietary to Synopsys, Inc. and may only be used pursuant to the terms and conditions of a written license agreement with Synopsys, Inc. All other use, reproduction, modification, or distribution of the Synopsys software or the associated documentation is strictly prohibited.
+Product Version L-2016.09M-2
+
+Mapper Startup Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 99MB peak: 100MB)
+
+@N: MF248 |Running in 64-bit mode.
+@N: MF667 |Clock conversion disabled. (Command "set_option -fix_gated_and_generated_clocks 0" in the project file.)
+
+Design Input Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 99MB peak: 101MB)
+
+
+Mapper Initialization Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 99MB peak: 101MB)
+
+
+Start loading timing files (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 101MB peak: 101MB)
+
+
+Finished loading timing files (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 101MB peak: 103MB)
+
+
+
+Starting Optimization and Mapping (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 136MB peak: 139MB)
+
+@N: MO111 :"d:\pro\hdl\riscvsoftcorecontest\hardware\synthesis\igloo2perfcreative\libero\component\work\osc1\osc1_0\osc1_osc1_0_osc.v":20:7:20:16|Tristate driver XTLOSC_O2F (in view: work.osc1_osc1_0_OSC(verilog)) on net XTLOSC_O2F (in view: work.osc1_osc1_0_OSC(verilog)) has its enable tied to GND.
+@N: MO111 :"d:\pro\hdl\riscvsoftcorecontest\hardware\synthesis\igloo2perfcreative\libero\component\work\osc1\osc1_0\osc1_osc1_0_osc.v":19:7:19:16|Tristate driver XTLOSC_CCC (in view: work.osc1_osc1_0_OSC(verilog)) on net XTLOSC_CCC (in view: work.osc1_osc1_0_OSC(verilog)) has its enable tied to GND.
+@N: MO111 :"d:\pro\hdl\riscvsoftcorecontest\hardware\synthesis\igloo2perfcreative\libero\component\work\osc1\osc1_0\osc1_osc1_0_osc.v":18:7:18:20|Tristate driver RCOSC_1MHZ_O2F (in view: work.osc1_osc1_0_OSC(verilog)) on net RCOSC_1MHZ_O2F (in view: work.osc1_osc1_0_OSC(verilog)) has its enable tied to GND.
+@N: MO111 :"d:\pro\hdl\riscvsoftcorecontest\hardware\synthesis\igloo2perfcreative\libero\component\work\osc1\osc1_0\osc1_osc1_0_osc.v":17:7:17:20|Tristate driver RCOSC_1MHZ_CCC (in view: work.osc1_osc1_0_OSC(verilog)) on net RCOSC_1MHZ_CCC (in view: work.osc1_osc1_0_OSC(verilog)) has its enable tied to GND.
+@N: MO111 :"d:\pro\hdl\riscvsoftcorecontest\hardware\synthesis\igloo2perfcreative\libero\component\work\osc1\osc1_0\osc1_osc1_0_osc.v":16:7:16:24|Tristate driver RCOSC_25_50MHZ_O2F (in view: work.osc1_osc1_0_OSC(verilog)) on net RCOSC_25_50MHZ_O2F (in view: work.osc1_osc1_0_OSC(verilog)) has its enable tied to GND.
+
+Available hyper_sources - for debug and ip models
+	None Found
+
+@W: FA239 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":610:4:610:7|ROM _zz_3_ (in view: work.FlashXpi(verilog)) mapped in logic. To map to a technology ROM, apply attribute syn_romstyle on this instance.
+@W: FA239 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":610:4:610:7|ROM _zz_3_ (in view: work.FlashXpi(verilog)) mapped in logic. To map to a technology ROM, apply attribute syn_romstyle on this instance.
+@N: MO106 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":610:4:610:7|Found ROM .delname. (in view: work.FlashXpi(verilog)) with 15 words by 1 bit.
+
+Finished RTL optimizations (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 138MB peak: 140MB)
+
+@N: MO231 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":5942:2:5942:7|Found counter in view:work.Igloo2Perf(verilog) instance resetCtrl_resetCounter[23:0] 
+@N: FX403 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":5603:24:5603:33|Property "block_ram" or "no_rw_check" found for RAM system_ram.ram_symbol0_1[7:0] with specified coding style. Inferring block RAM.
+@N: FX403 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":5603:24:5603:33|Property "block_ram" or "no_rw_check" found for RAM system_ram.ram_symbol1_1[7:0] with specified coding style. Inferring block RAM.
+@N: FX403 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":5603:24:5603:33|Property "block_ram" or "no_rw_check" found for RAM system_ram.ram_symbol2_1[7:0] with specified coding style. Inferring block RAM.
+@N: FX403 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":5603:24:5603:33|Property "block_ram" or "no_rw_check" found for RAM system_ram.ram_symbol3_1[7:0] with specified coding style. Inferring block RAM.
+@N: FX403 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":5603:24:5603:33|Property "block_ram" or "no_rw_check" found for RAM system_ram.ram_symbol3_1[7:0] with specified coding style. Inferring block RAM.
+@W: FX107 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":5603:24:5603:33|RAM system_ram.ram_symbol3_1[7:0] (in view: work.Igloo2Perf(verilog)) does not have a read/write conflict check. Possible simulation mismatch. To resolve a read/write conflict, either set syn_ramstyle = rw_check, or enable the "Read Write Check on RAM" Implementation Option. For more information, search for "read/write conflict check" in Online Help.
+@N: FX403 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":5603:24:5603:33|Property "block_ram" or "no_rw_check" found for RAM system_ram.ram_symbol2_1[7:0] with specified coding style. Inferring block RAM.
+@W: FX107 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":5603:24:5603:33|RAM system_ram.ram_symbol2_1[7:0] (in view: work.Igloo2Perf(verilog)) does not have a read/write conflict check. Possible simulation mismatch. To resolve a read/write conflict, either set syn_ramstyle = rw_check, or enable the "Read Write Check on RAM" Implementation Option. For more information, search for "read/write conflict check" in Online Help.
+@N: FX403 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":5603:24:5603:33|Property "block_ram" or "no_rw_check" found for RAM system_ram.ram_symbol1_1[7:0] with specified coding style. Inferring block RAM.
+@W: FX107 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":5603:24:5603:33|RAM system_ram.ram_symbol1_1[7:0] (in view: work.Igloo2Perf(verilog)) does not have a read/write conflict check. Possible simulation mismatch. To resolve a read/write conflict, either set syn_ramstyle = rw_check, or enable the "Read Write Check on RAM" Implementation Option. For more information, search for "read/write conflict check" in Online Help.
+@N: FX403 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":5603:24:5603:33|Property "block_ram" or "no_rw_check" found for RAM system_ram.ram_symbol0_1[7:0] with specified coding style. Inferring block RAM.
+@W: FX107 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":5603:24:5603:33|RAM system_ram.ram_symbol0_1[7:0] (in view: work.Igloo2Perf(verilog)) does not have a read/write conflict check. Possible simulation mismatch. To resolve a read/write conflict, either set syn_ramstyle = rw_check, or enable the "Read Write Check on RAM" Implementation Option. For more information, search for "read/write conflict check" in Online Help.
+@W: MO160 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":6010:2:6010:7|Register bit _zz_17_[1] (in view view:work.Igloo2Perf(verilog)) is always 0. To keep the instance, apply syn_preserve=1 on the instance.
+@W: MO160 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":6010:2:6010:7|Register bit _zz_17_[0] (in view view:work.Igloo2Perf(verilog)) is always 0. To keep the instance, apply syn_preserve=1 on the instance.
+@N: MO231 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":499:2:499:7|Found counter in view:work.Peripherals(verilog) instance timer_counter[31:0] 
+Encoding state machine fsm_stateReg[4:0] (in view: work.FlashXpi(verilog))
+original code -> new code
+   000 -> 00001
+   001 -> 00010
+   010 -> 00100
+   011 -> 01000
+   100 -> 10000
+@N: MO231 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":851:2:851:7|Found counter in view:work.FlashXpi(verilog) instance buffer_counter_value[4:0] 
+@N: FX403 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":2112:2:2112:7|Property "block_ram" or "no_rw_check" found for RAM IBusSimplePlugin_predictor_history[54:25] with specified coding style. Inferring block RAM.
+@W: FX107 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":2112:2:2112:7|RAM IBusSimplePlugin_predictor_history[54:25] (in view: work.VexRiscv(verilog)) does not have a read/write conflict check. Possible simulation mismatch. To resolve a read/write conflict, either set syn_ramstyle = rw_check, or enable the "Read Write Check on RAM" Implementation Option. For more information, search for "read/write conflict check" in Online Help.
+@N: FX403 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":2112:2:2112:7|Property "block_ram" or "no_rw_check" found for RAM IBusSimplePlugin_predictor_history[22:0] with specified coding style. Inferring block RAM.
+@W: FX107 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":2112:2:2112:7|RAM IBusSimplePlugin_predictor_history[22:0] (in view: work.VexRiscv(verilog)) does not have a read/write conflict check. Possible simulation mismatch. To resolve a read/write conflict, either set syn_ramstyle = rw_check, or enable the "Read Write Check on RAM" Implementation Option. For more information, search for "read/write conflict check" in Online Help.
+@N: FX403 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":2124:2:2124:7|Property "block_ram" or "no_rw_check" found for RAM RegFilePlugin_regFile_1[31:0] with specified coding style. Inferring block RAM.
+@W: FX107 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":2124:2:2124:7|RAM RegFilePlugin_regFile_1[31:0] (in view: work.VexRiscv(verilog)) does not have a read/write conflict check. Possible simulation mismatch. To resolve a read/write conflict, either set syn_ramstyle = rw_check, or enable the "Read Write Check on RAM" Implementation Option. For more information, search for "read/write conflict check" in Online Help.
+@N: FX403 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":2124:2:2124:7|Property "block_ram" or "no_rw_check" found for RAM RegFilePlugin_regFile[31:0] with specified coding style. Inferring block RAM.
+@W: FX107 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":2124:2:2124:7|RAM RegFilePlugin_regFile[31:0] (in view: work.VexRiscv(verilog)) does not have a read/write conflict check. Possible simulation mismatch. To resolve a read/write conflict, either set syn_ramstyle = rw_check, or enable the "Read Write Check on RAM" Implementation Option. For more information, search for "read/write conflict check" in Online Help.
+@N: MO231 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4329:2:4329:7|Found counter in view:work.VexRiscv(verilog) instance memory_MulDivIterativePlugin_div_counter_value[5:0] 
+@N: BN362 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Removing sequential instance execute_to_memory_SRC_ADD[20] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Removing sequential instance execute_to_memory_SRC_ADD[21] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Removing sequential instance execute_to_memory_SRC_ADD[22] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Removing sequential instance execute_to_memory_SRC_ADD[23] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Removing sequential instance execute_to_memory_SRC_ADD[24] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Removing sequential instance execute_to_memory_SRC_ADD[25] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Removing sequential instance execute_to_memory_SRC_ADD[26] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Removing sequential instance execute_to_memory_SRC_ADD[27] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Removing sequential instance execute_to_memory_SRC_ADD[28] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Removing sequential instance execute_to_memory_SRC_ADD[29] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Removing sequential instance execute_to_memory_SRC_ADD[30] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Removing sequential instance execute_to_memory_SRC_ADD[31] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":150:2:150:7|Removing sequential instance IBusSimplePlugin_rspJoin_rspBuffer_c._zz_4_[0] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":150:2:150:7|Removing sequential instance IBusSimplePlugin_rspJoin_rspBuffer_c._zz_4_[1] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":150:2:150:7|Removing sequential instance IBusSimplePlugin_rspJoin_rspBuffer_c._zz_4_[2] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Removing sequential instance NoName (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Removing sequential instance NoName_0 (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@W: MO160 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4329:2:4329:7|Register bit IBusSimplePlugin_fetchPc_pcReg[1] (in view view:work.VexRiscv(verilog)) is always 0. To keep the instance, apply syn_preserve=1 on the instance.
+@W: MO160 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4329:2:4329:7|Register bit IBusSimplePlugin_fetchPc_pcReg[0] (in view view:work.VexRiscv(verilog)) is always 0. To keep the instance, apply syn_preserve=1 on the instance.
+@W: MO160 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Register bit _zz_119_[1] (in view view:work.VexRiscv(verilog)) is always 0. To keep the instance, apply syn_preserve=1 on the instance.
+@W: MO160 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Register bit _zz_119_[0] (in view view:work.VexRiscv(verilog)) is always 0. To keep the instance, apply syn_preserve=1 on the instance.
+@W: MO160 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Register bit _zz_121_[1] (in view view:work.VexRiscv(verilog)) is always 0. To keep the instance, apply syn_preserve=1 on the instance.
+@W: MO160 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Register bit _zz_121_[0] (in view view:work.VexRiscv(verilog)) is always 0. To keep the instance, apply syn_preserve=1 on the instance.
+@W: MO160 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Register bit decode_to_execute_PC[1] (in view view:work.VexRiscv(verilog)) is always 0. To keep the instance, apply syn_preserve=1 on the instance.
+@W: MO160 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Register bit decode_to_execute_PC[0] (in view view:work.VexRiscv(verilog)) is always 0. To keep the instance, apply syn_preserve=1 on the instance.
+@W: MO160 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Register bit execute_to_memory_PC[1] (in view view:work.VexRiscv(verilog)) is always 0. To keep the instance, apply syn_preserve=1 on the instance.
+@W: MO160 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Register bit execute_to_memory_PC[0] (in view view:work.VexRiscv(verilog)) is always 0. To keep the instance, apply syn_preserve=1 on the instance.
+@W: MO160 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Register bit memory_to_writeBack_PC[1] (in view view:work.VexRiscv(verilog)) is always 0. To keep the instance, apply syn_preserve=1 on the instance.
+@W: MO160 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Register bit memory_to_writeBack_PC[0] (in view view:work.VexRiscv(verilog)) is always 0. To keep the instance, apply syn_preserve=1 on the instance.
+@N: MF179 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4278:20:4278:52|Found 32 by 32 bit equality operator ('==') un1__zz_23_ (in view: work.VexRiscv(verilog))
+@N: MF179 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4165:36:4165:64|Found 32 by 32 bit equality operator ('==') execute_BranchPlugin_eq (in view: work.VexRiscv(verilog))
+@N: MF179 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":3424:100:3424:171|Found 9 by 9 bit equality operator ('==') un1_IBusSimplePlugin_predictor_hazard (in view: work.VexRiscv(verilog))
+@N: MF179 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":3423:44:3423:94|Found 21 by 21 bit equality operator ('==') IBusSimplePlugin_predictor_hit (in view: work.VexRiscv(verilog))
+Encoding state machine state[2:0] (in view: work.SerialRxOutput(verilog))
+original code -> new code
+   00 -> 00
+   01 -> 01
+   10 -> 10
+@N: BN362 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4949:2:4949:7|Removing sequential instance outputReg[3] (in view: work.SerialRxOutput(verilog)) of type view:PrimLib.dffr(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4949:2:4949:7|Removing sequential instance outputReg[4] (in view: work.SerialRxOutput(verilog)) of type view:PrimLib.dffr(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4949:2:4949:7|Removing sequential instance outputReg[5] (in view: work.SerialRxOutput(verilog)) of type view:PrimLib.dffr(prim) because it does not drive other instances.
+
+Starting factoring (Real Time elapsed 0h:00m:04s; CPU Time elapsed 0h:00m:01s; Memory used current: 145MB peak: 146MB)
+
+
+Finished factoring (Real Time elapsed 0h:00m:05s; CPU Time elapsed 0h:00m:02s; Memory used current: 162MB peak: 163MB)
+
+@W: BN132 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4329:2:4329:7|Removing instance soc.system_cpu._zz_150_ because it is equivalent to instance soc.system_flashXip.fsm_stateReg[0]. To keep the instance, apply constraint syn_preserve=1 on the instance.
+
+Finished gated-clock and generated-clock conversion (Real Time elapsed 0h:00m:05s; CPU Time elapsed 0h:00m:02s; Memory used current: 158MB peak: 165MB)
+
+
+Finished generic timing optimizations - Pass 1 (Real Time elapsed 0h:00m:06s; CPU Time elapsed 0h:00m:03s; Memory used current: 160MB peak: 174MB)
+
+
+Starting Early Timing Optimization (Real Time elapsed 0h:00m:07s; CPU Time elapsed 0h:00m:04s; Memory used current: 161MB peak: 174MB)
+
+
+Finished Early Timing Optimization (Real Time elapsed 0h:00m:08s; CPU Time elapsed 0h:00m:06s; Memory used current: 162MB peak: 174MB)
+
+
+Finished generic timing optimizations - Pass 2 (Real Time elapsed 0h:00m:09s; CPU Time elapsed 0h:00m:06s; Memory used current: 160MB peak: 174MB)
+
+@N: MO106 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":2157:4:2157:7|Found ROM .delname. (in view: work.Igloo2PerfCreative(verilog)) with 255 words by 4 bits.
+
+Finished preparing to map (Real Time elapsed 0h:00m:10s; CPU Time elapsed 0h:00m:07s; Memory used current: 161MB peak: 174MB)
+
+
+Finished technology mapping (Real Time elapsed 0h:00m:12s; CPU Time elapsed 0h:00m:09s; Memory used current: 215MB peak: 237MB)
+
+Pass		 CPU time		Worst Slack		Luts / Registers
+------------------------------------------------------------
+   1		0h:00m:09s		    -9.32ns		3559 /      1610
+   2		0h:00m:09s		    -9.32ns		3199 /      1610
+   3		0h:00m:09s		    -8.30ns		3199 /      1610
+@N: FX271 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Replicating instance soc.system_cpu._zz_123_[14] (in view: work.Igloo2PerfCreative(verilog)) with 14 loads 1 time to improve timing.
+@N: FX271 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Replicating instance soc.system_cpu._zz_123_[23] (in view: work.Igloo2PerfCreative(verilog)) with 8 loads 1 time to improve timing.
+@N: FX271 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Replicating instance soc.system_cpu._zz_123_[21] (in view: work.Igloo2PerfCreative(verilog)) with 8 loads 1 time to improve timing.
+@N: FX271 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Replicating instance soc.system_cpu._zz_123_[24] (in view: work.Igloo2PerfCreative(verilog)) with 8 loads 1 time to improve timing.
+@N: FX271 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Replicating instance soc.system_cpu._zz_123_[4] (in view: work.Igloo2PerfCreative(verilog)) with 17 loads 1 time to improve timing.
+@N: FX271 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Replicating instance soc.system_cpu._zz_123_[22] (in view: work.Igloo2PerfCreative(verilog)) with 9 loads 1 time to improve timing.
+@N: FX271 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Replicating instance soc.system_cpu.decode_to_execute_INSTRUCTION[8] (in view: work.Igloo2PerfCreative(verilog)) with 4 loads 1 time to improve timing.
+@N: FX271 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Replicating instance soc.system_cpu.decode_to_execute_INSTRUCTION[11] (in view: work.Igloo2PerfCreative(verilog)) with 4 loads 1 time to improve timing.
+@N: FX271 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Replicating instance soc.system_cpu.decode_to_execute_INSTRUCTION[9] (in view: work.Igloo2PerfCreative(verilog)) with 4 loads 1 time to improve timing.
+@N: FX271 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Replicating instance soc.system_cpu.decode_to_execute_INSTRUCTION[10] (in view: work.Igloo2PerfCreative(verilog)) with 4 loads 1 time to improve timing.
+@N: FX271 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Replicating instance soc.system_cpu._zz_123_[6] (in view: work.Igloo2PerfCreative(verilog)) with 19 loads 1 time to improve timing.
+@N: FX271 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":5977:2:5977:7|Replicating instance soc._zz_3_ (in view: work.Igloo2PerfCreative(verilog)) with 62 loads 2 times to improve timing.
+Timing driven replication report
+Added 13 Registers via timing driven replication
+Added 6 LUTs via timing driven replication
+
+   4		0h:00m:11s		    -8.15ns		3224 /      1623
+   5		0h:00m:11s		    -7.94ns		3225 /      1623
+   6		0h:00m:11s		    -7.83ns		3225 /      1623
+   7		0h:00m:11s		    -7.48ns		3227 /      1623
+   8		0h:00m:11s		    -7.30ns		3227 /      1623
+   9		0h:00m:11s		    -7.30ns		3227 /      1623
+@N: FX271 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Replicating instance soc.system_cpu._zz_123_[12] (in view: work.Igloo2PerfCreative(verilog)) with 11 loads 1 time to improve timing.
+@N: FX271 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Replicating instance soc.system_cpu._zz_123_[13] (in view: work.Igloo2PerfCreative(verilog)) with 10 loads 1 time to improve timing.
+@N: FX271 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Replicating instance soc.system_cpu._zz_123_[3] (in view: work.Igloo2PerfCreative(verilog)) with 4 loads 1 time to improve timing.
+@N: FX271 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Replicating instance soc.system_cpu._zz_123_[15] (in view: work.Igloo2PerfCreative(verilog)) with 9 loads 1 time to improve timing.
+@N: FX271 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Replicating instance soc.system_cpu._zz_123_[16] (in view: work.Igloo2PerfCreative(verilog)) with 9 loads 1 time to improve timing.
+@N: FX271 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Replicating instance soc.system_cpu._zz_123_[17] (in view: work.Igloo2PerfCreative(verilog)) with 9 loads 1 time to improve timing.
+@N: FX271 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4571:2:4571:7|Replicating instance soc.system_cpu._zz_123_[19] (in view: work.Igloo2PerfCreative(verilog)) with 9 loads 1 time to improve timing.
+@N: FX271 :"d:\pro\hdl\riscvsoftcorecontest\hardware\netlist\igloo2perfcreative.v":4329:2:4329:7|Replicating instance soc.system_cpu.memory_arbitration_isValid (in view: work.Igloo2PerfCreative(verilog)) with 21 loads 2 times to improve timing.
+Timing driven replication report
+Added 9 Registers via timing driven replication
+Added 5 LUTs via timing driven replication
+
+
+  10		0h:00m:12s		    -7.14ns		3231 /      1632
+@N: BN362 :|Removing sequential instance soc.system_ram.ram_symbol0_1_ram_symbol0_1_0_0_en (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[0] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[1] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[2] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[3] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[4] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[5] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[6] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[7] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[8] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[9] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[10] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[11] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[12] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[13] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[14] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[15] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[16] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[17] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[18] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[19] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[20] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[21] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[22] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[23] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[24] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[25] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[26] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[27] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[28] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[29] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[30] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[31] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[32] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[33] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[34] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDB[35] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[0] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[1] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[2] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[3] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[4] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[5] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[6] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[7] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[8] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[9] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[10] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[11] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[12] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[13] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[14] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[15] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[16] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[17] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[18] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[19] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[20] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[21] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[22] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[23] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[24] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[25] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[26] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[27] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[28] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[29] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[30] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[31] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[32] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[33] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[34] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDB[35] (in view: work.Igloo2PerfCreative(verilog)) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDA[23] (in view: work.Igloo2PerfCreative(verilog)) of type view:ACG4.SLE(PRIM) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDA[24] (in view: work.Igloo2PerfCreative(verilog)) of type view:ACG4.SLE(PRIM) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDA[25] (in view: work.Igloo2PerfCreative(verilog)) of type view:ACG4.SLE(PRIM) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDA[26] (in view: work.Igloo2PerfCreative(verilog)) of type view:ACG4.SLE(PRIM) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDA[27] (in view: work.Igloo2PerfCreative(verilog)) of type view:ACG4.SLE(PRIM) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDA[28] (in view: work.Igloo2PerfCreative(verilog)) of type view:ACG4.SLE(PRIM) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDA[29] (in view: work.Igloo2PerfCreative(verilog)) of type view:ACG4.SLE(PRIM) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDA[30] (in view: work.Igloo2PerfCreative(verilog)) of type view:ACG4.SLE(PRIM) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDA[31] (in view: work.Igloo2PerfCreative(verilog)) of type view:ACG4.SLE(PRIM) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDA[32] (in view: work.Igloo2PerfCreative(verilog)) of type view:ACG4.SLE(PRIM) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDA[33] (in view: work.Igloo2PerfCreative(verilog)) of type view:ACG4.SLE(PRIM) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDA[34] (in view: work.Igloo2PerfCreative(verilog)) of type view:ACG4.SLE(PRIM) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_0_IBusSimplePlugin_predictor_history_0_0_OLDA[35] (in view: work.Igloo2PerfCreative(verilog)) of type view:ACG4.SLE(PRIM) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDA[30] (in view: work.Igloo2PerfCreative(verilog)) of type view:ACG4.SLE(PRIM) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDA[31] (in view: work.Igloo2PerfCreative(verilog)) of type view:ACG4.SLE(PRIM) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDA[32] (in view: work.Igloo2PerfCreative(verilog)) of type view:ACG4.SLE(PRIM) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDA[33] (in view: work.Igloo2PerfCreative(verilog)) of type view:ACG4.SLE(PRIM) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDA[34] (in view: work.Igloo2PerfCreative(verilog)) of type view:ACG4.SLE(PRIM) because it does not drive other instances.
+@N: BN362 :|Removing sequential instance soc.system_cpu.IBusSimplePlugin_predictor_history_IBusSimplePlugin_predictor_history_0_0_OLDA[35] (in view: work.Igloo2PerfCreative(verilog)) of type view:ACG4.SLE(PRIM) because it does not drive other instances.
+@N: FP130 |Promoting Net soc.resetCtrl_systemResetBuffered on CLKINT  I_849 
+
+Added 0 Buffers
+Added 0 Cells via replication
+	Added 0 Sequential Cells via replication
+	Added 0 Combinational Cells via replication
+
+Finished technology timing optimizations and critical path resynthesis (Real Time elapsed 0h:00m:15s; CPU Time elapsed 0h:00m:12s; Memory used current: 223MB peak: 237MB)
+
+
+Finished restoring hierarchy (Real Time elapsed 0h:00m:15s; CPU Time elapsed 0h:00m:12s; Memory used current: 225MB peak: 237MB)
+
+
+
+@S |Clock Optimization Summary
+
+
+#### START OF CLOCK OPTIMIZATION REPORT #####[
+
+Clock optimization not enabled
+1 non-gated/non-generated clock tree(s) driving 1830 clock pin(s) of sequential element(s)
+0 gated/generated clock tree(s) driving 0 clock pin(s) of sequential element(s)
+0 instances converted, 0 sequential instances remain driven by gated/generated clocks
+
+================================== Non-Gated/Non-Generated Clocks ==================================
+Clock Tree ID     Driving Element             Drive Element Type          Fanout     Sample Instance
+----------------------------------------------------------------------------------------------------
+@K:CKID0001       cccInst.ccc1_0.CCC_INST     clock definition on CCC     1830       soc._zz_3__rep1
+====================================================================================================
+
+
+##### END OF CLOCK OPTIMIZATION REPORT ######]
+
+
+Start Writing Netlists (Real Time elapsed 0h:00m:16s; CPU Time elapsed 0h:00m:13s; Memory used current: 186MB peak: 237MB)
+
+Writing Analyst data base D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\synthesis\synwork\Igloo2PerfCreative_m.srm
+
+Finished Writing Netlist Databases (Real Time elapsed 0h:00m:17s; CPU Time elapsed 0h:00m:14s; Memory used current: 219MB peak: 237MB)
+
+Writing EDIF Netlist and constraint files
+@N: FX1056 |Writing EDF file: D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\synthesis\Igloo2PerfCreative.edn
+@N: BW103 |The default time unit for the Synopsys Constraint File (SDC or FDC) is 1ns.
+@N: BW107 |Synopsys Constraint File capacitance units using default value of 1pF 
+L-2016.09M-2
+
+Finished Writing EDIF Netlist and constraint files (Real Time elapsed 0h:00m:18s; CPU Time elapsed 0h:00m:14s; Memory used current: 220MB peak: 237MB)
+
+
+Start final timing analysis (Real Time elapsed 0h:00m:18s; CPU Time elapsed 0h:00m:15s; Memory used current: 216MB peak: 237MB)
+
+@W: MT246 :"d:\pro\hdl\riscvsoftcorecontest\hardware\synthesis\igloo2perfcreative\libero\component\work\ccc1\ccc1_0\ccc1_ccc1_0_fccc.v":20:36:20:43|Blackbox CCC is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results) 
+@N: MT615 |Found clock systemClk with period 7.00ns 
+@N: MT615 |Found clock oscToCcc with period 20.00ns 
+
+
+##### START OF TIMING REPORT #####[
+# Timing Report written on Thu Nov 22 01:03:35 2018
+#
+
+
+Top view:               Igloo2PerfCreative
+Requested Frequency:    50.0 MHz
+Wire load mode:         top
+Paths requested:        5
+Constraint File(s):    D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\designer\Igloo2PerfCreative\synthesis.fdc
+                       
+@N: MT320 |This timing report is an estimate of place and route data. For final timing results, use the FPGA vendor place and route report.
+
+@N: MT322 |Clock constraints include only register-to-register paths associated with each individual clock.
+
+
+
+Performance Summary
+*******************
+
+
+Worst slack in design: -4.626
+
+                   Requested     Estimated     Requested     Estimated                Clock        Clock           
+Starting Clock     Frequency     Frequency     Period        Period        Slack      Type         Group           
+-------------------------------------------------------------------------------------------------------------------
+oscToCcc           50.0 MHz      NA            20.000        NA            NA         declared     default_clkgroup
+systemClk          142.9 MHz     86.0 MHz      7.000         11.626        -4.626     declared     default_clkgroup
+System             200.0 MHz     NA            5.000         NA            NA         system       system_clkgroup 
+===================================================================================================================
+@N: MT582 |Estimated period and frequency not reported for given clock unless the clock has at least one timing path which is not a false or a max delay path and that does not have excessive slack
+
+
+
+
+
+Clock Relationships
+*******************
+
+Clocks                |    rise  to  rise    |    fall  to  fall   |    rise  to  fall   |    fall  to  rise 
+-------------------------------------------------------------------------------------------------------------
+Starting   Ending     |  constraint  slack   |  constraint  slack  |  constraint  slack  |  constraint  slack
+-------------------------------------------------------------------------------------------------------------
+systemClk  systemClk  |  7.000       -4.626  |  No paths    -      |  No paths    -      |  No paths    -    
+=============================================================================================================
+ Note: 'No paths' indicates there are no paths in the design for that pair of clock edges.
+       'Diff grp' indicates that paths exist but the starting clock and ending clock are in different clock groups.
+
+
+
+Interface Information 
+*********************
+
+No IO constraint found
+
+
+
+====================================
+Detailed Report for Clock: systemClk
+====================================
+
+
+
+Starting Points with Worst Slack
+********************************
+
+                                                     Starting                                                                            Arrival           
+Instance                                             Reference     Type        Pin           Net                                         Time        Slack 
+                                                     Clock                                                                                                 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+soc.system_ram.ram_symbol1_1_ram_symbol1_1_0_3       systemClk     RAM1K18     B_DOUT[1]     ram_symbol1_1_ram_symbol1_1_0_3_NEWB[1]     2.289       -4.626
+soc.system_ram.ram_symbol3_1_ram_symbol3_1_0_3       systemClk     RAM1K18     B_DOUT[1]     ram_symbol3_1_ram_symbol3_1_0_3_NEWB[1]     2.289       -4.535
+soc.system_ram.ram_symbol0_1_ram_symbol0_1_0_3       systemClk     RAM1K18     B_DOUT[1]     ram_symbol0_1_ram_symbol0_1_0_3_NEWB[1]     2.289       -4.294
+soc.system_cpu.execute_to_memory_MEMORY_ENABLE       systemClk     SLE         Q             execute_to_memory_MEMORY_ENABLE             0.108       -4.173
+soc._zz_3__fast                                      systemClk     SLE         Q             _zz_3__fast                                 0.108       -4.148
+soc.system_cpu.memory_arbitration_isValid_fast       systemClk     SLE         Q             memory_arbitration_isValid_fast             0.108       -4.073
+soc.system_cpu.execute_to_memory_INSTRUCTION[13]     systemClk     SLE         Q             _zz_52_[1]                                  0.108       -4.012
+soc.system_cpu._zz_123_[18]                          systemClk     SLE         Q             _zz_123_[18]                                0.108       -3.866
+soc.system_cpu.writeBack_arbitration_isValid         systemClk     SLE         Q             writeBack_arbitration_isValid               0.087       -3.818
+soc.system_cpu.decode_to_execute_INSTRUCTION[7]      systemClk     SLE         Q             decode_to_execute_INSTRUCTION[7]            0.108       -3.793
+===========================================================================================================================================================
+
+
+Ending Points with Worst Slack
+******************************
+
+                                              Starting                                          Required           
+Instance                                      Reference     Type     Pin     Net                Time         Slack 
+                                              Clock                                                                
+-------------------------------------------------------------------------------------------------------------------
+soc.system_cpu.decode_to_execute_SRC1[19]     systemClk     SLE      D       N_8283_i           6.745        -4.626
+soc.system_cpu.decode_to_execute_SRC1[20]     systemClk     SLE      D       N_454_i            6.745        -4.626
+soc.system_cpu.decode_to_execute_SRC1[22]     systemClk     SLE      D       N_579_i            6.745        -4.626
+soc.system_cpu.decode_to_execute_SRC1[26]     systemClk     SLE      D       N_533_i            6.745        -4.626
+soc.system_cpu.decode_to_execute_SRC1[29]     systemClk     SLE      D       N_8287_i           6.745        -4.626
+soc.system_cpu.decode_to_execute_SRC1[30]     systemClk     SLE      D       N_8281_i           6.745        -4.626
+soc.system_cpu.decode_to_execute_SRC1[16]     systemClk     SLE      D       N_8284_i           6.745        -4.615
+soc.system_cpu.decode_to_execute_SRC2[9]      systemClk     SLE      D       N_558_i            6.745        -4.316
+soc.system_cpu.decode_to_execute_SRC2[10]     systemClk     SLE      D       N_562_i            6.745        -4.316
+soc.system_cpu.decode_to_execute_RS1[25]      systemClk     SLE      D       decode_RS1[25]     6.745        -4.301
+===================================================================================================================
+
+
+
+Worst Path Information
+***********************
+
+
+Path information for path number 1: 
+      Requested Period:                      7.000
+    - Setup time:                            0.255
+    + Clock delay at ending point:           0.000 (ideal)
+    = Required time:                         6.745
+
+    - Propagation time:                      11.371
+    - Clock delay at starting point:         0.000 (ideal)
+    = Slack (critical) :                     -4.626
+
+    Number of logic level(s):                9
+    Starting point:                          soc.system_ram.ram_symbol1_1_ram_symbol1_1_0_3 / B_DOUT[1]
+    Ending point:                            soc.system_cpu.decode_to_execute_SRC1[19] / D
+    The start point is clocked by            systemClk [rising] on pin B_CLK
+    The end   point is clocked by            systemClk [rising] on pin CLK
+
+Instance / Net                                                                                  Pin           Pin               Arrival     No. of    
+Name                                                                                Type        Name          Dir     Delay     Time        Fan Out(s)
+------------------------------------------------------------------------------------------------------------------------------------------------------
+soc.system_ram.ram_symbol1_1_ram_symbol1_1_0_3                                      RAM1K18     B_DOUT[1]     Out     2.289     2.289       -         
+ram_symbol1_1_ram_symbol1_1_0_3_NEWB[1]                                             Net         -             -       1.117     -           1         
+soc.system_ram.ram_symbol1_1_ram_symbol1_1_0_3_OLDB_RNIB4741[1]                     CFG3        B             In      -         3.406       -         
+soc.system_ram.ram_symbol1_1_ram_symbol1_1_0_3_OLDB_RNIB4741[1]                     CFG3        Y             Out     0.165     3.570       -         
+_zz_30_[15]                                                                         Net         -             -       0.678     -           3         
+soc.system_dBus_decoder.io_input_rsp_payload_data_i_m2[15]                          CFG3        B             In      -         4.249       -         
+soc.system_dBus_decoder.io_input_rsp_payload_data_i_m2[15]                          CFG3        Y             Out     0.165     4.413       -         
+N_463                                                                               Net         -             -       0.745     -           5         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2[15]              CFG4        D             In      -         5.158       -         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2[15]              CFG4        Y             Out     0.271     5.429       -         
+N_199                                                                               Net         -             -       0.678     -           3         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2_RNIN9503[15]     CFG4        C             In      -         6.108       -         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2_RNIN9503[15]     CFG4        Y             Out     0.203     6.311       -         
+N_640                                                                               Net         -             -       0.715     -           4         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2_RNIKLUC6[15]     CFG4        B             In      -         7.026       -         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2_RNIKLUC6[15]     CFG4        Y             Out     0.143     7.169       -         
+N_416_0                                                                             Net         -             -       1.007     -           25        
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__1_0_a2_0_0[19]          CFG4        D             In      -         8.177       -         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__1_0_a2_0_0[19]          CFG4        Y             Out     0.317     8.494       -         
+_zz_86_[19]                                                                         Net         -             -       1.126     -           3         
+soc.system_cpu.decode_RS1_m2[19]                                                    CFG3        B             In      -         9.620       -         
+soc.system_cpu.decode_RS1_m2[19]                                                    CFG3        Y             Out     0.165     9.785       -         
+decode_RS1_m2[19]                                                                   Net         -             -       0.630     -           2         
+soc.system_cpu.decode_to_execute_SRC1_RNO_0[19]                                     CFG4        B             In      -         10.415      -         
+soc.system_cpu.decode_to_execute_SRC1_RNO_0[19]                                     CFG4        Y             Out     0.165     10.579      -         
+N_8367                                                                              Net         -             -       0.556     -           1         
+soc.system_cpu.decode_to_execute_SRC1_RNO[19]                                       CFG2        A             In      -         11.135      -         
+soc.system_cpu.decode_to_execute_SRC1_RNO[19]                                       CFG2        Y             Out     0.077     11.212      -         
+N_8283_i                                                                            Net         -             -       0.159     -           1         
+soc.system_cpu.decode_to_execute_SRC1[19]                                           SLE         D             In      -         11.371      -         
+======================================================================================================================================================
+Total path delay (propagation time + setup) of 11.626 is 4.214(36.2%) logic and 7.412(63.8%) route.
+Path delay compensated for clock skew. Clock skew is added to clock-to-out value, and is subtracted from setup time value
+
+
+Path information for path number 2: 
+      Requested Period:                      7.000
+    - Setup time:                            0.255
+    + Clock delay at ending point:           0.000 (ideal)
+    = Required time:                         6.745
+
+    - Propagation time:                      11.371
+    - Clock delay at starting point:         0.000 (ideal)
+    = Slack (critical) :                     -4.626
+
+    Number of logic level(s):                9
+    Starting point:                          soc.system_ram.ram_symbol1_1_ram_symbol1_1_0_3 / B_DOUT[1]
+    Ending point:                            soc.system_cpu.decode_to_execute_SRC1[20] / D
+    The start point is clocked by            systemClk [rising] on pin B_CLK
+    The end   point is clocked by            systemClk [rising] on pin CLK
+
+Instance / Net                                                                                  Pin           Pin               Arrival     No. of    
+Name                                                                                Type        Name          Dir     Delay     Time        Fan Out(s)
+------------------------------------------------------------------------------------------------------------------------------------------------------
+soc.system_ram.ram_symbol1_1_ram_symbol1_1_0_3                                      RAM1K18     B_DOUT[1]     Out     2.289     2.289       -         
+ram_symbol1_1_ram_symbol1_1_0_3_NEWB[1]                                             Net         -             -       1.117     -           1         
+soc.system_ram.ram_symbol1_1_ram_symbol1_1_0_3_OLDB_RNIB4741[1]                     CFG3        B             In      -         3.406       -         
+soc.system_ram.ram_symbol1_1_ram_symbol1_1_0_3_OLDB_RNIB4741[1]                     CFG3        Y             Out     0.165     3.570       -         
+_zz_30_[15]                                                                         Net         -             -       0.678     -           3         
+soc.system_dBus_decoder.io_input_rsp_payload_data_i_m2[15]                          CFG3        B             In      -         4.249       -         
+soc.system_dBus_decoder.io_input_rsp_payload_data_i_m2[15]                          CFG3        Y             Out     0.165     4.413       -         
+N_463                                                                               Net         -             -       0.745     -           5         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2[15]              CFG4        D             In      -         5.158       -         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2[15]              CFG4        Y             Out     0.271     5.429       -         
+N_199                                                                               Net         -             -       0.678     -           3         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2_RNIN9503[15]     CFG4        C             In      -         6.108       -         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2_RNIN9503[15]     CFG4        Y             Out     0.203     6.311       -         
+N_640                                                                               Net         -             -       0.715     -           4         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2_RNIKLUC6[15]     CFG4        B             In      -         7.026       -         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2_RNIKLUC6[15]     CFG4        Y             Out     0.143     7.169       -         
+N_416_0                                                                             Net         -             -       1.007     -           25        
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__1_0_a2_0_0[20]          CFG4        D             In      -         8.177       -         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__1_0_a2_0_0[20]          CFG4        Y             Out     0.317     8.494       -         
+_zz_86_[20]                                                                         Net         -             -       1.126     -           3         
+soc.system_cpu.decode_RS1_m2[20]                                                    CFG3        B             In      -         9.620       -         
+soc.system_cpu.decode_RS1_m2[20]                                                    CFG3        Y             Out     0.165     9.785       -         
+decode_RS1_m2[20]                                                                   Net         -             -       0.630     -           2         
+soc.system_cpu.decode_to_execute_SRC1_RNO_0[20]                                     CFG4        B             In      -         10.415      -         
+soc.system_cpu.decode_to_execute_SRC1_RNO_0[20]                                     CFG4        Y             Out     0.165     10.579      -         
+N_8363                                                                              Net         -             -       0.556     -           1         
+soc.system_cpu.decode_to_execute_SRC1_RNO[20]                                       CFG2        A             In      -         11.135      -         
+soc.system_cpu.decode_to_execute_SRC1_RNO[20]                                       CFG2        Y             Out     0.077     11.212      -         
+N_454_i                                                                             Net         -             -       0.159     -           1         
+soc.system_cpu.decode_to_execute_SRC1[20]                                           SLE         D             In      -         11.371      -         
+======================================================================================================================================================
+Total path delay (propagation time + setup) of 11.626 is 4.214(36.2%) logic and 7.412(63.8%) route.
+Path delay compensated for clock skew. Clock skew is added to clock-to-out value, and is subtracted from setup time value
+
+
+Path information for path number 3: 
+      Requested Period:                      7.000
+    - Setup time:                            0.255
+    + Clock delay at ending point:           0.000 (ideal)
+    = Required time:                         6.745
+
+    - Propagation time:                      11.371
+    - Clock delay at starting point:         0.000 (ideal)
+    = Slack (critical) :                     -4.626
+
+    Number of logic level(s):                9
+    Starting point:                          soc.system_ram.ram_symbol1_1_ram_symbol1_1_0_3 / B_DOUT[1]
+    Ending point:                            soc.system_cpu.decode_to_execute_SRC1[26] / D
+    The start point is clocked by            systemClk [rising] on pin B_CLK
+    The end   point is clocked by            systemClk [rising] on pin CLK
+
+Instance / Net                                                                                  Pin           Pin               Arrival     No. of    
+Name                                                                                Type        Name          Dir     Delay     Time        Fan Out(s)
+------------------------------------------------------------------------------------------------------------------------------------------------------
+soc.system_ram.ram_symbol1_1_ram_symbol1_1_0_3                                      RAM1K18     B_DOUT[1]     Out     2.289     2.289       -         
+ram_symbol1_1_ram_symbol1_1_0_3_NEWB[1]                                             Net         -             -       1.117     -           1         
+soc.system_ram.ram_symbol1_1_ram_symbol1_1_0_3_OLDB_RNIB4741[1]                     CFG3        B             In      -         3.406       -         
+soc.system_ram.ram_symbol1_1_ram_symbol1_1_0_3_OLDB_RNIB4741[1]                     CFG3        Y             Out     0.165     3.570       -         
+_zz_30_[15]                                                                         Net         -             -       0.678     -           3         
+soc.system_dBus_decoder.io_input_rsp_payload_data_i_m2[15]                          CFG3        B             In      -         4.249       -         
+soc.system_dBus_decoder.io_input_rsp_payload_data_i_m2[15]                          CFG3        Y             Out     0.165     4.413       -         
+N_463                                                                               Net         -             -       0.745     -           5         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2[15]              CFG4        D             In      -         5.158       -         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2[15]              CFG4        Y             Out     0.271     5.429       -         
+N_199                                                                               Net         -             -       0.678     -           3         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2_RNIN9503[15]     CFG4        C             In      -         6.108       -         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2_RNIN9503[15]     CFG4        Y             Out     0.203     6.311       -         
+N_640                                                                               Net         -             -       0.715     -           4         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2_RNIKLUC6[15]     CFG4        B             In      -         7.026       -         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2_RNIKLUC6[15]     CFG4        Y             Out     0.143     7.169       -         
+N_416_0                                                                             Net         -             -       1.007     -           25        
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__1_0_a2_0_0[26]          CFG4        D             In      -         8.177       -         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__1_0_a2_0_0[26]          CFG4        Y             Out     0.317     8.494       -         
+_zz_86_[26]                                                                         Net         -             -       1.126     -           3         
+soc.system_cpu.decode_RS1_m2[26]                                                    CFG3        B             In      -         9.620       -         
+soc.system_cpu.decode_RS1_m2[26]                                                    CFG3        Y             Out     0.165     9.785       -         
+decode_RS1_m2[26]                                                                   Net         -             -       0.630     -           2         
+soc.system_cpu.decode_to_execute_SRC1_RNO_0[26]                                     CFG4        B             In      -         10.415      -         
+soc.system_cpu.decode_to_execute_SRC1_RNO_0[26]                                     CFG4        Y             Out     0.165     10.579      -         
+N_941                                                                               Net         -             -       0.556     -           1         
+soc.system_cpu.decode_to_execute_SRC1_RNO[26]                                       CFG2        A             In      -         11.135      -         
+soc.system_cpu.decode_to_execute_SRC1_RNO[26]                                       CFG2        Y             Out     0.077     11.212      -         
+N_533_i                                                                             Net         -             -       0.159     -           1         
+soc.system_cpu.decode_to_execute_SRC1[26]                                           SLE         D             In      -         11.371      -         
+======================================================================================================================================================
+Total path delay (propagation time + setup) of 11.626 is 4.214(36.2%) logic and 7.412(63.8%) route.
+Path delay compensated for clock skew. Clock skew is added to clock-to-out value, and is subtracted from setup time value
+
+
+Path information for path number 4: 
+      Requested Period:                      7.000
+    - Setup time:                            0.255
+    + Clock delay at ending point:           0.000 (ideal)
+    = Required time:                         6.745
+
+    - Propagation time:                      11.371
+    - Clock delay at starting point:         0.000 (ideal)
+    = Slack (critical) :                     -4.626
+
+    Number of logic level(s):                9
+    Starting point:                          soc.system_ram.ram_symbol1_1_ram_symbol1_1_0_3 / B_DOUT[1]
+    Ending point:                            soc.system_cpu.decode_to_execute_SRC1[22] / D
+    The start point is clocked by            systemClk [rising] on pin B_CLK
+    The end   point is clocked by            systemClk [rising] on pin CLK
+
+Instance / Net                                                                                  Pin           Pin               Arrival     No. of    
+Name                                                                                Type        Name          Dir     Delay     Time        Fan Out(s)
+------------------------------------------------------------------------------------------------------------------------------------------------------
+soc.system_ram.ram_symbol1_1_ram_symbol1_1_0_3                                      RAM1K18     B_DOUT[1]     Out     2.289     2.289       -         
+ram_symbol1_1_ram_symbol1_1_0_3_NEWB[1]                                             Net         -             -       1.117     -           1         
+soc.system_ram.ram_symbol1_1_ram_symbol1_1_0_3_OLDB_RNIB4741[1]                     CFG3        B             In      -         3.406       -         
+soc.system_ram.ram_symbol1_1_ram_symbol1_1_0_3_OLDB_RNIB4741[1]                     CFG3        Y             Out     0.165     3.570       -         
+_zz_30_[15]                                                                         Net         -             -       0.678     -           3         
+soc.system_dBus_decoder.io_input_rsp_payload_data_i_m2[15]                          CFG3        B             In      -         4.249       -         
+soc.system_dBus_decoder.io_input_rsp_payload_data_i_m2[15]                          CFG3        Y             Out     0.165     4.413       -         
+N_463                                                                               Net         -             -       0.745     -           5         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2[15]              CFG4        D             In      -         5.158       -         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2[15]              CFG4        Y             Out     0.271     5.429       -         
+N_199                                                                               Net         -             -       0.678     -           3         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2_RNIN9503[15]     CFG4        C             In      -         6.108       -         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2_RNIN9503[15]     CFG4        Y             Out     0.203     6.311       -         
+N_640                                                                               Net         -             -       0.715     -           4         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2_RNIKLUC6[15]     CFG4        B             In      -         7.026       -         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2_RNIKLUC6[15]     CFG4        Y             Out     0.143     7.169       -         
+N_416_0                                                                             Net         -             -       1.007     -           25        
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__1_0_a2_0_0[22]          CFG4        D             In      -         8.177       -         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__1_0_a2_0_0[22]          CFG4        Y             Out     0.317     8.494       -         
+_zz_86_[22]                                                                         Net         -             -       1.126     -           3         
+soc.system_cpu.decode_RS1_m2[22]                                                    CFG3        B             In      -         9.620       -         
+soc.system_cpu.decode_RS1_m2[22]                                                    CFG3        Y             Out     0.165     9.785       -         
+decode_RS1_m2[22]                                                                   Net         -             -       0.630     -           2         
+soc.system_cpu.decode_to_execute_SRC1_RNO_0[22]                                     CFG4        B             In      -         10.415      -         
+soc.system_cpu.decode_to_execute_SRC1_RNO_0[22]                                     CFG4        Y             Out     0.165     10.579      -         
+N_948                                                                               Net         -             -       0.556     -           1         
+soc.system_cpu.decode_to_execute_SRC1_RNO[22]                                       CFG2        A             In      -         11.135      -         
+soc.system_cpu.decode_to_execute_SRC1_RNO[22]                                       CFG2        Y             Out     0.077     11.212      -         
+N_579_i                                                                             Net         -             -       0.159     -           1         
+soc.system_cpu.decode_to_execute_SRC1[22]                                           SLE         D             In      -         11.371      -         
+======================================================================================================================================================
+Total path delay (propagation time + setup) of 11.626 is 4.214(36.2%) logic and 7.412(63.8%) route.
+Path delay compensated for clock skew. Clock skew is added to clock-to-out value, and is subtracted from setup time value
+
+
+Path information for path number 5: 
+      Requested Period:                      7.000
+    - Setup time:                            0.255
+    + Clock delay at ending point:           0.000 (ideal)
+    = Required time:                         6.745
+
+    - Propagation time:                      11.371
+    - Clock delay at starting point:         0.000 (ideal)
+    = Slack (critical) :                     -4.626
+
+    Number of logic level(s):                9
+    Starting point:                          soc.system_ram.ram_symbol1_1_ram_symbol1_1_0_3 / B_DOUT[1]
+    Ending point:                            soc.system_cpu.decode_to_execute_SRC1[30] / D
+    The start point is clocked by            systemClk [rising] on pin B_CLK
+    The end   point is clocked by            systemClk [rising] on pin CLK
+
+Instance / Net                                                                                  Pin           Pin               Arrival     No. of    
+Name                                                                                Type        Name          Dir     Delay     Time        Fan Out(s)
+------------------------------------------------------------------------------------------------------------------------------------------------------
+soc.system_ram.ram_symbol1_1_ram_symbol1_1_0_3                                      RAM1K18     B_DOUT[1]     Out     2.289     2.289       -         
+ram_symbol1_1_ram_symbol1_1_0_3_NEWB[1]                                             Net         -             -       1.117     -           1         
+soc.system_ram.ram_symbol1_1_ram_symbol1_1_0_3_OLDB_RNIB4741[1]                     CFG3        B             In      -         3.406       -         
+soc.system_ram.ram_symbol1_1_ram_symbol1_1_0_3_OLDB_RNIB4741[1]                     CFG3        Y             Out     0.165     3.570       -         
+_zz_30_[15]                                                                         Net         -             -       0.678     -           3         
+soc.system_dBus_decoder.io_input_rsp_payload_data_i_m2[15]                          CFG3        B             In      -         4.249       -         
+soc.system_dBus_decoder.io_input_rsp_payload_data_i_m2[15]                          CFG3        Y             Out     0.165     4.413       -         
+N_463                                                                               Net         -             -       0.745     -           5         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2[15]              CFG4        D             In      -         5.158       -         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2[15]              CFG4        Y             Out     0.271     5.429       -         
+N_199                                                                               Net         -             -       0.678     -           3         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2_RNIN9503[15]     CFG4        C             In      -         6.108       -         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2_RNIN9503[15]     CFG4        Y             Out     0.203     6.311       -         
+N_640                                                                               Net         -             -       0.715     -           4         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2_RNIKLUC6[15]     CFG4        B             In      -         7.026       -         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__0_0_m2_RNIKLUC6[15]     CFG4        Y             Out     0.143     7.169       -         
+N_416_0                                                                             Net         -             -       1.007     -           25        
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__1_0_a2_0_0[30]          CFG4        D             In      -         8.177       -         
+soc.system_cpu.IBusSimplePlugin_rspJoin_rspBuffer_c._zz_86__1_0_a2_0_0[30]          CFG4        Y             Out     0.317     8.494       -         
+_zz_86_[30]                                                                         Net         -             -       1.126     -           3         
+soc.system_cpu.decode_RS1_m2[30]                                                    CFG3        B             In      -         9.620       -         
+soc.system_cpu.decode_RS1_m2[30]                                                    CFG3        Y             Out     0.165     9.785       -         
+decode_RS1_m2[30]                                                                   Net         -             -       0.630     -           2         
+soc.system_cpu.decode_to_execute_SRC1_RNO_0[30]                                     CFG4        B             In      -         10.415      -         
+soc.system_cpu.decode_to_execute_SRC1_RNO_0[30]                                     CFG4        Y             Out     0.165     10.579      -         
+N_8361                                                                              Net         -             -       0.556     -           1         
+soc.system_cpu.decode_to_execute_SRC1_RNO[30]                                       CFG2        A             In      -         11.135      -         
+soc.system_cpu.decode_to_execute_SRC1_RNO[30]                                       CFG2        Y             Out     0.077     11.212      -         
+N_8281_i                                                                            Net         -             -       0.159     -           1         
+soc.system_cpu.decode_to_execute_SRC1[30]                                           SLE         D             In      -         11.371      -         
+======================================================================================================================================================
+Total path delay (propagation time + setup) of 11.626 is 4.214(36.2%) logic and 7.412(63.8%) route.
+Path delay compensated for clock skew. Clock skew is added to clock-to-out value, and is subtracted from setup time value
+
+
+
+##### END OF TIMING REPORT #####]
+
+Timing exceptions that could not be applied
+None
+
+Finished final timing analysis (Real Time elapsed 0h:00m:18s; CPU Time elapsed 0h:00m:15s; Memory used current: 216MB peak: 237MB)
+
+
+Finished timing report (Real Time elapsed 0h:00m:18s; CPU Time elapsed 0h:00m:15s; Memory used current: 216MB peak: 237MB)
+
+---------------------------------------
+Resource Usage Report for Igloo2PerfCreative 
+
+Mapping to part: m2gl025vf256std
+Cell usage:
+CCC             1 use
+CLKINT          2 uses
+RCOSC_25_50MHZ  1 use
+SYSRESET        1 use
+CFG1           14 uses
+CFG2           292 uses
+CFG3           1119 uses
+CFG4           1286 uses
+
+Carry cells:
+ARI1            560 uses - used for arithmetic functions
+ARI1            66 uses - used for Wide-Mux implementation
+Total ARI1      626 uses
+
+
+Sequential Cells: 
+SLE            1780 uses
+
+DSP Blocks:    4 of 34 (11%)
+ MACC:         4 Mults
+
+I/O ports: 18
+I/O primitives: 17
+INBUF          2 uses
+OUTBUF         15 uses
+
+
+Global Clock Buffers: 2 of 8 (25%)
+
+
+RAM/ROM usage summary
+Total Block RAMs (RAM1K18) : 18 of 31 (58%)
+Total Block RAMs (RAM64x18) : 2 of 34 (5%)
+
+Total LUTs:    3337
+
+Extra resources required for RAM and MACC interface logic during P&R:
+
+RAM64x18 Interface Logic : SLEs = 72; LUTs = 72;
+RAM1K18  Interface Logic : SLEs = 648; LUTs = 648;
+MACC     Interface Logic : SLEs = 144; LUTs = 144;
+
+Total number of SLEs after P&R:  1780 + 72 + 648 + 144 = 2644;
+Total number of LUTs after P&R:  3337 + 72 + 648 + 144 = 4201;
+
+Mapper successful!
+
+At Mapper Exit (Real Time elapsed 0h:00m:19s; CPU Time elapsed 0h:00m:15s; Memory used current: 43MB peak: 237MB)
+
+Process took 0h:00m:19s realtime, 0h:00m:15s cputime
+# Thu Nov 22 01:03:36 2018
+
+###########################################################]

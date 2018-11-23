@@ -1,0 +1,11 @@
+KEY IDE_DES_TOOL "Ide"
+KEY IDE_DES_ADB_PATH "D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\designer\impl1\Igloo2PerfCreative.adb"
+LIST SOURCE_FILES
+VALUE "D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\constraint\io\toplevel.pdc;pdc"
+VALUE "D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\constraint\user.sdc;sdc"
+ENDLIST
+LIST OPTIONAL_FILES
+VALUE "D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\synthesis\Igloo2PerfCreative_sdc.sdc;Skipped"
+ENDLIST
+LIST VCD_FILES
+ENDLIST

@@ -1,0 +1,1119 @@
+#Build: Synplify Pro L-2016.09M-2, Build 065R, Nov 16 2016
+#install: E:\Microsemi\Libero_SoC_v11.8\SynplifyPro
+#OS: Windows 7 6.1
+#Hostname: PIC32F
+
+# Fri Nov 02 11:42:30 2018
+
+#Implementation: synthesis
+
+Synopsys HDL Compiler, version comp2016q3p1, Build 117R, built Nov 17 2016
+@N|Running in 64-bit mode
+Copyright (C) 1994-2016 Synopsys, Inc. All rights reserved. This Synopsys software and all associated documentation are proprietary to Synopsys, Inc. and may only be used pursuant to the terms and conditions of a written license agreement with Synopsys, Inc. All other use, reproduction, modification, or distribution of the Synopsys software or the associated documentation is strictly prohibited.
+
+Synopsys Verilog Compiler, version comp2016q3p1, Build 127R, built Nov 24 2016
+@N|Running in 64-bit mode
+Copyright (C) 1994-2016 Synopsys, Inc. All rights reserved. This Synopsys software and all associated documentation are proprietary to Synopsys, Inc. and may only be used pursuant to the terms and conditions of a written license agreement with Synopsys, Inc. All other use, reproduction, modification, or distribution of the Synopsys software or the associated documentation is strictly prohibited.
+
+@I::"E:\Microsemi\Libero_SoC_v11.8\SynplifyPro\lib\generic\igloo2.v" (library work)
+@I::"E:\Microsemi\Libero_SoC_v11.8\SynplifyPro\lib\vlog\hypermods.v" (library __hyper__lib__)
+@I::"E:\Microsemi\Libero_SoC_v11.8\SynplifyPro\lib\vlog\umr_capim.v" (library snps_haps)
+@I::"E:\Microsemi\Libero_SoC_v11.8\SynplifyPro\lib\vlog\scemi_objects.v" (library snps_haps)
+@I::"E:\Microsemi\Libero_SoC_v11.8\SynplifyPro\lib\vlog\scemi_pipes.svh" (library snps_haps)
+@I::"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v" (library work)
+@I::"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\component\work\ccc1\ccc1_0\ccc1_ccc1_0_FCCC.v" (library work)
+@I::"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\component\work\ccc1\ccc1.v" (library work)
+@I::"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\component\Actel\SgCore\OSC\2.0.101\osc_comps.v" (library work)
+@I::"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\component\work\osc1\osc1_0\osc1_osc1_0_OSC.v" (library work)
+@I::"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\component\work\osc1\osc1.v" (library work)
+Verilog syntax check successful!
+Selecting top level module Igloo2PerfCreative
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\component\Actel\SgCore\OSC\2.0.101\osc_comps.v":11:7:11:20|Synthesizing module RCOSC_25_50MHZ in library work.
+
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\component\work\osc1\osc1_0\osc1_osc1_0_OSC.v":5:7:5:21|Synthesizing module osc1_osc1_0_OSC in library work.
+
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\component\work\osc1\osc1.v":9:7:9:10|Synthesizing module osc1 in library work.
+
+@N: CG364 :"E:\Microsemi\Libero_SoC_v11.8\SynplifyPro\lib\generic\igloo2.v":376:7:376:9|Synthesizing module VCC in library work.
+
+@N: CG364 :"E:\Microsemi\Libero_SoC_v11.8\SynplifyPro\lib\generic\igloo2.v":372:7:372:9|Synthesizing module GND in library work.
+
+@N: CG364 :"E:\Microsemi\Libero_SoC_v11.8\SynplifyPro\lib\generic\igloo2.v":362:7:362:12|Synthesizing module CLKINT in library work.
+
+@N: CG364 :"E:\Microsemi\Libero_SoC_v11.8\SynplifyPro\lib\generic\igloo2.v":727:7:727:9|Synthesizing module CCC in library work.
+
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\component\work\ccc1\ccc1_0\ccc1_ccc1_0_FCCC.v":5:7:5:22|Synthesizing module ccc1_ccc1_0_FCCC in library work.
+
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\component\work\ccc1\ccc1.v":9:7:9:10|Synthesizing module ccc1 in library work.
+
+@N: CG364 :"E:\Microsemi\Libero_SoC_v11.8\SynplifyPro\lib\generic\igloo2.v":718:7:718:14|Synthesizing module SYSRESET in library work.
+
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":770:7:770:17|Synthesizing module BufferCC_1_ in library work.
+
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":784:7:784:18|Synthesizing module SimpleBusRam in library work.
+
+@N: CL134 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":810:2:810:7|Found RAM ram_symbol3, depth=5120, width=8
+@N: CL134 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":810:2:810:7|Found RAM ram_symbol2, depth=5120, width=8
+@N: CL134 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":810:2:810:7|Found RAM ram_symbol1, depth=5120, width=8
+@N: CL134 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":810:2:810:7|Found RAM ram_symbol0, depth=5120, width=8
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":846:7:846:21|Synthesizing module SimpleBusRam_1_ in library work.
+
+@N: CL134 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":872:2:872:7|Found RAM ram_symbol3, depth=4096, width=8
+@N: CL134 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":872:2:872:7|Found RAM ram_symbol2, depth=4096, width=8
+@N: CL134 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":872:2:872:7|Found RAM ram_symbol1, depth=4096, width=8
+@N: CL134 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":872:2:872:7|Found RAM ram_symbol0, depth=4096, width=8
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":908:7:908:17|Synthesizing module Peripherals in library work.
+
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":1105:7:1105:14|Synthesizing module FlashXpi in library work.
+
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":54:7:54:26|Synthesizing module StreamFifoLowLatency in library work.
+
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":1438:7:1438:14|Synthesizing module VexRiscv in library work.
+
+@N: CG793 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4068:6:4068:13|Ignoring system task $display
+@W: CG360 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":1981:8:1981:52|Removing wire IBusSimplePlugin_iBusRsp_stages_1_inputSample, as there is no assignment to it.
+@W: CG360 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":2028:8:2028:46|Removing wire IBusSimplePlugin_rspJoin_fetchRsp_isRvc, as there is no assignment to it.
+@W: CL169 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4054:2:4054:7|Pruning unused register _zz_106_. Make sure that there are no unused intermediate registers.
+@W: CL169 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4054:2:4054:7|Pruning unused register _zz_108_. Make sure that there are no unused intermediate registers.
+@W: CL169 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4054:2:4054:7|Pruning unused register IBusSimplePlugin_injector_formal_rawInDecode[31:0]. Make sure that there are no unused intermediate registers.
+@W: CL169 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4054:2:4054:7|Pruning unused register CsrPlugin_mcycle[63:0]. Make sure that there are no unused intermediate registers.
+@W: CL169 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4054:2:4054:7|Pruning unused register CsrPlugin_minstret[63:0]. Make sure that there are no unused intermediate registers.
+@W: CL169 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4054:2:4054:7|Pruning unused register decode_to_execute_FORMAL_PC_NEXT[31:0]. Make sure that there are no unused intermediate registers.
+@W: CL169 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4054:2:4054:7|Pruning unused register execute_to_memory_FORMAL_PC_NEXT[31:0]. Make sure that there are no unused intermediate registers.
+@W: CL169 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4054:2:4054:7|Pruning unused register memory_to_writeBack_FORMAL_PC_NEXT[31:0]. Make sure that there are no unused intermediate registers.
+@W: CL169 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":3819:2:3819:7|Pruning unused register CsrPlugin_mtvec_mode[1:0]. Make sure that there are no unused intermediate registers.
+@W: CL265 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4054:2:4054:7|Removing unused bit 32 of memory_MulDivIterativePlugin_rs1_9[32:0]. Either assign all bits or reduce the width of the signal.
+@W: CL271 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4054:2:4054:7|Pruning unused bits 64 to 32 of memory_MulDivIterativePlugin_accumulator_8[64:0]. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL265 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4054:2:4054:7|Removing unused bit 6 of decode_to_execute_INSTRUCTION[31:0]. Either assign all bits or reduce the width of the signal.
+@W: CL271 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4054:2:4054:7|Pruning unused bits 4 to 0 of decode_to_execute_INSTRUCTION[31:0]. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL271 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4054:2:4054:7|Pruning unused bits 31 to 30 of execute_to_memory_INSTRUCTION[31:0]. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL271 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4054:2:4054:7|Pruning unused bits 27 to 15 of execute_to_memory_INSTRUCTION[31:0]. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL265 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4054:2:4054:7|Removing unused bit 6 of execute_to_memory_INSTRUCTION[31:0]. Either assign all bits or reduce the width of the signal.
+@W: CL271 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4054:2:4054:7|Pruning unused bits 4 to 0 of execute_to_memory_INSTRUCTION[31:0]. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL271 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":3819:2:3819:7|Pruning unused bits 31 to 30 of memory_to_writeBack_INSTRUCTION[31:0]. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL271 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":3819:2:3819:7|Pruning unused bits 27 to 15 of memory_to_writeBack_INSTRUCTION[31:0]. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL271 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":3819:2:3819:7|Pruning unused bits 6 to 0 of memory_to_writeBack_INSTRUCTION[31:0]. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@N: CL134 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":2492:2:2492:7|Found RAM RegFilePlugin_regFile, depth=32, width=32
+@N: CL134 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":2492:2:2492:7|Found RAM RegFilePlugin_regFile, depth=32, width=32
+@W: CL271 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4054:2:4054:7|Pruning unused bits 1 to 0 of _zz_107_[31:0]. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@N: CL189 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4054:2:4054:7|Register bit execute_to_memory_BRANCH_CALC[0] is always 0.
+@N: CL189 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4054:2:4054:7|Register bit _zz_111_[0] is always 0.
+@N: CL189 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4054:2:4054:7|Register bit _zz_111_[1] is always 0.
+@W: CL279 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4054:2:4054:7|Pruning register bits 1 to 0 of _zz_111_[31:0]. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL260 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4054:2:4054:7|Pruning register bit 0 of execute_to_memory_BRANCH_CALC[31:0]. If this is not the intended behavior, drive the input with valid values, or an input from the top level.
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":158:7:158:14|Synthesizing module BufferCC in library work.
+
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4319:7:4319:20|Synthesizing module SerialRxOutput in library work.
+
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4395:7:4395:22|Synthesizing module SimpleBusDecoder in library work.
+
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4505:7:4505:25|Synthesizing module SimpleBusDecoder_1_ in library work.
+
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4615:7:4615:25|Synthesizing module SimpleBusDecoder_2_ in library work.
+
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":173:7:173:19|Synthesizing module StreamArbiter in library work.
+
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":269:7:269:16|Synthesizing module StreamFork in library work.
+
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":332:7:332:29|Synthesizing module StreamFifoLowLatency_1_ in library work.
+
+@N: CL134 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":367:2:367:7|Found RAM ram, depth=2, width=1
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4781:7:4781:22|Synthesizing module SimpleBusArbiter in library work.
+
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":446:7:446:22|Synthesizing module StreamArbiter_1_ in library work.
+
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":542:7:542:19|Synthesizing module StreamFork_1_ in library work.
+
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4916:7:4916:25|Synthesizing module SimpleBusArbiter_1_ in library work.
+
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5051:7:5051:25|Synthesizing module SimpleBusArbiter_2_ in library work.
+
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5078:7:5078:25|Synthesizing module SimpleBusArbiter_3_ in library work.
+
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":608:7:608:22|Synthesizing module StreamArbiter_2_ in library work.
+
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":704:7:704:19|Synthesizing module StreamFork_2_ in library work.
+
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5105:7:5105:25|Synthesizing module SimpleBusArbiter_4_ in library work.
+
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5240:7:5240:16|Synthesizing module Igloo2Perf in library work.
+
+@W: CG360 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5253:8:5253:14|Removing wire _zz_43_, as there is no assignment to it.
+@W: CL271 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5912:2:5912:7|Pruning unused bits 31 to 20 of _zz_6_[31:0]. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 0 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 1 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 2 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 3 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 4 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 5 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 6 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 7 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 8 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 9 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 10 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 11 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 12 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 13 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 14 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 15 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 16 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 17 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 18 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 19 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 20 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 21 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 22 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 23 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 24 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 25 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 26 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 27 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 28 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 29 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 30 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 31 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 0 of input io_input_cmd_payload_mask of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 1 of input io_input_cmd_payload_mask of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 2 of input io_input_cmd_payload_mask of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5585:22:5585:40|Bit 3 of input io_input_cmd_payload_mask of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@N: CG364 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5966:7:5966:24|Synthesizing module Igloo2PerfCreative in library work.
+
+@W: CL156 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":5253:8:5253:14|*Input _zz_43_ to expression [instance] has undriven bits; assigning undriven bits to 0.  Simulation mismatch possible. Assign all bits of the input.
+@N: CL201 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":4363:2:4363:7|Trying to extract state machine for register state.
+Extracted state machine for register state
+State machine has 3 reachable states with original encodings of:
+   00
+   01
+   10
+@N: CL159 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":162:14:162:32|Input resetCtrl_progReset is unused.
+@N: CL159 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":1454:14:1454:27|Input dBus_rsp_error is unused.
+@N: CL201 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":1391:2:1391:7|Trying to extract state machine for register fsm_stateReg.
+Extracted state machine for register fsm_stateReg
+State machine has 5 reachable states with original encodings of:
+   000
+   001
+   010
+   011
+   100
+@N: CL159 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":1108:14:1108:34|Input io_bus_cmd_payload_wr is unused.
+@N: CL159 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":1110:20:1110:42|Input io_bus_cmd_payload_data is unused.
+@N: CL159 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":1111:19:1111:41|Input io_bus_cmd_payload_mask is unused.
+@N: CL159 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":914:19:914:41|Input io_bus_cmd_payload_mask is unused.
+@W: CL246 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":850:20:850:45|Input port bits 1 to 0 of io_bus_cmd_payload_address[13:0] are unused. Assign logic for all port bits or change the input port size.
+@W: CL246 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\hdl\Igloo2PerfCreative.v":788:20:788:45|Input port bits 1 to 0 of io_bus_cmd_payload_address[14:0] are unused. Assign logic for all port bits or change the input port size.
+@W: CL157 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\component\work\osc1\osc1_0\osc1_osc1_0_OSC.v":16:7:16:24|*Output RCOSC_25_50MHZ_O2F has undriven bits; assigning undriven bits to 0.  Simulation mismatch possible. Assign all bits of the output.
+@W: CL157 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\component\work\osc1\osc1_0\osc1_osc1_0_OSC.v":17:7:17:20|*Output RCOSC_1MHZ_CCC has undriven bits; assigning undriven bits to 0.  Simulation mismatch possible. Assign all bits of the output.
+@W: CL157 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\component\work\osc1\osc1_0\osc1_osc1_0_OSC.v":18:7:18:20|*Output RCOSC_1MHZ_O2F has undriven bits; assigning undriven bits to 0.  Simulation mismatch possible. Assign all bits of the output.
+@W: CL157 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\component\work\osc1\osc1_0\osc1_osc1_0_OSC.v":19:7:19:16|*Output XTLOSC_CCC has undriven bits; assigning undriven bits to 0.  Simulation mismatch possible. Assign all bits of the output.
+@W: CL157 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\component\work\osc1\osc1_0\osc1_osc1_0_OSC.v":20:7:20:16|*Output XTLOSC_O2F has undriven bits; assigning undriven bits to 0.  Simulation mismatch possible. Assign all bits of the output.
+@N: CL159 :"D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\component\work\osc1\osc1_0\osc1_osc1_0_OSC.v":14:7:14:9|Input XTL is unused.
+
+At c_ver Exit (Real Time elapsed 0h:00m:05s; CPU Time elapsed 0h:00m:03s; Memory used current: 122MB peak: 149MB)
+
+Process took 0h:00m:05s realtime, 0h:00m:03s cputime
+
+Process completed successfully.
+# Fri Nov 02 11:42:36 2018
+
+###########################################################]
+Synopsys Netlist Linker, version comp2016q3p1, Build 117R, built Nov 17 2016
+@N|Running in 64-bit mode
+
+At syn_nfilter Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 73MB peak: 74MB)
+
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+
+Process completed successfully.
+# Fri Nov 02 11:42:37 2018
+
+###########################################################]
+@END
+
+At c_hdl Exit (Real Time elapsed 0h:00m:07s; CPU Time elapsed 0h:00m:03s; Memory used current: 3MB peak: 4MB)
+
+Process took 0h:00m:07s realtime, 0h:00m:03s cputime
+
+Process completed successfully.
+# Fri Nov 02 11:42:37 2018
+
+###########################################################]
+Synopsys Netlist Linker, version comp2016q3p1, Build 117R, built Nov 17 2016
+@N|Running in 64-bit mode
+
+At syn_nfilter Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 75MB peak: 76MB)
+
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+
+Process completed successfully.
+# Fri Nov 02 11:42:40 2018
+
+###########################################################]
+Pre-mapping Report
+
+# Fri Nov 02 11:42:41 2018
+
+Synopsys Generic Technology Pre-mapping, Version map201609actrcp1, Build 005R, Built Jan 25 2017 01:01:33
+Copyright (C) 1994-2016 Synopsys, Inc. All rights reserved. This Synopsys software and all associated documentation are proprietary to Synopsys, Inc. and may only be used pursuant to the terms and conditions of a written license agreement with Synopsys, Inc. All other use, reproduction, modification, or distribution of the Synopsys software or the associated documentation is strictly prohibited.
+Product Version L-2016.09M-2
+
+Mapper Startup Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 99MB peak: 100MB)
+
+Reading constraint file: D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\designer\Igloo2PerfCreative\synthesis.fdc
+@L: D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\synthesis\Igloo2PerfCreative_scck.rpt 
+Printing clock  summary report in "D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\synthesis\Igloo2PerfCreative_scck.rpt" file 
+@N: MF248 |Running in 64-bit mode.
+@N: MF667 |Clock conversion disabled. (Command "set_option -fix_gated_and_generated_clocks 0" in the project file.)
+
+Design Input Complete (Real Time elapsed 0h:00m:01s; CPU Time elapsed 0h:00m:00s; Memory used current: 110MB peak: 116MB)
+
+
+Mapper Initialization Complete (Real Time elapsed 0h:00m:01s; CPU Time elapsed 0h:00m:00s; Memory used current: 110MB peak: 116MB)
+
+
+Start loading timing files (Real Time elapsed 0h:00m:01s; CPU Time elapsed 0h:00m:00s; Memory used current: 112MB peak: 116MB)
+
+
+Finished loading timing files (Real Time elapsed 0h:00m:01s; CPU Time elapsed 0h:00m:00s; Memory used current: 112MB peak: 116MB)
+
+@W: BN132 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Removing sequential instance soc.system_cpu.decode_to_execute_IS_RS2_SIGNED because it is equivalent to instance soc.system_cpu.decode_to_execute_IS_RS1_SIGNED. To keep the instance, apply constraint syn_preserve=1 on the instance.
+@N: MO111 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\component\work\osc1\osc1_0\osc1_osc1_0_osc.v":17:7:17:20|Tristate driver RCOSC_1MHZ_CCC (in view: work.osc1_osc1_0_OSC(verilog)) on net RCOSC_1MHZ_CCC (in view: work.osc1_osc1_0_OSC(verilog)) has its enable tied to GND.
+@N: MO111 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\component\work\osc1\osc1_0\osc1_osc1_0_osc.v":18:7:18:20|Tristate driver RCOSC_1MHZ_O2F (in view: work.osc1_osc1_0_OSC(verilog)) on net RCOSC_1MHZ_O2F (in view: work.osc1_osc1_0_OSC(verilog)) has its enable tied to GND.
+@N: MO111 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\component\work\osc1\osc1_0\osc1_osc1_0_osc.v":16:7:16:24|Tristate driver RCOSC_25_50MHZ_O2F (in view: work.osc1_osc1_0_OSC(verilog)) on net RCOSC_25_50MHZ_O2F (in view: work.osc1_osc1_0_OSC(verilog)) has its enable tied to GND.
+@N: MO111 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\component\work\osc1\osc1_0\osc1_osc1_0_osc.v":19:7:19:16|Tristate driver XTLOSC_CCC (in view: work.osc1_osc1_0_OSC(verilog)) on net XTLOSC_CCC (in view: work.osc1_osc1_0_OSC(verilog)) has its enable tied to GND.
+@N: MO111 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\component\work\osc1\osc1_0\osc1_osc1_0_osc.v":20:7:20:16|Tristate driver XTLOSC_O2F (in view: work.osc1_osc1_0_OSC(verilog)) on net XTLOSC_O2F (in view: work.osc1_osc1_0_OSC(verilog)) has its enable tied to GND.
+syn_allowed_resources : blockrams=31,dsps=34  set on top level netlist Igloo2PerfCreative
+
+Finished netlist restructuring (Real Time elapsed 0h:00m:01s; CPU Time elapsed 0h:00m:00s; Memory used current: 142MB peak: 143MB)
+
+
+
+Clock Summary
+*****************
+
+Start                                       Requested     Requested     Clock        Clock                   Clock
+Clock                                       Frequency     Period        Type         Group                   Load 
+------------------------------------------------------------------------------------------------------------------
+System                                      100.0 MHz     10.000        system       system_clkgroup         0    
+ccc1_ccc1_0_FCCC|GL0_net_inferred_clock     100.0 MHz     10.000        inferred     Inferred_clkgroup_0     2031 
+==================================================================================================================
+
+@W: MT530 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":777:2:777:7|Found inferred clock ccc1_ccc1_0_FCCC|GL0_net_inferred_clock which controls 2031 sequential elements including soc.bufferCC_2_.buffers_1. This clock has no specified timing constraint which may adversely impact design performance. 
+
+Finished Pre Mapping Phase.
+@N: BN225 |Writing default property annotation file D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\synthesis\Igloo2PerfCreative.sap.
+
+Starting constraint checker (Real Time elapsed 0h:00m:02s; CPU Time elapsed 0h:00m:00s; Memory used current: 141MB peak: 143MB)
+
+Encoding state machine fsm_stateReg[4:0] (in view: work.FlashXpi(verilog))
+original code -> new code
+   000 -> 00001
+   001 -> 00010
+   010 -> 00100
+   011 -> 01000
+   100 -> 10000
+Encoding state machine state[2:0] (in view: work.SerialRxOutput(verilog))
+original code -> new code
+   00 -> 00
+   01 -> 01
+   10 -> 10
+@N: BN362 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4363:2:4363:7|Removing sequential instance outputReg[3] (in view: work.SerialRxOutput(verilog)) of type view:PrimLib.dffre(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4363:2:4363:7|Removing sequential instance outputReg[4] (in view: work.SerialRxOutput(verilog)) of type view:PrimLib.dffre(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4363:2:4363:7|Removing sequential instance outputReg[5] (in view: work.SerialRxOutput(verilog)) of type view:PrimLib.dffre(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":150:2:150:7|Removing sequential instance _zz_4_[0] (in view: work.StreamFifoLowLatency(verilog)) of type view:PrimLib.dffe(prim) because it does not drive other instances.
+None
+None
+
+Finished constraint checker (Real Time elapsed 0h:00m:03s; CPU Time elapsed 0h:00m:01s; Memory used current: 143MB peak: 145MB)
+
+Pre-mapping successful!
+
+At Mapper Exit (Real Time elapsed 0h:00m:03s; CPU Time elapsed 0h:00m:01s; Memory used current: 57MB peak: 145MB)
+
+Process took 0h:00m:03s realtime, 0h:00m:01s cputime
+# Fri Nov 02 11:42:44 2018
+
+###########################################################]
+Map & Optimize Report
+
+# Fri Nov 02 11:42:45 2018
+
+Synopsys Generic Technology Mapper, Version map201609actrcp1, Build 005R, Built Jan 25 2017 01:01:33
+Copyright (C) 1994-2016 Synopsys, Inc. All rights reserved. This Synopsys software and all associated documentation are proprietary to Synopsys, Inc. and may only be used pursuant to the terms and conditions of a written license agreement with Synopsys, Inc. All other use, reproduction, modification, or distribution of the Synopsys software or the associated documentation is strictly prohibited.
+Product Version L-2016.09M-2
+
+Mapper Startup Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 99MB peak: 100MB)
+
+@N: MF248 |Running in 64-bit mode.
+@N: MF667 |Clock conversion disabled. (Command "set_option -fix_gated_and_generated_clocks 0" in the project file.)
+
+Design Input Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 99MB peak: 101MB)
+
+
+Mapper Initialization Complete (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 100MB peak: 101MB)
+
+
+Start loading timing files (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 101MB peak: 102MB)
+
+
+Finished loading timing files (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 101MB peak: 104MB)
+
+
+
+Starting Optimization and Mapping (Real Time elapsed 0h:00m:01s; CPU Time elapsed 0h:00m:00s; Memory used current: 137MB peak: 139MB)
+
+@N: MO111 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\component\work\osc1\osc1_0\osc1_osc1_0_osc.v":20:7:20:16|Tristate driver XTLOSC_O2F (in view: work.osc1_osc1_0_OSC(verilog)) on net XTLOSC_O2F (in view: work.osc1_osc1_0_OSC(verilog)) has its enable tied to GND.
+@N: MO111 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\component\work\osc1\osc1_0\osc1_osc1_0_osc.v":19:7:19:16|Tristate driver XTLOSC_CCC (in view: work.osc1_osc1_0_OSC(verilog)) on net XTLOSC_CCC (in view: work.osc1_osc1_0_OSC(verilog)) has its enable tied to GND.
+@N: MO111 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\component\work\osc1\osc1_0\osc1_osc1_0_osc.v":18:7:18:20|Tristate driver RCOSC_1MHZ_O2F (in view: work.osc1_osc1_0_OSC(verilog)) on net RCOSC_1MHZ_O2F (in view: work.osc1_osc1_0_OSC(verilog)) has its enable tied to GND.
+@N: MO111 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\component\work\osc1\osc1_0\osc1_osc1_0_osc.v":17:7:17:20|Tristate driver RCOSC_1MHZ_CCC (in view: work.osc1_osc1_0_OSC(verilog)) on net RCOSC_1MHZ_CCC (in view: work.osc1_osc1_0_OSC(verilog)) has its enable tied to GND.
+@N: MO111 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\component\work\osc1\osc1_0\osc1_osc1_0_osc.v":16:7:16:24|Tristate driver RCOSC_25_50MHZ_O2F (in view: work.osc1_osc1_0_OSC(verilog)) on net RCOSC_25_50MHZ_O2F (in view: work.osc1_osc1_0_OSC(verilog)) has its enable tied to GND.
+
+Available hyper_sources - for debug and ip models
+	None Found
+
+@W: FA239 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":1150:4:1150:7|ROM _zz_3_ (in view: work.FlashXpi(verilog)) mapped in logic. To map to a technology ROM, apply attribute syn_romstyle on this instance.
+@W: FA239 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":1150:4:1150:7|ROM _zz_3_ (in view: work.FlashXpi(verilog)) mapped in logic. To map to a technology ROM, apply attribute syn_romstyle on this instance.
+@N: MO106 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":1150:4:1150:7|Found ROM .delname. (in view: work.FlashXpi(verilog)) with 15 words by 1 bit.
+
+Finished RTL optimizations (Real Time elapsed 0h:00m:01s; CPU Time elapsed 0h:00m:00s; Memory used current: 140MB peak: 141MB)
+
+@N: MO231 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":5844:2:5844:7|Found counter in view:work.Igloo2Perf(verilog) instance resetCtrl_systemClkResetCounter[21:0] 
+@N: FX106 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":872:2:872:7|Using block RAM for single-port RAM
+@W: FX107 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":872:2:872:7|RAM system_dRam.ram_symbol3[7:0] (in view: work.Igloo2Perf(verilog)) does not have a read/write conflict check. Possible simulation mismatch. To resolve a read/write conflict, either set syn_ramstyle = rw_check, or enable the "Read Write Check on RAM" Implementation Option. For more information, search for "read/write conflict check" in Online Help.
+@N: FX106 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":872:2:872:7|Using block RAM for single-port RAM
+@W: FX107 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":872:2:872:7|RAM system_dRam.ram_symbol2[7:0] (in view: work.Igloo2Perf(verilog)) does not have a read/write conflict check. Possible simulation mismatch. To resolve a read/write conflict, either set syn_ramstyle = rw_check, or enable the "Read Write Check on RAM" Implementation Option. For more information, search for "read/write conflict check" in Online Help.
+@N: FX106 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":872:2:872:7|Using block RAM for single-port RAM
+@W: FX107 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":872:2:872:7|RAM system_dRam.ram_symbol1[7:0] (in view: work.Igloo2Perf(verilog)) does not have a read/write conflict check. Possible simulation mismatch. To resolve a read/write conflict, either set syn_ramstyle = rw_check, or enable the "Read Write Check on RAM" Implementation Option. For more information, search for "read/write conflict check" in Online Help.
+@N: FX106 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":872:2:872:7|Using block RAM for single-port RAM
+@W: FX107 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":872:2:872:7|RAM system_dRam.ram_symbol0[7:0] (in view: work.Igloo2Perf(verilog)) does not have a read/write conflict check. Possible simulation mismatch. To resolve a read/write conflict, either set syn_ramstyle = rw_check, or enable the "Read Write Check on RAM" Implementation Option. For more information, search for "read/write conflict check" in Online Help.
+@N: FX106 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":810:2:810:7|Using block RAM for single-port RAM
+@W: FX107 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":810:2:810:7|RAM system_iRam.ram_symbol3[7:0] (in view: work.Igloo2Perf(verilog)) does not have a read/write conflict check. Possible simulation mismatch. To resolve a read/write conflict, either set syn_ramstyle = rw_check, or enable the "Read Write Check on RAM" Implementation Option. For more information, search for "read/write conflict check" in Online Help.
+@N: FX106 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":810:2:810:7|Using block RAM for single-port RAM
+@W: FX107 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":810:2:810:7|RAM system_iRam.ram_symbol2[7:0] (in view: work.Igloo2Perf(verilog)) does not have a read/write conflict check. Possible simulation mismatch. To resolve a read/write conflict, either set syn_ramstyle = rw_check, or enable the "Read Write Check on RAM" Implementation Option. For more information, search for "read/write conflict check" in Online Help.
+@N: FX106 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":810:2:810:7|Using block RAM for single-port RAM
+@W: FX107 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":810:2:810:7|RAM system_iRam.ram_symbol1[7:0] (in view: work.Igloo2Perf(verilog)) does not have a read/write conflict check. Possible simulation mismatch. To resolve a read/write conflict, either set syn_ramstyle = rw_check, or enable the "Read Write Check on RAM" Implementation Option. For more information, search for "read/write conflict check" in Online Help.
+@N: FX106 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":810:2:810:7|Using block RAM for single-port RAM
+@W: FX107 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":810:2:810:7|RAM system_iRam.ram_symbol0[7:0] (in view: work.Igloo2Perf(verilog)) does not have a read/write conflict check. Possible simulation mismatch. To resolve a read/write conflict, either set syn_ramstyle = rw_check, or enable the "Read Write Check on RAM" Implementation Option. For more information, search for "read/write conflict check" in Online Help.
+@N: BN362 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":5912:2:5912:7|Removing sequential instance _zz_29_[0] (in view: work.Igloo2Perf(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":5912:2:5912:7|Removing sequential instance _zz_29_[1] (in view: work.Igloo2Perf(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":5912:2:5912:7|Removing sequential instance _zz_37_[0] (in view: work.Igloo2Perf(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":5912:2:5912:7|Removing sequential instance _zz_37_[1] (in view: work.Igloo2Perf(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@W: MO160 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":5912:2:5912:7|Register bit _zz_21_[1] (in view view:work.Igloo2Perf(verilog)) is always 0. To keep the instance, apply syn_preserve=1 on the instance.
+@W: MO160 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":5912:2:5912:7|Register bit _zz_21_[0] (in view view:work.Igloo2Perf(verilog)) is always 0. To keep the instance, apply syn_preserve=1 on the instance.
+@N: MO231 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":1041:2:1041:7|Found counter in view:work.Peripherals(verilog) instance mTime_counter[31:0] 
+Encoding state machine fsm_stateReg[4:0] (in view: work.FlashXpi(verilog))
+original code -> new code
+   000 -> 00001
+   001 -> 00010
+   010 -> 00100
+   011 -> 01000
+   100 -> 10000
+@N: MO231 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":1391:2:1391:7|Found counter in view:work.FlashXpi(verilog) instance buffer_counter_value[4:0] 
+@N: FX403 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":2492:2:2492:7|Property "block_ram" or "no_rw_check" found for RAM RegFilePlugin_regFile_1[31:0] with specified coding style. Inferring block RAM.
+@W: FX107 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":2492:2:2492:7|RAM RegFilePlugin_regFile_1[31:0] (in view: work.VexRiscv(verilog)) does not have a read/write conflict check. Possible simulation mismatch. To resolve a read/write conflict, either set syn_ramstyle = rw_check, or enable the "Read Write Check on RAM" Implementation Option. For more information, search for "read/write conflict check" in Online Help.
+@N: FX403 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":2492:2:2492:7|Property "block_ram" or "no_rw_check" found for RAM RegFilePlugin_regFile[31:0] with specified coding style. Inferring block RAM.
+@W: FX107 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":2492:2:2492:7|RAM RegFilePlugin_regFile[31:0] (in view: work.VexRiscv(verilog)) does not have a read/write conflict check. Possible simulation mismatch. To resolve a read/write conflict, either set syn_ramstyle = rw_check, or enable the "Read Write Check on RAM" Implementation Option. For more information, search for "read/write conflict check" in Online Help.
+@N: MO231 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":3819:2:3819:7|Found counter in view:work.VexRiscv(verilog) instance memory_MulDivIterativePlugin_div_counter_value[5:0] 
+@N: BN362 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Removing sequential instance _zz_111_[20] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Removing sequential instance _zz_111_[21] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Removing sequential instance _zz_111_[22] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Removing sequential instance _zz_111_[23] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Removing sequential instance _zz_111_[24] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Removing sequential instance _zz_111_[25] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Removing sequential instance _zz_111_[26] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Removing sequential instance _zz_111_[27] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Removing sequential instance _zz_111_[28] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Removing sequential instance _zz_111_[29] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Removing sequential instance _zz_111_[30] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Removing sequential instance _zz_111_[31] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":150:2:150:7|Removing sequential instance IBusSimplePlugin_rspJoin_rspBuffer_c._zz_4_[0] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":150:2:150:7|Removing sequential instance IBusSimplePlugin_rspJoin_rspBuffer_c._zz_4_[1] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":150:2:150:7|Removing sequential instance IBusSimplePlugin_rspJoin_rspBuffer_c._zz_4_[2] (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Removing sequential instance NoName (in view: work.VexRiscv(verilog)) of type view:PrimLib.dff(prim) because it does not drive other instances.
+@W: MO160 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":3819:2:3819:7|Register bit IBusSimplePlugin_fetchPc_pcReg[1] (in view view:work.VexRiscv(verilog)) is always 0. To keep the instance, apply syn_preserve=1 on the instance.
+@W: MO160 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":3819:2:3819:7|Register bit IBusSimplePlugin_fetchPc_pcReg[0] (in view view:work.VexRiscv(verilog)) is always 0. To keep the instance, apply syn_preserve=1 on the instance.
+@W: MO160 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Register bit _zz_105_[1] (in view view:work.VexRiscv(verilog)) is always 0. To keep the instance, apply syn_preserve=1 on the instance.
+@W: MO160 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Register bit _zz_105_[0] (in view view:work.VexRiscv(verilog)) is always 0. To keep the instance, apply syn_preserve=1 on the instance.
+@W: MO160 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Register bit decode_to_execute_PC[1] (in view view:work.VexRiscv(verilog)) is always 0. To keep the instance, apply syn_preserve=1 on the instance.
+@W: MO160 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Register bit decode_to_execute_PC[0] (in view view:work.VexRiscv(verilog)) is always 0. To keep the instance, apply syn_preserve=1 on the instance.
+@W: MO160 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Register bit execute_to_memory_PC[1] (in view view:work.VexRiscv(verilog)) is always 0. To keep the instance, apply syn_preserve=1 on the instance.
+@W: MO160 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Register bit execute_to_memory_PC[0] (in view view:work.VexRiscv(verilog)) is always 0. To keep the instance, apply syn_preserve=1 on the instance.
+@N: MF179 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":3661:36:3661:64|Found 32 by 32 bit equality operator ('==') execute_BranchPlugin_eq (in view: work.VexRiscv(verilog))
+Encoding state machine state[2:0] (in view: work.SerialRxOutput(verilog))
+original code -> new code
+   00 -> 00
+   01 -> 01
+   10 -> 10
+@N: BN362 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4363:2:4363:7|Removing sequential instance outputReg[3] (in view: work.SerialRxOutput(verilog)) of type view:PrimLib.dffr(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4363:2:4363:7|Removing sequential instance outputReg[4] (in view: work.SerialRxOutput(verilog)) of type view:PrimLib.dffr(prim) because it does not drive other instances.
+@N: BN362 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4363:2:4363:7|Removing sequential instance outputReg[5] (in view: work.SerialRxOutput(verilog)) of type view:PrimLib.dffr(prim) because it does not drive other instances.
+@N: MF135 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":367:2:367:7|RAM ram[0] (in view: work.StreamFifoLowLatency_1__2(verilog)) is 2 words by 1 bits.
+@N: MF135 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":367:2:367:7|RAM ram[0] (in view: work.StreamFifoLowLatency_1__1(verilog)) is 2 words by 1 bits.
+@N: MF135 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":367:2:367:7|RAM ram[0] (in view: work.StreamFifoLowLatency_1__0(verilog)) is 2 words by 1 bits.
+
+Starting factoring (Real Time elapsed 0h:00m:03s; CPU Time elapsed 0h:00m:01s; Memory used current: 146MB peak: 146MB)
+
+
+Finished factoring (Real Time elapsed 0h:00m:04s; CPU Time elapsed 0h:00m:02s; Memory used current: 165MB peak: 166MB)
+
+@W: BN132 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":3819:2:3819:7|Removing instance soc.system_cpu._zz_140_ because it is equivalent to instance soc.system_flashXip.fsm_stateReg[0]. To keep the instance, apply constraint syn_preserve=1 on the instance.
+
+Finished gated-clock and generated-clock conversion (Real Time elapsed 0h:00m:04s; CPU Time elapsed 0h:00m:02s; Memory used current: 159MB peak: 166MB)
+
+
+Finished generic timing optimizations - Pass 1 (Real Time elapsed 0h:00m:05s; CPU Time elapsed 0h:00m:03s; Memory used current: 161MB peak: 177MB)
+
+
+Starting Early Timing Optimization (Real Time elapsed 0h:00m:06s; CPU Time elapsed 0h:00m:04s; Memory used current: 162MB peak: 177MB)
+
+
+Finished Early Timing Optimization (Real Time elapsed 0h:00m:08s; CPU Time elapsed 0h:00m:06s; Memory used current: 165MB peak: 177MB)
+
+
+Finished generic timing optimizations - Pass 2 (Real Time elapsed 0h:00m:08s; CPU Time elapsed 0h:00m:06s; Memory used current: 163MB peak: 177MB)
+
+
+Finished preparing to map (Real Time elapsed 0h:00m:09s; CPU Time elapsed 0h:00m:07s; Memory used current: 164MB peak: 177MB)
+
+
+Finished technology mapping (Real Time elapsed 0h:00m:11s; CPU Time elapsed 0h:00m:08s; Memory used current: 234MB peak: 238MB)
+
+Pass		 CPU time		Worst Slack		Luts / Registers
+------------------------------------------------------------
+   1		0h:00m:09s		   -12.27ns		3392 /      1610
+   2		0h:00m:09s		   -12.27ns		3122 /      1610
+   3		0h:00m:09s		   -11.92ns		3122 /      1610
+@N: FX271 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":3819:2:3819:7|Replicating instance soc.system_cpu.memory_arbitration_isValid (in view: work.Igloo2PerfCreative(verilog)) with 13 loads 1 time to improve timing.
+@N: FX271 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Replicating instance soc.system_cpu.decode_to_execute_INSTRUCTION[29] (in view: work.Igloo2PerfCreative(verilog)) with 5 loads 1 time to improve timing.
+@N: FX271 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4496:2:4496:7|Replicating instance soc.system_dBus_decoder.rspHits_1 (in view: work.Igloo2PerfCreative(verilog)) with 34 loads 1 time to improve timing.
+@N: FX271 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Replicating instance soc.system_cpu.decode_to_execute_INSTRUCTION[31] (in view: work.Igloo2PerfCreative(verilog)) with 8 loads 1 time to improve timing.
+@N: FX271 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Replicating instance soc.system_cpu.execute_to_memory_BRANCH_DO (in view: work.Igloo2PerfCreative(verilog)) with 32 loads 1 time to improve timing.
+@N: FX271 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Replicating instance soc.system_cpu.decode_to_execute_SRC2[1] (in view: work.Igloo2PerfCreative(verilog)) with 70 loads 2 times to improve timing.
+@N: FX271 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Replicating instance soc.system_cpu.decode_to_execute_SRC2[2] (in view: work.Igloo2PerfCreative(verilog)) with 67 loads 2 times to improve timing.
+@N: FX271 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Replicating instance soc.system_cpu.decode_to_execute_SRC2[3] (in view: work.Igloo2PerfCreative(verilog)) with 67 loads 2 times to improve timing.
+@N: FX271 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Replicating instance soc.system_cpu.decode_to_execute_SRC2[0] (in view: work.Igloo2PerfCreative(verilog)) with 65 loads 2 times to improve timing.
+Timing driven replication report
+Added 13 Registers via timing driven replication
+Added 11 LUTs via timing driven replication
+
+   4		0h:00m:10s		   -11.09ns		3134 /      1623
+   5		0h:00m:10s		    -9.91ns		3137 /      1623
+   6		0h:00m:10s		    -9.27ns		3139 /      1623
+   7		0h:00m:10s		    -8.72ns		3140 /      1623
+   8		0h:00m:11s		    -8.52ns		3140 /      1623
+   9		0h:00m:11s		    -8.59ns		3146 /      1623
+  10		0h:00m:11s		    -8.20ns		3147 /      1623
+  11		0h:00m:11s		    -7.81ns		3149 /      1623
+  12		0h:00m:11s		    -7.66ns		3149 /      1623
+  13		0h:00m:11s		    -7.66ns		3149 /      1623
+@N: FX271 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Replicating instance soc.system_cpu.decode_to_execute_SRC2[4] (in view: work.Igloo2PerfCreative(verilog)) with 39 loads 1 time to improve timing.
+Timing driven replication report
+Added 1 Registers via timing driven replication
+Added 1 LUTs via timing driven replication
+
+@N: FX271 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Replicating instance soc.system_cpu.decode_to_execute_SRC1[1] (in view: work.Igloo2PerfCreative(verilog)) with 9 loads 1 time to improve timing.
+@N: FX271 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Replicating instance soc.system_cpu._zz_107_[4] (in view: work.Igloo2PerfCreative(verilog)) with 16 loads 1 time to improve timing.
+@N: FX271 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Replicating instance soc.system_cpu._zz_107_[6] (in view: work.Igloo2PerfCreative(verilog)) with 18 loads 1 time to improve timing.
+@N: FX271 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Replicating instance soc.system_cpu._zz_107_[13] (in view: work.Igloo2PerfCreative(verilog)) with 16 loads 1 time to improve timing.
+@N: FX271 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\hdl\igloo2perfcreative.v":4054:2:4054:7|Replicating instance soc.system_cpu._zz_107_[12] (in view: work.Igloo2PerfCreative(verilog)) with 16 loads 1 time to improve timing.
+Timing driven replication report
+Added 5 Registers via timing driven replication
+Added 5 LUTs via timing driven replication
+
+  14		0h:00m:12s		    -7.18ns		3161 /      1629
+  15		0h:00m:12s		    -7.18ns		3176 /      1629
+  16		0h:00m:12s		    -7.18ns		3176 /      1629
+@N: FP130 |Promoting Net soc.resetCtrl_systemResetBuffered on CLKINT  I_763 
+
+Added 0 Buffers
+Added 0 Cells via replication
+	Added 0 Sequential Cells via replication
+	Added 0 Combinational Cells via replication
+
+Finished technology timing optimizations and critical path resynthesis (Real Time elapsed 0h:00m:15s; CPU Time elapsed 0h:00m:13s; Memory used current: 239MB peak: 241MB)
+
+
+Finished restoring hierarchy (Real Time elapsed 0h:00m:15s; CPU Time elapsed 0h:00m:13s; Memory used current: 241MB peak: 242MB)
+
+
+
+@S |Clock Optimization Summary
+
+
+#### START OF CLOCK OPTIMIZATION REPORT #####[
+
+Clock optimization not enabled
+0 non-gated/non-generated clock tree(s) driving 0 clock pin(s) of sequential element(s)
+1 gated/generated clock tree(s) driving 1755 clock pin(s) of sequential element(s)
+0 instances converted, 1755 sequential instances remain driven by gated/generated clocks
+
+============================================================================= Gated/Generated Clocks ==============================================================================
+Clock Tree ID     Driving Element             Drive Element Type     Fanout     Sample Instance                             Explanation                                            
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+@K:CKID0001       cccInst.ccc1_0.CCC_INST     CCC                    1755       soc.resetCtrl_systemClkResetCounter[21]     No gated clock conversion method for cell cell:ACG4.SLE
+===================================================================================================================================================================================
+
+
+##### END OF CLOCK OPTIMIZATION REPORT ######]
+
+
+Start Writing Netlists (Real Time elapsed 0h:00m:16s; CPU Time elapsed 0h:00m:13s; Memory used current: 202MB peak: 242MB)
+
+Writing Analyst data base D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\synthesis\synwork\Igloo2PerfCreative_m.srm
+
+Finished Writing Netlist Databases (Real Time elapsed 0h:00m:17s; CPU Time elapsed 0h:00m:14s; Memory used current: 236MB peak: 242MB)
+
+Writing EDIF Netlist and constraint files
+@N: FX1056 |Writing EDF file: D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\synthesis\Igloo2PerfCreative.edn
+@N: BW103 |The default time unit for the Synopsys Constraint File (SDC or FDC) is 1ns.
+@N: BW107 |Synopsys Constraint File capacitance units using default value of 1pF 
+L-2016.09M-2
+
+Finished Writing EDIF Netlist and constraint files (Real Time elapsed 0h:00m:18s; CPU Time elapsed 0h:00m:15s; Memory used current: 238MB peak: 242MB)
+
+
+Start final timing analysis (Real Time elapsed 0h:00m:18s; CPU Time elapsed 0h:00m:15s; Memory used current: 233MB peak: 242MB)
+
+@W: MT246 :"d:\pro\hes\astro\dev\implementation\liberoprojects\igloo2fast\igloo2fast\component\work\ccc1\ccc1_0\ccc1_ccc1_0_fccc.v":20:36:20:43|Blackbox CCC is missing a user supplied timing model. This may have a negative effect on timing analysis and optimizations (Quality of Results) 
+@W: MT420 |Found inferred clock ccc1_ccc1_0_FCCC|GL0_net_inferred_clock with period 10.00ns. Please declare a user-defined clock on object "n:cccInst.ccc1_0.GL0_net"
+
+
+##### START OF TIMING REPORT #####[
+# Timing Report written on Fri Nov 02 11:43:03 2018
+#
+
+
+Top view:               Igloo2PerfCreative
+Requested Frequency:    100.0 MHz
+Wire load mode:         top
+Paths requested:        5
+Constraint File(s):    D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast\designer\Igloo2PerfCreative\synthesis.fdc
+                       
+@N: MT320 |This timing report is an estimate of place and route data. For final timing results, use the FPGA vendor place and route report.
+
+@N: MT322 |Clock constraints include only register-to-register paths associated with each individual clock.
+
+
+
+Performance Summary
+*******************
+
+
+Worst slack in design: -4.631
+
+                                            Requested     Estimated     Requested     Estimated                Clock        Clock              
+Starting Clock                              Frequency     Frequency     Period        Period        Slack      Type         Group              
+-----------------------------------------------------------------------------------------------------------------------------------------------
+ccc1_ccc1_0_FCCC|GL0_net_inferred_clock     100.0 MHz     68.3 MHz      10.000        14.631        -4.631     inferred     Inferred_clkgroup_0
+System                                      100.0 MHz     895.2 MHz     10.000        1.117         8.883      system       system_clkgroup    
+===============================================================================================================================================
+
+
+
+
+
+Clock Relationships
+*******************
+
+Clocks                                                                            |    rise  to  rise    |    fall  to  fall   |    rise  to  fall   |    fall  to  rise 
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Starting                                 Ending                                   |  constraint  slack   |  constraint  slack  |  constraint  slack  |  constraint  slack
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+System                                   System                                   |  10.000      8.883   |  No paths    -      |  No paths    -      |  No paths    -    
+ccc1_ccc1_0_FCCC|GL0_net_inferred_clock  ccc1_ccc1_0_FCCC|GL0_net_inferred_clock  |  10.000      -4.631  |  No paths    -      |  No paths    -      |  No paths    -    
+=========================================================================================================================================================================
+ Note: 'No paths' indicates there are no paths in the design for that pair of clock edges.
+       'Diff grp' indicates that paths exist but the starting clock and ending clock are in different clock groups.
+
+
+
+Interface Information 
+*********************
+
+No IO constraint found
+
+
+
+====================================
+Detailed Report for Clock: ccc1_ccc1_0_FCCC|GL0_net_inferred_clock
+====================================
+
+
+
+Starting Points with Worst Slack
+********************************
+
+                                                                           Starting                                                                                                           Arrival           
+Instance                                                                   Reference                                   Type     Pin     Net                                                   Time        Slack 
+                                                                           Clock                                                                                                                                
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+soc.io_input_rsp_regNext_valid                                             ccc1_ccc1_0_FCCC|GL0_net_inferred_clock     SLE      Q       io_input_rsp_regNext_valid                            0.108       -4.631
+soc.system_cpu.memory_arbitration_isValid_fast                             ccc1_ccc1_0_FCCC|GL0_net_inferred_clock     SLE      Q       memory_arbitration_isValid_fast                       0.087       -4.604
+soc.system_dBus_decoder.rspPendingCounter[0]                               ccc1_ccc1_0_FCCC|GL0_net_inferred_clock     SLE      Q       rspPendingCounter[0]                                  0.108       -4.579
+soc.system_slowBus_arbiter.streamFifoLowLatency_4_.popPtr_value[0]         ccc1_ccc1_0_FCCC|GL0_net_inferred_clock     SLE      Q       popPtr_value[0]                                       0.108       -4.532
+soc.system_cpu.execute_to_memory_IS_DIV                                    ccc1_ccc1_0_FCCC|GL0_net_inferred_clock     SLE      Q       execute_to_memory_IS_DIV                              0.108       -4.521
+soc.system_dBus_decoder.rspPendingCounter[1]                               ccc1_ccc1_0_FCCC|GL0_net_inferred_clock     SLE      Q       rspPendingCounter[1]                                  0.108       -4.504
+soc.system_cpu.memory_MulDivIterativePlugin_div_counter_value[2]           ccc1_ccc1_0_FCCC|GL0_net_inferred_clock     SLE      Q       memory_MulDivIterativePlugin_div_counter_value[2]     0.087       -4.412
+soc.system_dRam_io_bus_arbiter.streamFifoLowLatency_4_.popPtr_value[0]     ccc1_ccc1_0_FCCC|GL0_net_inferred_clock     SLE      Q       popPtr_value[0]                                       0.108       -4.399
+soc.system_dRam._zz_1_                                                     ccc1_ccc1_0_FCCC|GL0_net_inferred_clock     SLE      Q       _zz_52_                                               0.108       -4.394
+soc.system_dBus_decoder.rspPendingCounter[2]                               ccc1_ccc1_0_FCCC|GL0_net_inferred_clock     SLE      Q       rspPendingCounter[2]                                  0.108       -4.374
+================================================================================================================================================================================================================
+
+
+Ending Points with Worst Slack
+******************************
+
+                                                Starting                                                                                                Required           
+Instance                                        Reference                                   Type        Pin          Net                                Time         Slack 
+                                                Clock                                                                                                                      
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+soc.system_iRam.ram_symbol0_ram_symbol0_0_0     ccc1_ccc1_0_FCCC|GL0_net_inferred_clock     RAM1K18     A_WEN[0]     ram_symbol0_ram_symbol0_0_0_we     9.529        -4.631
+soc.system_iRam.ram_symbol0_ram_symbol0_0_1     ccc1_ccc1_0_FCCC|GL0_net_inferred_clock     RAM1K18     A_WEN[0]     ram_symbol0_ram_symbol0_0_1_we     9.529        -4.631
+soc.system_iRam.ram_symbol0_ram_symbol0_0_2     ccc1_ccc1_0_FCCC|GL0_net_inferred_clock     RAM1K18     A_WEN[0]     ram_symbol0_ram_symbol0_0_2_we     9.529        -4.631
+soc.system_iRam.ram_symbol0_ram_symbol0_0_3     ccc1_ccc1_0_FCCC|GL0_net_inferred_clock     RAM1K18     A_WEN[0]     ram_symbol0_ram_symbol0_0_3_we     9.529        -4.631
+soc.system_iRam.ram_symbol1_ram_symbol1_0_0     ccc1_ccc1_0_FCCC|GL0_net_inferred_clock     RAM1K18     A_WEN[0]     ram_symbol1_ram_symbol1_0_0_we     9.529        -4.631
+soc.system_iRam.ram_symbol1_ram_symbol1_0_1     ccc1_ccc1_0_FCCC|GL0_net_inferred_clock     RAM1K18     A_WEN[0]     ram_symbol1_ram_symbol1_0_1_we     9.529        -4.631
+soc.system_iRam.ram_symbol1_ram_symbol1_0_2     ccc1_ccc1_0_FCCC|GL0_net_inferred_clock     RAM1K18     A_WEN[0]     ram_symbol1_ram_symbol1_0_2_we     9.529        -4.631
+soc.system_iRam.ram_symbol1_ram_symbol1_0_3     ccc1_ccc1_0_FCCC|GL0_net_inferred_clock     RAM1K18     A_WEN[0]     ram_symbol1_ram_symbol1_0_3_we     9.529        -4.631
+soc.system_iRam.ram_symbol2_ram_symbol2_0_0     ccc1_ccc1_0_FCCC|GL0_net_inferred_clock     RAM1K18     A_WEN[0]     ram_symbol2_ram_symbol2_0_0_we     9.529        -4.631
+soc.system_iRam.ram_symbol2_ram_symbol2_0_1     ccc1_ccc1_0_FCCC|GL0_net_inferred_clock     RAM1K18     A_WEN[0]     ram_symbol2_ram_symbol2_0_1_we     9.529        -4.631
+===========================================================================================================================================================================
+
+
+
+Worst Path Information
+***********************
+
+
+Path information for path number 1: 
+      Requested Period:                      10.000
+    - Setup time:                            0.471
+    + Clock delay at ending point:           0.000 (ideal)
+    = Required time:                         9.529
+
+    - Propagation time:                      14.160
+    - Clock delay at starting point:         0.000 (ideal)
+    = Slack (critical) :                     -4.631
+
+    Number of logic level(s):                11
+    Starting point:                          soc.io_input_rsp_regNext_valid / Q
+    Ending point:                            soc.system_iRam.ram_symbol0_ram_symbol0_0_0 / A_WEN[0]
+    The start point is clocked by            ccc1_ccc1_0_FCCC|GL0_net_inferred_clock [rising] on pin CLK
+    The end   point is clocked by            ccc1_ccc1_0_FCCC|GL0_net_inferred_clock [rising] on pin A_CLK
+
+Instance / Net                                                                     Pin          Pin               Arrival     No. of    
+Name                                                                   Type        Name         Dir     Delay     Time        Fan Out(s)
+----------------------------------------------------------------------------------------------------------------------------------------
+soc.io_input_rsp_regNext_valid                                         SLE         Q            Out     0.108     0.108       -         
+io_input_rsp_regNext_valid                                             Net         -            -       0.814     -           5         
+soc.system_slowBus_arbiter.io_inputs_0_rsp_valid                       CFG4        D            In      -         0.923       -         
+soc.system_slowBus_arbiter.io_inputs_0_rsp_valid                       CFG4        Y            Out     0.288     1.210       -         
+_zz_162_                                                               Net         -            -       0.556     -           1         
+soc.system_dBus_decoder.io_input_rsp_valid                             CFG4        D            In      -         1.766       -         
+soc.system_dBus_decoder.io_input_rsp_valid                             CFG4        Y            Out     0.288     2.054       -         
+_zz_75_                                                                Net         -            -       0.715     -           4         
+soc.system_cpu.memory_arbitration_haltItself                           CFG4        C            In      -         2.769       -         
+soc.system_cpu.memory_arbitration_haltItself                           CFG4        Y            Out     0.210     2.978       -         
+memory_arbitration_haltItself                                          Net         -            -       1.609     -           210       
+soc.system_cpu.memory_arbitration_isFiring                             CFG4        D            In      -         4.587       -         
+soc.system_cpu.memory_arbitration_isFiring                             CFG4        Y            Out     0.288     4.875       -         
+memory_arbitration_isFiring                                            Net         -            -       1.219     -           35        
+soc.system_cpu.memory_arbitration_isFiring_RNIT9JJ2                    CFG3        B            In      -         6.093       -         
+soc.system_cpu.memory_arbitration_isFiring_RNIT9JJ2                    CFG3        Y            Out     0.165     6.258       -         
+_zz_67_[16]                                                            Net         -            -       0.630     -           2         
+soc.system_iBus_decoder.un1_io_input_cmd_payload_address_1             CFG4        C            In      -         6.888       -         
+soc.system_iBus_decoder.un1_io_input_cmd_payload_address_1             CFG4        Y            Out     0.226     7.114       -         
+un1_io_input_cmd_payload_address_1                                     Net         -            -       0.630     -           2         
+soc.system_iBus_decoder.un1_io_input_cmd_payload_address               CFG4        B            In      -         7.744       -         
+soc.system_iBus_decoder.un1_io_input_cmd_payload_address               CFG4        Y            Out     0.164     7.908       -         
+un1_io_input_cmd_payload_address_i                                     Net         -            -       1.058     -           14        
+soc.system_iBus_decoder.un1_cmdWait                                    CFG4        D            In      -         8.965       -         
+soc.system_iBus_decoder.un1_cmdWait                                    CFG4        Y            Out     0.326     9.292       -         
+un1_cmdWait_i                                                          Net         -            -       0.812     -           8         
+soc.system_iRam_io_bus_arbiter.logic_arbiter.maskLocked_1_RNI42O33     CFG4        B            In      -         10.104      -         
+soc.system_iRam_io_bus_arbiter.logic_arbiter.maskLocked_1_RNI42O33     CFG4        Y            Out     0.164     10.268      -         
+_zz_11_[0]                                                             Net         -            -       1.321     -           59        
+soc.system_iRam_io_bus_arbiter.streamFork_3_.io_outputs_0_valid        CFG4        B            In      -         11.589      -         
+soc.system_iRam_io_bus_arbiter.streamFork_3_.io_outputs_0_valid        CFG4        Y            Out     0.164     11.753      -         
+_zz_129_                                                               Net         -            -       1.202     -           32        
+soc.system_iRam.ram_symbol0_ram_symbol0_0_0_RNO                        CFG2        A            In      -         12.955      -         
+soc.system_iRam.ram_symbol0_ram_symbol0_0_0_RNO                        CFG2        Y            Out     0.087     13.042      -         
+ram_symbol0_ram_symbol0_0_0_we                                         Net         -            -       1.117     -           1         
+soc.system_iRam.ram_symbol0_ram_symbol0_0_0                            RAM1K18     A_WEN[0]     In      -         14.160      -         
+========================================================================================================================================
+Total path delay (propagation time + setup) of 14.631 is 2.949(20.2%) logic and 11.682(79.8%) route.
+Path delay compensated for clock skew. Clock skew is added to clock-to-out value, and is subtracted from setup time value
+
+
+Path information for path number 2: 
+      Requested Period:                      10.000
+    - Setup time:                            0.471
+    + Clock delay at ending point:           0.000 (ideal)
+    = Required time:                         9.529
+
+    - Propagation time:                      14.160
+    - Clock delay at starting point:         0.000 (ideal)
+    = Slack (critical) :                     -4.631
+
+    Number of logic level(s):                11
+    Starting point:                          soc.io_input_rsp_regNext_valid / Q
+    Ending point:                            soc.system_iRam.ram_symbol0_ram_symbol0_0_3 / A_WEN[0]
+    The start point is clocked by            ccc1_ccc1_0_FCCC|GL0_net_inferred_clock [rising] on pin CLK
+    The end   point is clocked by            ccc1_ccc1_0_FCCC|GL0_net_inferred_clock [rising] on pin A_CLK
+
+Instance / Net                                                                     Pin          Pin               Arrival     No. of    
+Name                                                                   Type        Name         Dir     Delay     Time        Fan Out(s)
+----------------------------------------------------------------------------------------------------------------------------------------
+soc.io_input_rsp_regNext_valid                                         SLE         Q            Out     0.108     0.108       -         
+io_input_rsp_regNext_valid                                             Net         -            -       0.814     -           5         
+soc.system_slowBus_arbiter.io_inputs_0_rsp_valid                       CFG4        D            In      -         0.923       -         
+soc.system_slowBus_arbiter.io_inputs_0_rsp_valid                       CFG4        Y            Out     0.288     1.210       -         
+_zz_162_                                                               Net         -            -       0.556     -           1         
+soc.system_dBus_decoder.io_input_rsp_valid                             CFG4        D            In      -         1.766       -         
+soc.system_dBus_decoder.io_input_rsp_valid                             CFG4        Y            Out     0.288     2.054       -         
+_zz_75_                                                                Net         -            -       0.715     -           4         
+soc.system_cpu.memory_arbitration_haltItself                           CFG4        C            In      -         2.769       -         
+soc.system_cpu.memory_arbitration_haltItself                           CFG4        Y            Out     0.210     2.978       -         
+memory_arbitration_haltItself                                          Net         -            -       1.609     -           210       
+soc.system_cpu.memory_arbitration_isFiring                             CFG4        D            In      -         4.587       -         
+soc.system_cpu.memory_arbitration_isFiring                             CFG4        Y            Out     0.288     4.875       -         
+memory_arbitration_isFiring                                            Net         -            -       1.219     -           35        
+soc.system_cpu.memory_arbitration_isFiring_RNIT9JJ2                    CFG3        B            In      -         6.093       -         
+soc.system_cpu.memory_arbitration_isFiring_RNIT9JJ2                    CFG3        Y            Out     0.165     6.258       -         
+_zz_67_[16]                                                            Net         -            -       0.630     -           2         
+soc.system_iBus_decoder.un1_io_input_cmd_payload_address_1             CFG4        C            In      -         6.888       -         
+soc.system_iBus_decoder.un1_io_input_cmd_payload_address_1             CFG4        Y            Out     0.226     7.114       -         
+un1_io_input_cmd_payload_address_1                                     Net         -            -       0.630     -           2         
+soc.system_iBus_decoder.un1_io_input_cmd_payload_address               CFG4        B            In      -         7.744       -         
+soc.system_iBus_decoder.un1_io_input_cmd_payload_address               CFG4        Y            Out     0.164     7.908       -         
+un1_io_input_cmd_payload_address_i                                     Net         -            -       1.058     -           14        
+soc.system_iBus_decoder.un1_cmdWait                                    CFG4        D            In      -         8.965       -         
+soc.system_iBus_decoder.un1_cmdWait                                    CFG4        Y            Out     0.326     9.292       -         
+un1_cmdWait_i                                                          Net         -            -       0.812     -           8         
+soc.system_iRam_io_bus_arbiter.logic_arbiter.maskLocked_1_RNI42O33     CFG4        B            In      -         10.104      -         
+soc.system_iRam_io_bus_arbiter.logic_arbiter.maskLocked_1_RNI42O33     CFG4        Y            Out     0.164     10.268      -         
+_zz_11_[0]                                                             Net         -            -       1.321     -           59        
+soc.system_iRam_io_bus_arbiter.streamFork_3_.io_outputs_0_valid        CFG4        B            In      -         11.589      -         
+soc.system_iRam_io_bus_arbiter.streamFork_3_.io_outputs_0_valid        CFG4        Y            Out     0.164     11.753      -         
+_zz_129_                                                               Net         -            -       1.202     -           32        
+soc.system_iRam.ram_symbol0_ram_symbol0_0_3_RNO                        CFG2        A            In      -         12.955      -         
+soc.system_iRam.ram_symbol0_ram_symbol0_0_3_RNO                        CFG2        Y            Out     0.087     13.042      -         
+ram_symbol0_ram_symbol0_0_3_we                                         Net         -            -       1.117     -           1         
+soc.system_iRam.ram_symbol0_ram_symbol0_0_3                            RAM1K18     A_WEN[0]     In      -         14.160      -         
+========================================================================================================================================
+Total path delay (propagation time + setup) of 14.631 is 2.949(20.2%) logic and 11.682(79.8%) route.
+Path delay compensated for clock skew. Clock skew is added to clock-to-out value, and is subtracted from setup time value
+
+
+Path information for path number 3: 
+      Requested Period:                      10.000
+    - Setup time:                            0.471
+    + Clock delay at ending point:           0.000 (ideal)
+    = Required time:                         9.529
+
+    - Propagation time:                      14.160
+    - Clock delay at starting point:         0.000 (ideal)
+    = Slack (critical) :                     -4.631
+
+    Number of logic level(s):                11
+    Starting point:                          soc.io_input_rsp_regNext_valid / Q
+    Ending point:                            soc.system_iRam.ram_symbol0_ram_symbol0_0_2 / A_WEN[0]
+    The start point is clocked by            ccc1_ccc1_0_FCCC|GL0_net_inferred_clock [rising] on pin CLK
+    The end   point is clocked by            ccc1_ccc1_0_FCCC|GL0_net_inferred_clock [rising] on pin A_CLK
+
+Instance / Net                                                                     Pin          Pin               Arrival     No. of    
+Name                                                                   Type        Name         Dir     Delay     Time        Fan Out(s)
+----------------------------------------------------------------------------------------------------------------------------------------
+soc.io_input_rsp_regNext_valid                                         SLE         Q            Out     0.108     0.108       -         
+io_input_rsp_regNext_valid                                             Net         -            -       0.814     -           5         
+soc.system_slowBus_arbiter.io_inputs_0_rsp_valid                       CFG4        D            In      -         0.923       -         
+soc.system_slowBus_arbiter.io_inputs_0_rsp_valid                       CFG4        Y            Out     0.288     1.210       -         
+_zz_162_                                                               Net         -            -       0.556     -           1         
+soc.system_dBus_decoder.io_input_rsp_valid                             CFG4        D            In      -         1.766       -         
+soc.system_dBus_decoder.io_input_rsp_valid                             CFG4        Y            Out     0.288     2.054       -         
+_zz_75_                                                                Net         -            -       0.715     -           4         
+soc.system_cpu.memory_arbitration_haltItself                           CFG4        C            In      -         2.769       -         
+soc.system_cpu.memory_arbitration_haltItself                           CFG4        Y            Out     0.210     2.978       -         
+memory_arbitration_haltItself                                          Net         -            -       1.609     -           210       
+soc.system_cpu.memory_arbitration_isFiring                             CFG4        D            In      -         4.587       -         
+soc.system_cpu.memory_arbitration_isFiring                             CFG4        Y            Out     0.288     4.875       -         
+memory_arbitration_isFiring                                            Net         -            -       1.219     -           35        
+soc.system_cpu.memory_arbitration_isFiring_RNIT9JJ2                    CFG3        B            In      -         6.093       -         
+soc.system_cpu.memory_arbitration_isFiring_RNIT9JJ2                    CFG3        Y            Out     0.165     6.258       -         
+_zz_67_[16]                                                            Net         -            -       0.630     -           2         
+soc.system_iBus_decoder.un1_io_input_cmd_payload_address_1             CFG4        C            In      -         6.888       -         
+soc.system_iBus_decoder.un1_io_input_cmd_payload_address_1             CFG4        Y            Out     0.226     7.114       -         
+un1_io_input_cmd_payload_address_1                                     Net         -            -       0.630     -           2         
+soc.system_iBus_decoder.un1_io_input_cmd_payload_address               CFG4        B            In      -         7.744       -         
+soc.system_iBus_decoder.un1_io_input_cmd_payload_address               CFG4        Y            Out     0.164     7.908       -         
+un1_io_input_cmd_payload_address_i                                     Net         -            -       1.058     -           14        
+soc.system_iBus_decoder.un1_cmdWait                                    CFG4        D            In      -         8.965       -         
+soc.system_iBus_decoder.un1_cmdWait                                    CFG4        Y            Out     0.326     9.292       -         
+un1_cmdWait_i                                                          Net         -            -       0.812     -           8         
+soc.system_iRam_io_bus_arbiter.logic_arbiter.maskLocked_1_RNI42O33     CFG4        B            In      -         10.104      -         
+soc.system_iRam_io_bus_arbiter.logic_arbiter.maskLocked_1_RNI42O33     CFG4        Y            Out     0.164     10.268      -         
+_zz_11_[0]                                                             Net         -            -       1.321     -           59        
+soc.system_iRam_io_bus_arbiter.streamFork_3_.io_outputs_0_valid        CFG4        B            In      -         11.589      -         
+soc.system_iRam_io_bus_arbiter.streamFork_3_.io_outputs_0_valid        CFG4        Y            Out     0.164     11.753      -         
+_zz_129_                                                               Net         -            -       1.202     -           32        
+soc.system_iRam.ram_symbol0_ram_symbol0_0_2_RNO                        CFG2        A            In      -         12.955      -         
+soc.system_iRam.ram_symbol0_ram_symbol0_0_2_RNO                        CFG2        Y            Out     0.087     13.042      -         
+ram_symbol0_ram_symbol0_0_2_we                                         Net         -            -       1.117     -           1         
+soc.system_iRam.ram_symbol0_ram_symbol0_0_2                            RAM1K18     A_WEN[0]     In      -         14.160      -         
+========================================================================================================================================
+Total path delay (propagation time + setup) of 14.631 is 2.949(20.2%) logic and 11.682(79.8%) route.
+Path delay compensated for clock skew. Clock skew is added to clock-to-out value, and is subtracted from setup time value
+
+
+Path information for path number 4: 
+      Requested Period:                      10.000
+    - Setup time:                            0.471
+    + Clock delay at ending point:           0.000 (ideal)
+    = Required time:                         9.529
+
+    - Propagation time:                      14.160
+    - Clock delay at starting point:         0.000 (ideal)
+    = Slack (critical) :                     -4.631
+
+    Number of logic level(s):                11
+    Starting point:                          soc.io_input_rsp_regNext_valid / Q
+    Ending point:                            soc.system_iRam.ram_symbol0_ram_symbol0_0_1 / A_WEN[0]
+    The start point is clocked by            ccc1_ccc1_0_FCCC|GL0_net_inferred_clock [rising] on pin CLK
+    The end   point is clocked by            ccc1_ccc1_0_FCCC|GL0_net_inferred_clock [rising] on pin A_CLK
+
+Instance / Net                                                                     Pin          Pin               Arrival     No. of    
+Name                                                                   Type        Name         Dir     Delay     Time        Fan Out(s)
+----------------------------------------------------------------------------------------------------------------------------------------
+soc.io_input_rsp_regNext_valid                                         SLE         Q            Out     0.108     0.108       -         
+io_input_rsp_regNext_valid                                             Net         -            -       0.814     -           5         
+soc.system_slowBus_arbiter.io_inputs_0_rsp_valid                       CFG4        D            In      -         0.923       -         
+soc.system_slowBus_arbiter.io_inputs_0_rsp_valid                       CFG4        Y            Out     0.288     1.210       -         
+_zz_162_                                                               Net         -            -       0.556     -           1         
+soc.system_dBus_decoder.io_input_rsp_valid                             CFG4        D            In      -         1.766       -         
+soc.system_dBus_decoder.io_input_rsp_valid                             CFG4        Y            Out     0.288     2.054       -         
+_zz_75_                                                                Net         -            -       0.715     -           4         
+soc.system_cpu.memory_arbitration_haltItself                           CFG4        C            In      -         2.769       -         
+soc.system_cpu.memory_arbitration_haltItself                           CFG4        Y            Out     0.210     2.978       -         
+memory_arbitration_haltItself                                          Net         -            -       1.609     -           210       
+soc.system_cpu.memory_arbitration_isFiring                             CFG4        D            In      -         4.587       -         
+soc.system_cpu.memory_arbitration_isFiring                             CFG4        Y            Out     0.288     4.875       -         
+memory_arbitration_isFiring                                            Net         -            -       1.219     -           35        
+soc.system_cpu.memory_arbitration_isFiring_RNIT9JJ2                    CFG3        B            In      -         6.093       -         
+soc.system_cpu.memory_arbitration_isFiring_RNIT9JJ2                    CFG3        Y            Out     0.165     6.258       -         
+_zz_67_[16]                                                            Net         -            -       0.630     -           2         
+soc.system_iBus_decoder.un1_io_input_cmd_payload_address_1             CFG4        C            In      -         6.888       -         
+soc.system_iBus_decoder.un1_io_input_cmd_payload_address_1             CFG4        Y            Out     0.226     7.114       -         
+un1_io_input_cmd_payload_address_1                                     Net         -            -       0.630     -           2         
+soc.system_iBus_decoder.un1_io_input_cmd_payload_address               CFG4        B            In      -         7.744       -         
+soc.system_iBus_decoder.un1_io_input_cmd_payload_address               CFG4        Y            Out     0.164     7.908       -         
+un1_io_input_cmd_payload_address_i                                     Net         -            -       1.058     -           14        
+soc.system_iBus_decoder.un1_cmdWait                                    CFG4        D            In      -         8.965       -         
+soc.system_iBus_decoder.un1_cmdWait                                    CFG4        Y            Out     0.326     9.292       -         
+un1_cmdWait_i                                                          Net         -            -       0.812     -           8         
+soc.system_iRam_io_bus_arbiter.logic_arbiter.maskLocked_1_RNI42O33     CFG4        B            In      -         10.104      -         
+soc.system_iRam_io_bus_arbiter.logic_arbiter.maskLocked_1_RNI42O33     CFG4        Y            Out     0.164     10.268      -         
+_zz_11_[0]                                                             Net         -            -       1.321     -           59        
+soc.system_iRam_io_bus_arbiter.streamFork_3_.io_outputs_0_valid        CFG4        B            In      -         11.589      -         
+soc.system_iRam_io_bus_arbiter.streamFork_3_.io_outputs_0_valid        CFG4        Y            Out     0.164     11.753      -         
+_zz_129_                                                               Net         -            -       1.202     -           32        
+soc.system_iRam.ram_symbol0_ram_symbol0_0_1_RNO                        CFG2        A            In      -         12.955      -         
+soc.system_iRam.ram_symbol0_ram_symbol0_0_1_RNO                        CFG2        Y            Out     0.087     13.042      -         
+ram_symbol0_ram_symbol0_0_1_we                                         Net         -            -       1.117     -           1         
+soc.system_iRam.ram_symbol0_ram_symbol0_0_1                            RAM1K18     A_WEN[0]     In      -         14.160      -         
+========================================================================================================================================
+Total path delay (propagation time + setup) of 14.631 is 2.949(20.2%) logic and 11.682(79.8%) route.
+Path delay compensated for clock skew. Clock skew is added to clock-to-out value, and is subtracted from setup time value
+
+
+Path information for path number 5: 
+      Requested Period:                      10.000
+    - Setup time:                            0.471
+    + Clock delay at ending point:           0.000 (ideal)
+    = Required time:                         9.529
+
+    - Propagation time:                      14.160
+    - Clock delay at starting point:         0.000 (ideal)
+    = Slack (critical) :                     -4.631
+
+    Number of logic level(s):                11
+    Starting point:                          soc.io_input_rsp_regNext_valid / Q
+    Ending point:                            soc.system_iRam.ram_symbol1_ram_symbol1_0_3 / A_WEN[0]
+    The start point is clocked by            ccc1_ccc1_0_FCCC|GL0_net_inferred_clock [rising] on pin CLK
+    The end   point is clocked by            ccc1_ccc1_0_FCCC|GL0_net_inferred_clock [rising] on pin A_CLK
+
+Instance / Net                                                                     Pin          Pin               Arrival     No. of    
+Name                                                                   Type        Name         Dir     Delay     Time        Fan Out(s)
+----------------------------------------------------------------------------------------------------------------------------------------
+soc.io_input_rsp_regNext_valid                                         SLE         Q            Out     0.108     0.108       -         
+io_input_rsp_regNext_valid                                             Net         -            -       0.814     -           5         
+soc.system_slowBus_arbiter.io_inputs_0_rsp_valid                       CFG4        D            In      -         0.923       -         
+soc.system_slowBus_arbiter.io_inputs_0_rsp_valid                       CFG4        Y            Out     0.288     1.210       -         
+_zz_162_                                                               Net         -            -       0.556     -           1         
+soc.system_dBus_decoder.io_input_rsp_valid                             CFG4        D            In      -         1.766       -         
+soc.system_dBus_decoder.io_input_rsp_valid                             CFG4        Y            Out     0.288     2.054       -         
+_zz_75_                                                                Net         -            -       0.715     -           4         
+soc.system_cpu.memory_arbitration_haltItself                           CFG4        C            In      -         2.769       -         
+soc.system_cpu.memory_arbitration_haltItself                           CFG4        Y            Out     0.210     2.978       -         
+memory_arbitration_haltItself                                          Net         -            -       1.609     -           210       
+soc.system_cpu.memory_arbitration_isFiring                             CFG4        D            In      -         4.587       -         
+soc.system_cpu.memory_arbitration_isFiring                             CFG4        Y            Out     0.288     4.875       -         
+memory_arbitration_isFiring                                            Net         -            -       1.219     -           35        
+soc.system_cpu.memory_arbitration_isFiring_RNIT9JJ2                    CFG3        B            In      -         6.093       -         
+soc.system_cpu.memory_arbitration_isFiring_RNIT9JJ2                    CFG3        Y            Out     0.165     6.258       -         
+_zz_67_[16]                                                            Net         -            -       0.630     -           2         
+soc.system_iBus_decoder.un1_io_input_cmd_payload_address_1             CFG4        C            In      -         6.888       -         
+soc.system_iBus_decoder.un1_io_input_cmd_payload_address_1             CFG4        Y            Out     0.226     7.114       -         
+un1_io_input_cmd_payload_address_1                                     Net         -            -       0.630     -           2         
+soc.system_iBus_decoder.un1_io_input_cmd_payload_address               CFG4        B            In      -         7.744       -         
+soc.system_iBus_decoder.un1_io_input_cmd_payload_address               CFG4        Y            Out     0.164     7.908       -         
+un1_io_input_cmd_payload_address_i                                     Net         -            -       1.058     -           14        
+soc.system_iBus_decoder.un1_cmdWait                                    CFG4        D            In      -         8.965       -         
+soc.system_iBus_decoder.un1_cmdWait                                    CFG4        Y            Out     0.326     9.292       -         
+un1_cmdWait_i                                                          Net         -            -       0.812     -           8         
+soc.system_iRam_io_bus_arbiter.logic_arbiter.maskLocked_1_RNI42O33     CFG4        B            In      -         10.104      -         
+soc.system_iRam_io_bus_arbiter.logic_arbiter.maskLocked_1_RNI42O33     CFG4        Y            Out     0.164     10.268      -         
+_zz_11_[0]                                                             Net         -            -       1.321     -           59        
+soc.system_iRam_io_bus_arbiter.streamFork_3_.io_outputs_0_valid        CFG4        B            In      -         11.589      -         
+soc.system_iRam_io_bus_arbiter.streamFork_3_.io_outputs_0_valid        CFG4        Y            Out     0.164     11.753      -         
+_zz_129_                                                               Net         -            -       1.202     -           32        
+soc.system_iRam.ram_symbol1_ram_symbol1_0_3_RNO                        CFG2        A            In      -         12.955      -         
+soc.system_iRam.ram_symbol1_ram_symbol1_0_3_RNO                        CFG2        Y            Out     0.087     13.042      -         
+ram_symbol1_ram_symbol1_0_3_we                                         Net         -            -       1.117     -           1         
+soc.system_iRam.ram_symbol1_ram_symbol1_0_3                            RAM1K18     A_WEN[0]     In      -         14.160      -         
+========================================================================================================================================
+Total path delay (propagation time + setup) of 14.631 is 2.949(20.2%) logic and 11.682(79.8%) route.
+Path delay compensated for clock skew. Clock skew is added to clock-to-out value, and is subtracted from setup time value
+
+
+
+
+====================================
+Detailed Report for Clock: System
+====================================
+
+
+
+Starting Points with Worst Slack
+********************************
+
+                                    Starting                                               Arrival          
+Instance                            Reference     Type               Pin        Net        Time        Slack
+                                    Clock                                                                   
+------------------------------------------------------------------------------------------------------------
+oscInst.osc1_0.I_RCOSC_25_50MHZ     System        RCOSC_25_50MHZ     CLKOUT     _zz_2_     0.000       8.883
+============================================================================================================
+
+
+Ending Points with Worst Slack
+******************************
+
+                            Starting                                             Required          
+Instance                    Reference     Type     Pin                Net        Time         Slack
+                            Clock                                                                  
+---------------------------------------------------------------------------------------------------
+cccInst.ccc1_0.CCC_INST     System        CCC      RCOSC_25_50MHZ     _zz_2_     10.000       8.883
+===================================================================================================
+
+
+
+Worst Path Information
+***********************
+
+
+Path information for path number 1: 
+      Requested Period:                      10.000
+    - Setup time:                            0.000
+    + Clock delay at ending point:           0.000 (ideal)
+    + Estimated clock delay at ending point: 0.000
+    = Required time:                         10.000
+
+    - Propagation time:                      1.117
+    - Clock delay at starting point:         0.000 (ideal)
+    - Estimated clock delay at start point:  -0.000
+    = Slack (non-critical) :                 8.883
+
+    Number of logic level(s):                0
+    Starting point:                          oscInst.osc1_0.I_RCOSC_25_50MHZ / CLKOUT
+    Ending point:                            cccInst.ccc1_0.CCC_INST / RCOSC_25_50MHZ
+    The start point is clocked by            System [rising]
+    The end   point is clocked by            System [rising]
+
+Instance / Net                                         Pin                Pin               Arrival     No. of    
+Name                                Type               Name               Dir     Delay     Time        Fan Out(s)
+------------------------------------------------------------------------------------------------------------------
+oscInst.osc1_0.I_RCOSC_25_50MHZ     RCOSC_25_50MHZ     CLKOUT             Out     0.000     0.000       -         
+_zz_2_                              Net                -                  -       1.117     -           1         
+cccInst.ccc1_0.CCC_INST             CCC                RCOSC_25_50MHZ     In      -         1.117       -         
+==================================================================================================================
+Total path delay (propagation time + setup) of 1.117 is 0.000(0.0%) logic and 1.117(100.0%) route.
+Path delay compensated for clock skew. Clock skew is added to clock-to-out value, and is subtracted from setup time value
+
+
+
+##### END OF TIMING REPORT #####]
+
+Timing exceptions that could not be applied
+None
+
+Finished final timing analysis (Real Time elapsed 0h:00m:18s; CPU Time elapsed 0h:00m:15s; Memory used current: 234MB peak: 242MB)
+
+
+Finished timing report (Real Time elapsed 0h:00m:18s; CPU Time elapsed 0h:00m:15s; Memory used current: 234MB peak: 242MB)
+
+---------------------------------------
+Resource Usage Report for Igloo2PerfCreative 
+
+Mapping to part: m2gl025vf256std
+Cell usage:
+CCC             1 use
+CLKINT          2 uses
+RCOSC_25_50MHZ  1 use
+SYSRESET        1 use
+CFG1           14 uses
+CFG2           294 uses
+CFG3           1063 uses
+CFG4           1175 uses
+
+Carry cells:
+ARI1            496 uses - used for arithmetic functions
+ARI1            100 uses - used for Wide-Mux implementation
+Total ARI1      596 uses
+
+
+Sequential Cells: 
+SLE            1717 uses
+
+DSP Blocks:    4 of 34 (11%)
+ MACC:         4 Mults
+
+I/O ports: 18
+I/O primitives: 17
+INBUF          2 uses
+OUTBUF         15 uses
+
+
+Global Clock Buffers: 2 of 8 (25%)
+
+
+RAM/ROM usage summary
+Total Block RAMs (RAM1K18) : 24 of 31 (77%)
+Total Block RAMs (RAM64x18) : 2 of 34 (5%)
+
+Total LUTs:    3142
+
+Extra resources required for RAM and MACC interface logic during P&R:
+
+RAM64x18 Interface Logic : SLEs = 72; LUTs = 72;
+RAM1K18  Interface Logic : SLEs = 864; LUTs = 864;
+MACC     Interface Logic : SLEs = 144; LUTs = 144;
+
+Total number of SLEs after P&R:  1717 + 72 + 864 + 144 = 2797;
+Total number of LUTs after P&R:  3142 + 72 + 864 + 144 = 4222;
+
+Mapper successful!
+
+At Mapper Exit (Real Time elapsed 0h:00m:19s; CPU Time elapsed 0h:00m:15s; Memory used current: 41MB peak: 242MB)
+
+Process took 0h:00m:19s realtime, 0h:00m:15s cputime
+# Fri Nov 02 11:43:05 2018
+
+###########################################################]

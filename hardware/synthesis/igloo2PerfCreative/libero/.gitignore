@@ -1,0 +1,21 @@
+
+# Created by https://www.gitignore.io/api/liberosoc
+# Edit at https://www.gitignore.io/?templates=liberosoc
+
+### LiberoSOC ###
+#Microsemi Libero SOC v11.5
+
+#ignore miscellaneous files in the following directories
+simulation/*
+package/*
+viewdraw/*
+
+
+#synthesis log files
+synthesis/*
+
+
+#designer files
+designer/*/*
+
+# End of https://www.gitignore.io/api/liberosoc

@@ -1,0 +1,12 @@
+Synopsys Netlist Linker, version comp2016q3p1, Build 117R, built Nov 17 2016
+@N|Running in 64-bit mode
+File D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\synthesis\synwork\Igloo2PerfCreative_comp.srs changed - recompiling
+
+At syn_nfilter Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 73MB peak: 74MB)
+
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+
+Process completed successfully.
+# Thu Nov 22 01:03:13 2018
+
+###########################################################]

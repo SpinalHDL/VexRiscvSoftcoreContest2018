@@ -1,0 +1,53 @@
+@N|Running in 64-bit mode
+@N|Running in 64-bit mode
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\component\Actel\SgCore\OSC\2.0.101\osc_comps.v":11:7:11:20|Synthesizing module RCOSC_25_50MHZ in library work.
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\component\work\osc1\osc1_0\osc1_osc1_0_OSC.v":5:7:5:21|Synthesizing module osc1_osc1_0_OSC in library work.
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\component\work\osc1\osc1.v":9:7:9:10|Synthesizing module osc1 in library work.
+@N: CG364 :"E:\Microsemi\Libero_SoC_v11.8\SynplifyPro\lib\generic\igloo2.v":376:7:376:9|Synthesizing module VCC in library work.
+@N: CG364 :"E:\Microsemi\Libero_SoC_v11.8\SynplifyPro\lib\generic\igloo2.v":372:7:372:9|Synthesizing module GND in library work.
+@N: CG364 :"E:\Microsemi\Libero_SoC_v11.8\SynplifyPro\lib\generic\igloo2.v":362:7:362:12|Synthesizing module CLKINT in library work.
+@N: CG364 :"E:\Microsemi\Libero_SoC_v11.8\SynplifyPro\lib\generic\igloo2.v":727:7:727:9|Synthesizing module CCC in library work.
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\component\work\ccc1\ccc1_0\ccc1_ccc1_0_FCCC.v":5:7:5:22|Synthesizing module ccc1_ccc1_0_FCCC in library work.
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\component\work\ccc1\ccc1.v":9:7:9:10|Synthesizing module ccc1 in library work.
+@N: CG364 :"E:\Microsemi\Libero_SoC_v11.8\SynplifyPro\lib\generic\igloo2.v":718:7:718:14|Synthesizing module SYSRESET in library work.
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":246:7:246:17|Synthesizing module BufferCC_1_ in library work.
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":260:7:260:27|Synthesizing module SimpleBusMultiPortRam in library work.
+@N: CL214 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":340:17:340:36|Found multi-write port RAM ram_symbol3, number of write ports=2, depth=8192, width=8
+@N: CL214 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":339:17:339:36|Found multi-write port RAM ram_symbol2, number of write ports=2, depth=8192, width=8
+@N: CL214 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":338:17:338:36|Found multi-write port RAM ram_symbol1, number of write ports=2, depth=8192, width=8
+@N: CL214 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":337:17:337:36|Found multi-write port RAM ram_symbol0, number of write ports=2, depth=8192, width=8
+@N: CL214 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":322:17:322:36|Found multi-write port RAM ram_symbol3, number of write ports=2, depth=8192, width=8
+@N: CL214 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":321:17:321:36|Found multi-write port RAM ram_symbol2, number of write ports=2, depth=8192, width=8
+@N: CL214 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":320:17:320:36|Found multi-write port RAM ram_symbol1, number of write ports=2, depth=8192, width=8
+@N: CL214 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":319:16:319:35|Found multi-write port RAM ram_symbol0, number of write ports=2, depth=8192, width=8
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":366:7:366:17|Synthesizing module Peripherals in library work.
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":565:7:565:14|Synthesizing module FlashXpi in library work.
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":54:7:54:26|Synthesizing module StreamFifoLowLatency in library work.
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":898:7:898:14|Synthesizing module VexRiscv in library work.
+@N: CG793 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4606:6:4606:13|Ignoring system task $display
+@N: CL134 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":2124:2:2124:7|Found RAM RegFilePlugin_regFile, depth=32, width=32
+@N: CL134 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":2124:2:2124:7|Found RAM RegFilePlugin_regFile, depth=32, width=32
+@N: CL134 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":2112:2:2112:7|Found RAM IBusSimplePlugin_predictor_history, depth=512, width=55
+@N: CL189 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Register bit execute_to_memory_BRANCH_CALC[0] is always 0.
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":158:7:158:14|Synthesizing module BufferCC in library work.
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4905:7:4905:20|Synthesizing module SerialRxOutput in library work.
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4981:7:4981:22|Synthesizing module SimpleBusDecoder in library work.
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5094:7:5094:25|Synthesizing module SimpleBusDecoder_2_ in library work.
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5206:7:5206:22|Synthesizing module SimpleBusArbiter in library work.
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5236:7:5236:25|Synthesizing module SimpleBusArbiter_2_ in library work.
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5263:7:5263:25|Synthesizing module SimpleBusArbiter_3_ in library work.
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":173:7:173:19|Synthesizing module StreamArbiter in library work.
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5290:7:5290:25|Synthesizing module SimpleBusArbiter_4_ in library work.
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5392:7:5392:16|Synthesizing module Igloo2Perf in library work.
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":6036:7:6036:24|Synthesizing module Igloo2PerfCreative in library work.
+@N: CL201 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4949:2:4949:7|Trying to extract state machine for register state.
+@N: CL159 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":162:14:162:32|Input resetCtrl_progReset is unused.
+@N: CL159 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":914:14:914:27|Input dBus_rsp_error is unused.
+@N: CL201 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":851:2:851:7|Trying to extract state machine for register fsm_stateReg.
+@N: CL159 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":568:14:568:34|Input io_bus_cmd_payload_wr is unused.
+@N: CL159 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":570:20:570:42|Input io_bus_cmd_payload_data is unused.
+@N: CL159 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":571:19:571:41|Input io_bus_cmd_payload_mask is unused.
+@N: CL159 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":372:19:372:41|Input io_bus_cmd_payload_mask is unused.
+@N: CL159 :"D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\component\work\osc1\osc1_0\osc1_osc1_0_OSC.v":14:7:14:9|Input XTL is unused.
+@N|Running in 64-bit mode
+

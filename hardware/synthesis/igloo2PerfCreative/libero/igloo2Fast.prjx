@@ -31,7 +31,7 @@ KEY VendorTechnology_VCCI_1.8_VOLTR "COM"
 KEY VendorTechnology_VCCI_2.5_VOLTR "COM"
 KEY VendorTechnology_VCCI_3.3_VOLTR "COM"
 KEY VendorTechnology_VOLTR "COM"
-KEY ProjectLocation "D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero"
+KEY ProjectLocation "D:\tmp\xaxa\libero"
 KEY ProjectDescription ""
 KEY Pa4PeripheralNewSeq "GOOD"
 KEY SimulationType "VERILOG"
@@ -154,45 +154,15 @@ STATE="utd"
 TIME="1540637803"
 SIZE="234"
 ENDFILE
-VALUE "<project>\synthesis\Igloo2PerfCreative.edn,syn_edn"
-STATE="utd"
-TIME="1542752968"
-SIZE="4539463"
-ENDFILE
 VALUE "<project>\synthesis\Igloo2PerfCreative.so,so"
 STATE="utd"
-TIME="1542752969"
+TIME="1542845016"
 SIZE="282"
-ENDFILE
-VALUE "<project>\synthesis\Igloo2PerfCreative_sdc.sdc,syn_sdc"
-STATE="utd"
-TIME="1542752968"
-SIZE="1043"
 ENDFILE
 VALUE "<project>\synthesis\Igloo2PerfCreative_syn.prj,prj"
 STATE="utd"
-TIME="1542752969"
-SIZE="2747"
-ENDFILE
-VALUE "<project>\synthesis\Igloo2Speed.so,so"
-STATE="utd"
-TIME="1540591644"
-SIZE="264"
-ENDFILE
-VALUE "<project>\synthesis\Igloo2SpeedEvaluationBoard.so,so"
-STATE="utd"
-TIME="1540751233"
-SIZE="294"
-ENDFILE
-VALUE "<project>\synthesis\Igloo2SpeedEvaluationBoard_syn.prj,prj"
-STATE="utd"
-TIME="1541633798"
-SIZE="0"
-ENDFILE
-VALUE "<project>\synthesis\Igloo2Speed_syn.prj,prj"
-STATE="utd"
-TIME="1541633798"
-SIZE="0"
+TIME="1542980635"
+SIZE="2341"
 ENDFILE
 VALUE "D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v,hdl"
 STATE="utd"
@@ -210,19 +180,6 @@ VALUE "<project>\constraint\user.sdc,sdc"
 ENDLIST
 LIST TimingConstraints
 VALUE "<project>\constraint\final.sdc,sdc"
-ENDLIST
-LIST ProjectState5.1
-LIST Impl1
-LiberoState=Post_Synthesis
-ideSYNTHESIS(<project>\synthesis\Igloo2PerfCreative.edn,syn_edn)=StateSuccess
-LIST FlowOptions
-UsePhySynth=FALSE
-UseSynth=TRUE
-UseFhbAutoInst=FALSE
-ENDLIST
-Used_File_List
-ENDUsed_File_List
-ENDLIST
 ENDLIST
 ENDLIST
 ENDLIST
@@ -296,8 +253,8 @@ NAME="Synplify Pro ME"
 FUNCTION="Synthesis"
 TOOL="Synplify Pro ME"
 LOCATION="E:\Microsemi\Libero_SoC_v11.8\SynplifyPro\bin\synplify_pro.exe"
-PARAM="-licensetype synplifypro_actel -batch -log synplify.log"
-BATCH=1
+PARAM=""
+BATCH=0
 LICENSE=""
 IS32BIT="1"
 EndProfile
@@ -330,19 +287,6 @@ IS32BIT="1"
 EndProfile
 ENDLIST
 LIST ProjectState5.1
-LIST "Igloo2PerfCreative::work"
-LIST Impl1
-LiberoState=Post_Synthesis
-ideSYNTHESIS(<project>\synthesis\Igloo2PerfCreative.edn,syn_edn)=StateSuccess
-LIST FlowOptions
-UsePhySynth=FALSE
-UseSynth=TRUE
-UseFhbAutoInst=FALSE
-ENDLIST
-Used_File_List
-ENDUsed_File_List
-ENDLIST
-ENDLIST
 ENDLIST
 LIST ExcludePackageForSimulation
 ENDLIST
@@ -356,17 +300,8 @@ LIST UserCustomizedFileList
 ENDLIST
 LIST OpenedFileList
 ORIENTATION;HORIZONTAL
-Reports;Reports;0
-ReportsCurrentItem;Verify Timing:Igloo2PerfCreative_max_timing_slow_1.14V_85C.xml
-HDL;constraint\final.sdc;0
-HDL;constraint\user.sdc;0
-HDL;constraint\io\toplevel.pdc;0
-Constraint Manager;Constraint Manager;0
-HDL;component\work\ccc1\ccc1.v;0
 StartPage;StartPage;0
-HDL;component\work\osc1\osc1.v;0
-HDL;D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v;0
-ACTIVEVIEW;Reports
+ACTIVEVIEW;StartPage
 ENDLIST
 LIST ModuleSubBlockList
 LIST "BufferCC::work","D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v","FALSE","FALSE"

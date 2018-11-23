@@ -1,0 +1,21 @@
+
+. Module name, SLE, CFG, ARI1, BUFFER, MACC, RAM1K18, RAM64X18, GLOBAL, IO
+. Igloo2PerfCreative, 1780, 2711, 626, 0, 4, 18, 2, 2, 17
+.	. Igloo2Perf, 1780, 2710, 626, 0, 4, 18, 2, 1, 0
+.	.	. BufferCC_1_, 2, 2, 0, 0, 0, 0, 0, 0, 0
+.	.	. FlashXpi, 54, 86, 18, 0, 0, 0, 0, 0, 0
+.	.	. Peripherals, 124, 84, 76, 0, 0, 0, 0, 0, 0
+.	.	. SerialRxOutput, 23, 27, 11, 0, 0, 0, 0, 0, 0
+.	.	.	. BufferCC, 2, 0, 0, 0, 0, 0, 0, 0, 0
+.	.	. SimpleBusArbiter_4_, 6, 65, 0, 0, 0, 0, 0, 0, 0
+.	.	.	. StreamArbiter, 3, 44, 0, 0, 0, 0, 0, 0, 0
+.	.	. SimpleBusDecoder_0, 4, 38, 0, 0, 0, 0, 0, 0, 0
+.	.	. SimpleBusDecoder_1, 4, 18, 0, 0, 0, 0, 0, 0, 0
+.	.	. SimpleBusDecoder_2_, 4, 58, 0, 0, 0, 0, 0, 0, 0
+.	.	. SimpleBusMultiPortRam, 95, 84, 0, 0, 0, 16, 0, 0, 0
+.	.	. VexRiscv, 1267, 2185, 497, 0, 4, 2, 2, 0, 0
+.	.	.	. StreamFifoLowLatency, 31, 450, 70, 0, 0, 0, 0, 0, 0
+.	. ccc1, 0, 0, 0, 0, 0, 0, 0, 1, 0
+.	.	. ccc1_ccc1_0_FCCC, 0, 0, 0, 0, 0, 0, 0, 1, 0
+.	. osc1, 0, 0, 0, 0, 0, 0, 0, 0, 0
+.	.	. osc1_osc1_0_OSC, 0, 0, 0, 0, 0, 0, 0, 0, 0

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- *************************************************************************************
+FILE DESCRIPTION
+The file contains the area information from mapper to be displayed as part of the summary report.
+*******************************************************************************************-->
+<report_table display_priority="1" name="Area Summary">
+<report_link name="Detailed report">
+<data>D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\synthesis\synlog\report\Igloo2PerfCreative_fpga_mapper_resourceusage.rpt</data>
+<title>Resource Usage</title>
+</report_link>
+<report_link name="Hierarchical Area report">
+<data>D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\synthesis\synlog\report\Igloo2PerfCreative_fpga_mapper_hier_area_report.xml</data>
+<title>Hierarchical Area Report</title>
+</report_link>
+<parameter tooltip="Total Carry Cells used" name="Carry Cells">
+<data>626</data>
+</parameter>
+<parameter tooltip="Total Sequential Cells used" name="Sequential Cells">
+<data>1780</data>
+</parameter>
+<parameter tcl_name="dsp_used" tooltip="Total DSP Blocks (MACC) used" name="DSP Blocks (MACC)">
+<data>4</data>
+</parameter>
+<parameter tooltip="Total I/O Cells used" name="I/O Cells">
+<data>17</data>
+</parameter>
+<parameter tooltip="Total Global Clock Buffers used" name="Global Clock Buffers">
+<data>2</data>
+</parameter>
+<parameter tcl_name="v_ram" tooltip="Total RAM1K18 used" name="RAM1K18">
+<data>18</data>
+</parameter>
+<parameter tcl_name="v_ram" tooltip="Total RAM64x18 used" name="RAM64x18">
+<data>2</data>
+</parameter>
+<parameter tcl_name="total_luts" tooltip="Total LUTs used" name="LUTs">
+<data>3337</data>
+</parameter>
+</report_table>

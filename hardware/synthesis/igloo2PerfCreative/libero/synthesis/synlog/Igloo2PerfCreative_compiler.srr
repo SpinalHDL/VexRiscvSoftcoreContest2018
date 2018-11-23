@@ -1,0 +1,226 @@
+Synopsys HDL Compiler, version comp2016q3p1, Build 117R, built Nov 17 2016
+@N|Running in 64-bit mode
+Copyright (C) 1994-2016 Synopsys, Inc. All rights reserved. This Synopsys software and all associated documentation are proprietary to Synopsys, Inc. and may only be used pursuant to the terms and conditions of a written license agreement with Synopsys, Inc. All other use, reproduction, modification, or distribution of the Synopsys software or the associated documentation is strictly prohibited.
+
+Synopsys Verilog Compiler, version comp2016q3p1, Build 127R, built Nov 24 2016
+@N|Running in 64-bit mode
+Copyright (C) 1994-2016 Synopsys, Inc. All rights reserved. This Synopsys software and all associated documentation are proprietary to Synopsys, Inc. and may only be used pursuant to the terms and conditions of a written license agreement with Synopsys, Inc. All other use, reproduction, modification, or distribution of the Synopsys software or the associated documentation is strictly prohibited.
+
+@I::"E:\Microsemi\Libero_SoC_v11.8\SynplifyPro\lib\generic\igloo2.v" (library work)
+@I::"E:\Microsemi\Libero_SoC_v11.8\SynplifyPro\lib\vlog\hypermods.v" (library __hyper__lib__)
+@I::"E:\Microsemi\Libero_SoC_v11.8\SynplifyPro\lib\vlog\umr_capim.v" (library snps_haps)
+@I::"E:\Microsemi\Libero_SoC_v11.8\SynplifyPro\lib\vlog\scemi_objects.v" (library snps_haps)
+@I::"E:\Microsemi\Libero_SoC_v11.8\SynplifyPro\lib\vlog\scemi_pipes.svh" (library snps_haps)
+@I::"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v" (library work)
+@I::"D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\component\work\ccc1\ccc1_0\ccc1_ccc1_0_FCCC.v" (library work)
+@I::"D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\component\work\ccc1\ccc1.v" (library work)
+@I::"D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\component\Actel\SgCore\OSC\2.0.101\osc_comps.v" (library work)
+@I::"D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\component\work\osc1\osc1_0\osc1_osc1_0_OSC.v" (library work)
+@I::"D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\component\work\osc1\osc1.v" (library work)
+Verilog syntax check successful!
+File D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v changed - recompiling
+Selecting top level module Igloo2PerfCreative
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\component\Actel\SgCore\OSC\2.0.101\osc_comps.v":11:7:11:20|Synthesizing module RCOSC_25_50MHZ in library work.
+
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\component\work\osc1\osc1_0\osc1_osc1_0_OSC.v":5:7:5:21|Synthesizing module osc1_osc1_0_OSC in library work.
+
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\component\work\osc1\osc1.v":9:7:9:10|Synthesizing module osc1 in library work.
+
+@N: CG364 :"E:\Microsemi\Libero_SoC_v11.8\SynplifyPro\lib\generic\igloo2.v":376:7:376:9|Synthesizing module VCC in library work.
+
+@N: CG364 :"E:\Microsemi\Libero_SoC_v11.8\SynplifyPro\lib\generic\igloo2.v":372:7:372:9|Synthesizing module GND in library work.
+
+@N: CG364 :"E:\Microsemi\Libero_SoC_v11.8\SynplifyPro\lib\generic\igloo2.v":362:7:362:12|Synthesizing module CLKINT in library work.
+
+@N: CG364 :"E:\Microsemi\Libero_SoC_v11.8\SynplifyPro\lib\generic\igloo2.v":727:7:727:9|Synthesizing module CCC in library work.
+
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\component\work\ccc1\ccc1_0\ccc1_ccc1_0_FCCC.v":5:7:5:22|Synthesizing module ccc1_ccc1_0_FCCC in library work.
+
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\component\work\ccc1\ccc1.v":9:7:9:10|Synthesizing module ccc1 in library work.
+
+@N: CG364 :"E:\Microsemi\Libero_SoC_v11.8\SynplifyPro\lib\generic\igloo2.v":718:7:718:14|Synthesizing module SYSRESET in library work.
+
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":246:7:246:17|Synthesizing module BufferCC_1_ in library work.
+
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":260:7:260:27|Synthesizing module SimpleBusMultiPortRam in library work.
+
+@N: CL214 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":340:17:340:36|Found multi-write port RAM ram_symbol3, number of write ports=2, depth=8192, width=8
+@N: CL214 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":339:17:339:36|Found multi-write port RAM ram_symbol2, number of write ports=2, depth=8192, width=8
+@N: CL214 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":338:17:338:36|Found multi-write port RAM ram_symbol1, number of write ports=2, depth=8192, width=8
+@N: CL214 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":337:17:337:36|Found multi-write port RAM ram_symbol0, number of write ports=2, depth=8192, width=8
+@N: CL214 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":322:17:322:36|Found multi-write port RAM ram_symbol3, number of write ports=2, depth=8192, width=8
+@N: CL214 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":321:17:321:36|Found multi-write port RAM ram_symbol2, number of write ports=2, depth=8192, width=8
+@N: CL214 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":320:17:320:36|Found multi-write port RAM ram_symbol1, number of write ports=2, depth=8192, width=8
+@N: CL214 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":319:16:319:35|Found multi-write port RAM ram_symbol0, number of write ports=2, depth=8192, width=8
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":366:7:366:17|Synthesizing module Peripherals in library work.
+
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":565:7:565:14|Synthesizing module FlashXpi in library work.
+
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":54:7:54:26|Synthesizing module StreamFifoLowLatency in library work.
+
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":898:7:898:14|Synthesizing module VexRiscv in library work.
+
+@N: CG793 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4606:6:4606:13|Ignoring system task $display
+@W: CG360 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":1514:8:1514:52|Removing wire IBusSimplePlugin_iBusRsp_stages_1_inputSample, as there is no assignment to it.
+@W: CG360 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":1522:8:1522:52|Removing wire IBusSimplePlugin_iBusRsp_stages_2_inputSample, as there is no assignment to it.
+@W: CG360 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":1609:8:1609:46|Removing wire IBusSimplePlugin_rspJoin_fetchRsp_isRvc, as there is no assignment to it.
+@W: CL169 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Pruning unused register _zz_122_. Make sure that there are no unused intermediate registers.
+@W: CL169 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Pruning unused register _zz_124_. Make sure that there are no unused intermediate registers.
+@W: CL169 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Pruning unused register IBusSimplePlugin_injector_formal_rawInDecode[31:0]. Make sure that there are no unused intermediate registers.
+@W: CL169 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Pruning unused register IBusSimplePlugin_predictor_historyWriteLast_payload_data_source[20:0]. Make sure that there are no unused intermediate registers.
+@W: CL169 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Pruning unused register IBusSimplePlugin_predictor_historyWriteLast_payload_data_branchWish[1:0]. Make sure that there are no unused intermediate registers.
+@W: CL169 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Pruning unused register IBusSimplePlugin_predictor_historyWriteLast_payload_data_target[31:0]. Make sure that there are no unused intermediate registers.
+@W: CL169 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Pruning unused register IBusSimplePlugin_predictor_fetchContext_regNextWhen_line_source[20:0]. Make sure that there are no unused intermediate registers.
+@W: CL169 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Pruning unused register IBusSimplePlugin_predictor_fetchContext_regNextWhen_line_target[31:0]. Make sure that there are no unused intermediate registers.
+@W: CL169 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Pruning unused register IBusSimplePlugin_predictor_fetchContext_regNextWhen_delay_1_line_source[20:0]. Make sure that there are no unused intermediate registers.
+@W: CL169 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Pruning unused register IBusSimplePlugin_predictor_fetchContext_regNextWhen_delay_1_line_target[31:0]. Make sure that there are no unused intermediate registers.
+@W: CL169 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Pruning unused register CsrPlugin_mcycle[63:0]. Make sure that there are no unused intermediate registers.
+@W: CL169 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Pruning unused register CsrPlugin_minstret[63:0]. Make sure that there are no unused intermediate registers.
+@W: CL169 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Pruning unused register decode_to_execute_PREDICTION_CONTEXT_line_source[20:0]. Make sure that there are no unused intermediate registers.
+@W: CL169 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Pruning unused register decode_to_execute_PREDICTION_CONTEXT_line_target[31:0]. Make sure that there are no unused intermediate registers.
+@W: CL169 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Pruning unused register execute_to_memory_PREDICTION_CONTEXT_line_source[20:0]. Make sure that there are no unused intermediate registers.
+@W: CL169 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Pruning unused register execute_to_memory_PREDICTION_CONTEXT_line_target[31:0]. Make sure that there are no unused intermediate registers.
+@W: CL169 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Pruning unused register decode_to_execute_FORMAL_PC_NEXT[31:0]. Make sure that there are no unused intermediate registers.
+@W: CL169 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Pruning unused register execute_to_memory_FORMAL_PC_NEXT[31:0]. Make sure that there are no unused intermediate registers.
+@W: CL169 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Pruning unused register memory_to_writeBack_FORMAL_PC_NEXT[31:0]. Make sure that there are no unused intermediate registers.
+@W: CL169 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Pruning unused register decode_to_execute_CSR_READ_OPCODE. Make sure that there are no unused intermediate registers.
+@W: CL169 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Pruning unused register CsrPlugin_mtvec_mode[1:0]. Make sure that there are no unused intermediate registers.
+@W: CL265 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Removing unused bit 32 of memory_MulDivIterativePlugin_rs1_9[32:0]. Either assign all bits or reduce the width of the signal.
+@W: CL271 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Pruning unused bits 64 to 32 of memory_MulDivIterativePlugin_accumulator_8[64:0]. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL271 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Pruning unused bits 1 to 0 of execute_to_memory_NEXT_PC2[31:0]. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL265 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Removing unused bit 6 of decode_to_execute_INSTRUCTION[31:0]. Either assign all bits or reduce the width of the signal.
+@W: CL271 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Pruning unused bits 4 to 0 of decode_to_execute_INSTRUCTION[31:0]. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL271 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Pruning unused bits 31 to 30 of execute_to_memory_INSTRUCTION[31:0]. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL271 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Pruning unused bits 27 to 15 of execute_to_memory_INSTRUCTION[31:0]. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL265 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Removing unused bit 6 of execute_to_memory_INSTRUCTION[31:0]. Either assign all bits or reduce the width of the signal.
+@W: CL271 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Pruning unused bits 4 to 0 of execute_to_memory_INSTRUCTION[31:0]. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL271 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4329:2:4329:7|Pruning unused bits 31 to 30 of memory_to_writeBack_INSTRUCTION[31:0]. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL271 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4329:2:4329:7|Pruning unused bits 27 to 15 of memory_to_writeBack_INSTRUCTION[31:0]. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL265 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4329:2:4329:7|Removing unused bit 6 of memory_to_writeBack_INSTRUCTION[31:0]. Either assign all bits or reduce the width of the signal.
+@W: CL271 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4329:2:4329:7|Pruning unused bits 4 to 0 of memory_to_writeBack_INSTRUCTION[31:0]. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL271 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":2118:2:2118:7|Pruning unused bits 24 to 23 of _zz_191_[54:0]. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@N: CL134 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":2124:2:2124:7|Found RAM RegFilePlugin_regFile, depth=32, width=32
+@N: CL134 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":2124:2:2124:7|Found RAM RegFilePlugin_regFile, depth=32, width=32
+@N: CL134 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":2112:2:2112:7|Found RAM IBusSimplePlugin_predictor_history, depth=512, width=55
+@W: CL271 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Pruning unused bits 1 to 0 of _zz_123_[31:0]. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@N: CL189 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Register bit execute_to_memory_BRANCH_CALC[0] is always 0.
+@W: CL260 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4571:2:4571:7|Pruning register bit 0 of execute_to_memory_BRANCH_CALC[31:0]. If this is not the intended behavior, drive the input with valid values, or an input from the top level.
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":158:7:158:14|Synthesizing module BufferCC in library work.
+
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4905:7:4905:20|Synthesizing module SerialRxOutput in library work.
+
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4981:7:4981:22|Synthesizing module SimpleBusDecoder in library work.
+
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5094:7:5094:25|Synthesizing module SimpleBusDecoder_2_ in library work.
+
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5206:7:5206:22|Synthesizing module SimpleBusArbiter in library work.
+
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5236:7:5236:25|Synthesizing module SimpleBusArbiter_2_ in library work.
+
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5263:7:5263:25|Synthesizing module SimpleBusArbiter_3_ in library work.
+
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":173:7:173:19|Synthesizing module StreamArbiter in library work.
+
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5290:7:5290:25|Synthesizing module SimpleBusArbiter_4_ in library work.
+
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5392:7:5392:16|Synthesizing module Igloo2Perf in library work.
+
+@W: CG360 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5404:8:5404:14|Removing wire _zz_22_, as there is no assignment to it.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 0 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 1 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 2 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 3 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 4 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 5 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 6 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 7 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 8 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 9 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 10 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 11 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 12 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 13 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 14 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 15 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 16 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 17 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 18 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 19 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 20 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 21 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 22 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 23 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 24 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 25 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 26 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 27 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 28 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 29 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 30 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 31 of input io_input_cmd_payload_data of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 0 of input io_input_cmd_payload_mask of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 1 of input io_input_cmd_payload_mask of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 2 of input io_input_cmd_payload_mask of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@W: CL245 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5709:19:5709:37|Bit 3 of input io_input_cmd_payload_mask of instance system_iBus_decoder is undriven. If this is not the intended behavior, drive the inputs with valid values, or inputs from the top level.
+@N: CG364 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":6036:7:6036:24|Synthesizing module Igloo2PerfCreative in library work.
+
+@W: CL156 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":5404:8:5404:14|*Input _zz_22_ to expression [instance] has undriven bits; assigning undriven bits to 0.  Simulation mismatch possible. Assign all bits of the input.
+@N: CL201 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":4949:2:4949:7|Trying to extract state machine for register state.
+Extracted state machine for register state
+State machine has 3 reachable states with original encodings of:
+   00
+   01
+   10
+@N: CL159 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":162:14:162:32|Input resetCtrl_progReset is unused.
+@N: CL159 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":914:14:914:27|Input dBus_rsp_error is unused.
+@N: CL201 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":851:2:851:7|Trying to extract state machine for register fsm_stateReg.
+Extracted state machine for register fsm_stateReg
+State machine has 5 reachable states with original encodings of:
+   000
+   001
+   010
+   011
+   100
+@N: CL159 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":568:14:568:34|Input io_bus_cmd_payload_wr is unused.
+@N: CL159 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":570:20:570:42|Input io_bus_cmd_payload_data is unused.
+@N: CL159 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":571:19:571:41|Input io_bus_cmd_payload_mask is unused.
+@N: CL159 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":372:19:372:41|Input io_bus_cmd_payload_mask is unused.
+@W: CL246 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":264:20:264:49|Input port bits 1 to 0 of io_buses_0_cmd_payload_address[14:0] are unused. Assign logic for all port bits or change the input port size.
+@W: CL246 :"D:\pro\hdl\riscvSoftcoreContest\hardware\netlist\Igloo2PerfCreative.v":272:20:272:49|Input port bits 1 to 0 of io_buses_1_cmd_payload_address[14:0] are unused. Assign logic for all port bits or change the input port size.
+@W: CL157 :"D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\component\work\osc1\osc1_0\osc1_osc1_0_OSC.v":16:7:16:24|*Output RCOSC_25_50MHZ_O2F has undriven bits; assigning undriven bits to 0.  Simulation mismatch possible. Assign all bits of the output.
+@W: CL157 :"D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\component\work\osc1\osc1_0\osc1_osc1_0_OSC.v":17:7:17:20|*Output RCOSC_1MHZ_CCC has undriven bits; assigning undriven bits to 0.  Simulation mismatch possible. Assign all bits of the output.
+@W: CL157 :"D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\component\work\osc1\osc1_0\osc1_osc1_0_OSC.v":18:7:18:20|*Output RCOSC_1MHZ_O2F has undriven bits; assigning undriven bits to 0.  Simulation mismatch possible. Assign all bits of the output.
+@W: CL157 :"D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\component\work\osc1\osc1_0\osc1_osc1_0_OSC.v":19:7:19:16|*Output XTLOSC_CCC has undriven bits; assigning undriven bits to 0.  Simulation mismatch possible. Assign all bits of the output.
+@W: CL157 :"D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\component\work\osc1\osc1_0\osc1_osc1_0_OSC.v":20:7:20:16|*Output XTLOSC_O2F has undriven bits; assigning undriven bits to 0.  Simulation mismatch possible. Assign all bits of the output.
+@N: CL159 :"D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\component\work\osc1\osc1_0\osc1_osc1_0_OSC.v":14:7:14:9|Input XTL is unused.
+
+At c_ver Exit (Real Time elapsed 0h:00m:04s; CPU Time elapsed 0h:00m:03s; Memory used current: 118MB peak: 148MB)
+
+Process took 0h:00m:04s realtime, 0h:00m:03s cputime
+
+Process completed successfully.
+# Thu Nov 22 01:03:11 2018
+
+###########################################################]
+Synopsys Netlist Linker, version comp2016q3p1, Build 117R, built Nov 17 2016
+@N|Running in 64-bit mode
+File D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero\synthesis\synwork\layer0.srs changed - recompiling
+
+At syn_nfilter Exit (Real Time elapsed 0h:00m:00s; CPU Time elapsed 0h:00m:00s; Memory used current: 72MB peak: 72MB)
+
+Process took 0h:00m:01s realtime, 0h:00m:01s cputime
+
+Process completed successfully.
+# Thu Nov 22 01:03:11 2018
+
+###########################################################]
+@END
+
+At c_hdl Exit (Real Time elapsed 0h:00m:04s; CPU Time elapsed 0h:00m:03s; Memory used current: 3MB peak: 4MB)
+
+Process took 0h:00m:04s realtime, 0h:00m:03s cputime
+
+Process completed successfully.
+# Thu Nov 22 01:03:12 2018
+
+###########################################################]

@@ -1,0 +1,23 @@
+@P:  Worst Slack : -4.626
+@P:  oscToCcc - Estimated Frequency : NA
+@P:  oscToCcc - Requested Frequency : 50.0 MHz
+@P:  oscToCcc - Estimated Period : NA
+@P:  oscToCcc - Requested Period : 20.000
+@P:  oscToCcc - Slack : NA
+@P:  systemClk - Estimated Frequency : 86.0 MHz
+@P:  systemClk - Requested Frequency : 142.9 MHz
+@P:  systemClk - Estimated Period : 11.626
+@P:  systemClk - Requested Period : 7.000
+@P:  systemClk - Slack : -4.626
+@P:  System - Estimated Frequency : NA
+@P:  System - Requested Frequency : 200.0 MHz
+@P:  System - Estimated Period : NA
+@P:  System - Requested Period : 5.000
+@P:  System - Slack : NA
+@P: Igloo2PerfCreative Part : m2gl025vf256std
+@P: Igloo2PerfCreative Register bits  : 1780 
+@P: Igloo2PerfCreative DSP Blocks  : 4
+@P: Igloo2PerfCreative I/O primitives : 17
+@P: Igloo2PerfCreative RAM1K18 :  18
+@P: Igloo2PerfCreative RAM64x18 :  2
+@P:  CPU Time : 0h:00m:15s

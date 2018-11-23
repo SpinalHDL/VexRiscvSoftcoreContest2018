@@ -1,0 +1,12 @@
+
+#1001 : create_clock -name oscToCcc -period 20 -waveform {0 10} [get_pins { oscInst.osc1_0.I_RCOSC_25_50MHZ.CLKOUT }]
+# line 7 in d:/pro/hdl/riscvsoftcorecontest/hardware/synthesis/igloo2perfcreative/libero/designer/igloo2perfcreative/synthesis.fdc
+
+create_clock -name {oscToCcc} -period {20.000} -waveform {0.000 10.000} [get_pins {oscInst.osc1_0.I_RCOSC_25_50MHZ.CLKOUT}]
+
+#1002 : create_clock -name systemClk -period 7 -waveform {0 3.5} [get_pins { cccInst.ccc1_0.CCC_INST.GL0 }]
+# line 8 in d:/pro/hdl/riscvsoftcorecontest/hardware/synthesis/igloo2perfcreative/libero/designer/igloo2perfcreative/synthesis.fdc
+
+create_clock -name {systemClk} -period {7.000} -waveform {0.000 3.500} [get_pins {cccInst.ccc1_0.CCC_INST.GL0}]
+define_attribute {i:oscInst.osc1_0} {syn_noprune} 1
+define_attribute {i:oscInst} {syn_noprune} 1
