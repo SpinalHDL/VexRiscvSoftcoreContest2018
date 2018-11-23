@@ -1,0 +1,18 @@
+Microsemi Corporation - Microsemi Libero Software Release Libero SoC v11.8 SP2 (Version 11.8.2.4)
+
+Date      :  Sat Oct 27 12:00:17 2018
+Project   :  D:\pro\hes\astro\dev\implementation\liberoProjects\igloo2Fast\igloo2Fast
+Component :  osc1
+Family    :  IGLOO2
+
+
+HDL source files for all Synthesis and Simulation tools:
+    D:/pro/hes/astro/dev/implementation/liberoProjects/igloo2Fast/igloo2Fast/component/work/osc1/osc1.v
+    D:/pro/hes/astro/dev/implementation/liberoProjects/igloo2Fast/igloo2Fast/component/work/osc1/osc1_0/osc1_osc1_0_OSC.v
+
+HDL source files for Synopsys SynplifyPro Synthesis tool:
+    D:/pro/hes/astro/dev/implementation/liberoProjects/igloo2Fast/igloo2Fast/component/Actel/SgCore/OSC/2.0.101/osc_comps.v
+
+HDL source files for Mentor Precision Synthesis tool:
+    D:/pro/hes/astro/dev/implementation/liberoProjects/igloo2Fast/igloo2Fast/component/Actel/SgCore/OSC/2.0.101/osc_comps_pre.v
+

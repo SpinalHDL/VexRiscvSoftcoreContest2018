@@ -1,0 +1,12 @@
+Microsemi Corporation - Microsemi Libero Software Release Libero SoC v11.8 SP2 (Version 11.8.2.4)
+
+Date      :  Mon Nov 19 15:05:20 2018
+Project   :  D:\pro\hdl\riscvSoftcoreContest\hardware\synthesis\igloo2PerfCreative\libero
+Component :  ccc1
+Family    :  IGLOO2
+
+
+HDL source files for all Synthesis and Simulation tools:
+    D:/pro/hdl/riscvSoftcoreContest/hardware/synthesis/igloo2PerfCreative/libero/component/work/ccc1/ccc1.v
+    D:/pro/hdl/riscvSoftcoreContest/hardware/synthesis/igloo2PerfCreative/libero/component/work/ccc1/ccc1_0/ccc1_ccc1_0_FCCC.v
+
