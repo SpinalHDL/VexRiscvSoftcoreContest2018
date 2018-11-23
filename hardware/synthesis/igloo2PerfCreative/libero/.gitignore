@@ -9,6 +9,7 @@
 simulation/*
 package/*
 component/*
+!component/work
 tooldata/*
 viewdraw/*
 
