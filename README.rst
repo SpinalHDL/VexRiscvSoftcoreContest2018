@@ -147,6 +147,14 @@ There is a block diagram explaining the SoCs memory system :
 | |up5kPerfDiagram|  +  |igloo2PerfDiagram|  +
 +--------------------+-----------------------+
 
+There is a block diagram of the CPU made by the VexRiscv configuration used in both Up5kPerf and Igloo2Perf:
+
+.. image:: doc/assets/xPerfCpuDiagram.png
+  :width: 800
+
+
+
+
 Claimed spec :
 
 +--------------+--------------------+------------+
@@ -199,6 +207,11 @@ There is some comments about the design :
 There is a block diagram explaining the memory system :
 
 .. image:: doc/assets/up5kAreaDiagram.png
+  :width: 400
+
+There is a block diagram of the CPU made by the VexRiscv configuration used :
+
+.. image:: doc/assets/up5kAreaCpuDiagram.png
   :width: 400
 
 Claimed spec of the Up5kArea :
@@ -344,6 +357,12 @@ Boot sequence :
 2. CPU run the bootloader, which will copy the application binary from the flash to the on-chip-ram
 3. The bootloader run the application loaded in the on-chip-ram
 
+There are the bitstream locations :
+
+- Up5kArea : hardware/synthesis/up5kAreaEvn/icecube2/icecube2_Implmnt/sbt/outputs/bitmap/Up5kAreaEvn_bitmap.bin
+- Up5kPerf : hardware/synthesis/up5kPerfEvn/icecube2/icecube2_Implmnt/sbt/outputs/bitmap/Up5kPerfEvn_bitmap.bin
+- Igloo2PerfCreative : hardware/synthesis/igloo2PerfCreative/libero/designer/Igloo2PerfCreative/export/Igloo2PerfCreative.stp
+
 The Up5kPerfEvn an the Igloo2PerfCreative SoCs have their frequencies set at the limit. Be sure to have the same versions of Icecube2 and Libero than the one specified in the requirements.
 
 To generate the Up5k evn board bitstream, you have to manually use the icecube2 projects (hardware/synthesis/???/icecube2)
@@ -374,6 +393,8 @@ The flashing on the Up5k evn board (https://www.latticesemi.com/Products/Develop
 
 
 For the Igloo2 creative board (https://www.microsemi.com/existing-parts/parts/143948), you have to manually run the Libero tool with the hardware/synthesis/igloo2PerfCreative/libero/igloo2Fast.prjx project in order to do the synthesis and to flash the FPGA.
+
+To flash the Igloo2 itself, you have to manually use FlashPro with the hardware/synthesis/igloo2PerfCreative/libero/designer/Igloo2PerfCreative/export/Igloo2PerfCreative.stp file.
 
 To load the external SPI flash with the bootloader and the app, you need to generate the corresponding flashing files via 'make igloo2Perf_creative_serial_X' and send it over the FTDI serial at a rate of 115200 baud/s 1 stop bit, no parity.
 
