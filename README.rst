@@ -167,6 +167,7 @@ Claimed spec :
 | Frequancy    | 27 Mhz             | 114 Mhz    |
 +--------------+--------------------+------------+
 
+Note that without the lookup table divider optimisation, the performance for both SoC is reduced to 1.27 DMIPS/Mhz
 
 ================================================
 Up5kArea
@@ -209,7 +210,7 @@ There is a block diagram explaining the memory system :
 .. image:: doc/assets/up5kAreaDiagram.png
   :width: 400
 
-There is a block diagram of the CPU made by the VexRiscv configuration used :
+There is a block diagram of the CPU made by the VexRiscv configuration used (No args):
 
 .. image:: doc/assets/up5kAreaCpuDiagram.png
   :width: 400
@@ -247,7 +248,7 @@ How to use the thing
 
 the ./makefile contain a many commands:
 
-To generate the SpinalHDL netlists :
+Generating the SpinalHDL netlists :
 =======================================
 
 This is optional, as the repository already contain the verilog netlists in hardware/netlist.
@@ -679,4 +680,4 @@ There is an example of this parametrization where the plugin which implement the
     }
   }
 
-And it is by this way that the VexRiscv pipeline which was originally designed to be 5 stage can be shrink down to only two stages without much pain.
+And it is by this way that the VexRiscv pipeline which was originally designed to be 5 stage can be shrink down to only 2 stages for the Up5kArea SoC without much pain.
