@@ -96,7 +96,7 @@ case class Up5kAreaParameters(ioClkFrequency : HertzNumber,
         ),
         new LightShifterPlugin(),
         new BranchPlugin(
-          earlyBranch = !withMemoryStage,
+          earlyBranch = true,
           catchAddressMisaligned = withCsr && !noComplianceOverhead,
           fenceiGenAsAJump = withPipelining,
           fenceiGenAsANop = !withPipelining
@@ -106,6 +106,7 @@ case class Up5kAreaParameters(ioClkFrequency : HertzNumber,
     if(withPipelining){
       config.plugins += new HazardSimplePlugin(
         bypassExecute = withRfBypass,
+        bypassMemory  = withRfBypass && withMemoryStage,
         bypassWriteBackBuffer = withRfBypass
       )
     } else {
