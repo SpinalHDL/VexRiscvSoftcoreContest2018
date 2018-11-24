@@ -714,3 +714,9 @@ There is an example of this parametrization where the plugin which implement the
   }
 
 And it is by this way that the VexRiscv pipeline which was originally designed to be 5 stage can be shrink down to only 2 stages for the Up5kArea SoC without much pain.
+
+===========================
+Thanks
+===========================
+
+Thanks to peoples which were openly discussing and sharing things during the contest <3
