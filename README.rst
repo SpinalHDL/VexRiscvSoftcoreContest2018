@@ -16,7 +16,7 @@ For each of those SoC a port was made for a physical board :
 
 There are some general informations :
 
-- Hardware description made in SpinalHDL/Scala
+- Hardware description made with SpinalHDL/Scala
 - CPU used in SoCs is VexRiscv
 - Netlist exported in Verilog
 - Simulations made with Verilator
@@ -158,9 +158,6 @@ Note that the purpose of the double PC register between the pc-gen and the Fetch
 - One of this PC register is used to make the iBus_cmd address consistant
 - One of this PC register is used to store the value of a branch request while the Fetch1 stage is blocked.
 
-There are the CPU configuration used :
-- Up5kPerf : TODO
-- Igloo2Perf : TODO
 
 Claimed spec :
 
@@ -232,36 +229,33 @@ There is a block diagram of the CPU made by the VexRiscv configuration used (No 
 .. image:: doc/assets/up5kAreaCpuDiagram.png
   :width: 400
 
-There is the CPU configuration used :
-- Up5kArea : TODO
-
 
 Claimed spec of the Up5kArea :
 
-+------------------+-----------------------------+------------------------+-------------------------------+------------------------------------+
-| Up5kArea netlist | No args                     | --noComplianceOverhead | --noComplianceOverhead        | --noComplianceOverhead             |
-| arguments        |                             |                        | --withPipelining              | --withoutCsr                       |
-+==================+=============================+========================+===============================+====================================+
-| Description      | Pass all requirements.      | Enough to run Zephyr   | Enough to run Zephyr          | Remove the CSR (no interrupts).    |
-|                  | Config to use for the entry | and dhrystone          | and drystone with more DMIPS  | Can't run zephyr but dhrystone     |
-+------------------+-----------------------------+------------------------+-------------------------------+------------------------------------+
-| LogicCells       | 1620                        | 1433                   | 1645                          | 1193                               |
-+------------------+-----------------------------+------------------------+-------------------------------+------------------------------------+
-| PLBs             | 278                         | 185                    | 214                           | 153                                |
-+------------------+-----------------------------+------------------------+-------------------------------+------------------------------------+
-| BRAMs            | 4                           | 4                      | 4                             | 4                                  |
-+------------------+-----------------------------+------------------------+-------------------------------+------------------------------------+
-| SPRAMs           | 2                           | 2                      | 2                             | 2                                  |
-+------------------+-----------------------------+------------------------+-------------------------------+------------------------------------+
-| Dhrystones/s     | 8528                        | 8528                   | 15956                         | 8528                               |
-+------------------+-----------------------------+------------------------+-------------------------------+------------------------------------+
-| DMIPS/Mhz        | 0.40                        | 0.40                   | 0.75                          | 0.40                               |
-+------------------+-----------------------------+------------------------+-------------------------------+------------------------------------+
-| Frequancy        | 12 Mhz                      | 12 Mhz                 | 12 Mhz                        | 12 Mhz                             |
-+------------------+-----------------------------+------------------------+-------------------------------+------------------------------------+
++------------------+-----------------------------+------------------------+-------------------------------+---------------------------------+------------------------------------+
+| Up5kArea netlist | No args                     | --noComplianceOverhead | --noComplianceOverhead        | --noComplianceOverhead          | --noComplianceOverhead             |
+| arguments        |                             |                        | --withPipelining              | --withPipelining                | --withoutCsr                       |
+| arguments        |                             |                        |                               | --withICache                    |                                    |
++==================+=============================+========================+===============================+=================================+====================================+
+| Description      | Pass all requirements.      | Enough to run Zephyr   | Enough to run Zephyr          | As the config on the left,      | Remove the CSR (no interrupts).    |
+|                  | Config to use for the entry | and dhrystone          | and drystone with more DMIPS  | but with icache                 | Can't run zephyr but dhrystone     |
++------------------+-----------------------------+------------------------+-------------------------------+---------------------------------+------------------------------------+
+| LogicCells       | 1620                        | 1433                   | 1645                          | 1728                            | 1193                               |
++------------------+-----------------------------+------------------------+-------------------------------+---------------------------------+------------------------------------+
+| PLBs             | 278                         | 185                    | 214                           | 278                             | 153                                |
++------------------+-----------------------------+------------------------+-------------------------------+---------------------------------+------------------------------------+
+| BRAMs            | 4                           | 4                      | 4                             | 14                              | 4                                  |
++------------------+-----------------------------+------------------------+-------------------------------+---------------------------------+------------------------------------+
+| SPRAMs           | 2                           | 2                      | 2                             | 2                               | 2                                  |
++------------------+-----------------------------+------------------------+-------------------------------+---------------------------------+------------------------------------+
+| Dhrystones/s     | 8528                        | 8528                   | 15956                         | 15343                           | 8528                               |
++------------------+-----------------------------+------------------------+-------------------------------+---------------------------------+------------------------------------+
+| DMIPS/Mhz        | 0.40                        | 0.40                   | 0.75                          | 0.72                            | 0.40                               |
++------------------+-----------------------------+------------------------+-------------------------------+---------------------------------+------------------------------------+
+| Frequancy        | 12 Mhz                      | 12 Mhz                 | 12 Mhz                        | 12 Mhz                          | 12 Mhz                             |
++------------------+-----------------------------+------------------------+-------------------------------+---------------------------------+------------------------------------+
 
 The frequency of the design wasn't stressed at all, it could very likely run much faster.
-
 
 ================================================
 How to use the thing
@@ -282,37 +276,52 @@ The simulation netlists differ from the Synthesis netlist in few minor and pract
 .. code-block:: sh
 
   # Simulation netlist
-  make igloo2Perf.v
+  make igloo2Perf.v ARGS=""
   make up5kPerf.v
   make up5kArea.v ARGS=""
 
 .. code-block:: sh
 
   # Synthesis netlist
-  make igloo2PerfCreative.v
+  make igloo2PerfCreative.v ARGS=""
   make up5kPerfEvn.v
   make up5kAreaEvn.v ARGS=""
 
-Up5kArea arguments :
 
-+------------------------+------------------------------------------------------------+
-|                        | Description                                                |
-+========================+============================================================+
-| --noComplianceOverhead | Reduce the CPU feature to the Zephyr requirements          |
-+------------------------+------------------------------------------------------------+
-| --withoutCsr           | Remove the CSR/Interrupt/Exception support from the CPU    |
-+------------------------+------------------------------------------------------------+
-| --withMemoryStage      | Add a memory stage to the CPU (3 stages total)             |
-+------------------------+------------------------------------------------------------+
-| --withPipelining       | Allow multiple instruction to be in the pipeline at the    |
-|                        | same time (Interlocked). Nearly double performances        |
-+------------------------+------------------------------------------------------------+
-| --withRfBypass         | If withPipelining is enabled, remove the interlock.        |
-|                        | which improve performance, especially if the memory        |
-|                        | stage is enabled.                                          |
-+------------------------+------------------------------------------------------------+
++------------------------------------+------------------------------------------------------------+
+| igloo2Perf/igloo2PerfCreative ARGS | Description                                                |
++====================================+============================================================+
+| --withICache                       | Add a 4KB 1 way instruction cache to the CPU               |
++------------------------------------+------------------------------------------------------------+
+| --withDCache                       | Add a 4KB 1 way data cache to the CPU                      |
++------------------------------------+------------------------------------------------------------+
 
-The default Up5kArea config (without args) will generate the slow but compliant SoC.
++------------------------------------+------------------------------------------------------------+
+| up5kArea/up5kAreaEvn ARGS          | Description                                                |
++====================================+============================================================+
+| --noComplianceOverhead             | Reduce the CPU feature to the Zephyr requirements.         |
+|                                    | no EBREAK, no missalignement catch, no MSCRATCH            |
+|                                    | That's why 9/52 compliance tests will fail                 |
++------------------------------------+------------------------------------------------------------+
+| --withoutCsr                       | Remove the CSR/Interrupt/Exception support from the CPU    |
++------------------------------------+------------------------------------------------------------+
+| --withMemoryStage                  | Add a memory stage to the CPU (3 stages total)             |
++------------------------------------+------------------------------------------------------------+
+| --withPipelining                   | Allow multiple instruction to be in the pipeline at the    |
+|                                    | same time (Interlocked). Nearly double performances        |
++------------------------------------+------------------------------------------------------------+
+| --withRfBypass                     | If withPipelining is enabled, remove the interlock.        |
+|                                    | which improve performance, especially if the memory        |
+|                                    | stage is enabled.                                          |
++------------------------------------+------------------------------------------------------------+
+| --withICache                       | Add a 4KB 1 way instruction cache to the CPU               |
+|                                    | Do no implement the FENCEI instruction, 1/52 compliance    |
+|                                    | test will fail                                             |
++------------------------------------+------------------------------------------------------------+
+
+The default up5kArea config (without args) will generate the slow but compliant SoC that should be use for the entry.
+
+The default igloo2Perf config (without args) will generate SoC that should be use for the entry.
 
 To run simulations :
 =======================================
@@ -370,7 +379,7 @@ Also, to speed up the simulation boot time, the software bootloader and the appl
 Interact with the physical targets :
 =======================================
 
-The SoC print messages via their serial link. For the Igloo2 create board, it's through the FTDI, while for the UP5K evn board it's by emiting the UART frames on the pin 6 of the package / 13B on J3. The serial configuration is 115200 baud/s 1 stop bit, no parity.
+The SoC print messages via their serial link. For the Igloo2 create board, it's through the FTDI, while for the UP5K evn board it's by emiting the UART frames on the pin 6 of the package / 13B on J3. The serial configurations are 115200 baud/s 1 stop bit, no parity for all SoCs.
 
 All targets use a SPI flash in XIP mode to boot and copy the application into the on-chip-ram. In addition, the Up5k FPGA load it's bitstream from the same SPI flash.
 
