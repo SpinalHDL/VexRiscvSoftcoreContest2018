@@ -41,7 +41,7 @@ This repository has some git submodules (Zephyr, compliance, VexRiscv), you need
 
 .. code-block:: sh
 
-  git clone https://github.com/SpinalHDL/riscvSoftcoreContest.git --recursive
+  git clone https://github.com/SpinalHDL/VexRiscvSoftcoreContest2018.git --recursive
 
 Requirements :
 
