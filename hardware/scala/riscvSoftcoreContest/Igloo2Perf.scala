@@ -18,68 +18,81 @@ import scala.collection.mutable.ArrayBuffer
 
 
 
-
+//Class used to store the SoC configuration
 case class Igloo2PerfParameters(ioClkFrequency : HertzNumber,
-                                ioSerialBaudRate : Int) {
+                                ioSerialBaudRate : Int,
+                                withICache : Boolean = false,
+                                withDCache : Boolean = false) {
+
+  def withArgs(args : Seq[String]) = this.copy(
+    withICache = args.contains("--withICache"),
+    withDCache = args.contains("--withDCache")
+  )
+
+  //Create a VexRiscv configuration from the SoC configuration
   def toVexRiscvConfig() = {
     val config = VexRiscvConfig(
       List(
-        new IBusSimplePlugin(
-          resetVector = 0xA0000l,
-          cmdForkOnSecondStage = true,
-          cmdForkPersistence = false, //Don't need it, as the ibus memory has it's dedicated port and there is a halfpipe to the slowBus
-          prediction = DYNAMIC_TARGET,
-          catchAccessFault = false,
-          compressedGen = false,
-          injectorStage = true,
-          rspHoldValue = false,
-          historyRamSizeLog2 = 9
+        if(!withICache) {
+          new IBusSimplePlugin(
+            resetVector = 0xA0000l,
+            cmdForkOnSecondStage = true,
+            cmdForkPersistence = false, //Don't need it, as the ibus memory has it's dedicated port and there is a halfpipe to the slowBus
+            prediction = DYNAMIC_TARGET,
+            catchAccessFault = false,
+            compressedGen = false,
+            injectorStage = true,
+            rspHoldValue = false,
+            historyRamSizeLog2 = 9
+          )
+        } else {
+          new IBusCachedPlugin(
+            resetVector = 0xA0000l,
+            prediction = DYNAMIC_TARGET,
+            relaxedPcCalculation = true,
+            config = InstructionCacheConfig(
+              cacheSize = 4096,
+              bytePerLine = 32,
+              wayCount = 1,
+              addressWidth = 32,
+              cpuDataWidth = 32,
+              memDataWidth = 32,
+              catchIllegalAccess = false,
+              catchAccessFault = false,
+              catchMemoryTranslationMiss = false,
+              asyncTagMemory = false,
+              twoCycleRam = true,
+              twoCycleCache = true
+            )
+          )
+        },
+        if(!withDCache) {
+          new DBusSimplePlugin(
+            catchAddressMisaligned = true,
+            catchAccessFault = false,
+            earlyInjection = false,
+            emitCmdInMemoryStage = true
+          )
+        } else {
+          new DBusCachedPlugin(
+            config = new DataCacheConfig(
+              cacheSize = 4096,
+              bytePerLine = 32,
+              wayCount = 1,
+              addressWidth = 32,
+              cpuDataWidth = 32,
+              memDataWidth = 32,
+              catchAccessError = false,
+              catchIllegal = false,
+              catchUnaligned = true,
+              catchMemoryTranslationMiss = false
+            ),
+            memoryTranslatorPortConfig = null
+          )
+        },
+        new StaticMemoryTranslatorPlugin(
+          ioRange      = _(19 downto 16) === 0x7
         ),
-//      Could have been used as a instruction cache
-//        new IBusCachedPlugin(
-//          resetVector = 0xA0000l,
-//          prediction = DYNAMIC_TARGET,
-//          relaxedPcCalculation = true,
-//          config = InstructionCacheConfig(
-//            cacheSize = 4096,
-//            bytePerLine = 32,
-//            wayCount = 1,
-//            addressWidth = 32,
-//            cpuDataWidth = 32,
-//            memDataWidth = 32,
-//            catchIllegalAccess = false,
-//            catchAccessFault = false,
-//            catchMemoryTranslationMiss = false,
-//            asyncTagMemory = false,
-//            twoCycleRam = true,
-//            twoCycleCache = true
-//          )
-//        ),
-        new DBusSimplePlugin(
-          catchAddressMisaligned = true,
-          catchAccessFault = false,
-          earlyInjection = false,
-          emitCmdInMemoryStage = true
-        ),
-//      Could have been used as a data cache
-//        new DBusCachedPlugin(
-//          config = new DataCacheConfig(
-//            cacheSize         = 4096,
-//            bytePerLine       = 32,
-//            wayCount          = 1,
-//            addressWidth      = 32,
-//            cpuDataWidth      = 32,
-//            memDataWidth      = 32,
-//            catchAccessError  = false,
-//            catchIllegal      = false,
-//            catchUnaligned    = true,
-//            catchMemoryTranslationMiss = false
-//          ),
-//          memoryTranslatorPortConfig = null
-//        ),
-//        new StaticMemoryTranslatorPlugin(
-//          ioRange      = _(19 downto 16) === 0x7
-//        ),
         new CsrPlugin(
           new CsrPluginConfig(
             catchIllegalAccess = false,
@@ -145,7 +158,7 @@ case class Igloo2PerfParameters(ioClkFrequency : HertzNumber,
   }
 }
 
-
+//Board agnostic SoC toplevel
 case class Igloo2Perf(p : Igloo2PerfParameters) extends Component {
   val io = new Bundle {
     val clk, reset = in Bool()
@@ -161,7 +174,6 @@ case class Igloo2Perf(p : Igloo2PerfParameters) extends Component {
       resetKind = BOOT
     )
   )
-
 
   val resetCtrl = new ClockingArea(resetCtrlClockDomain) {
     val resetUnbuffered  = False
@@ -201,18 +213,20 @@ case class Igloo2Perf(p : Igloo2PerfParameters) extends Component {
     )
   )
 
+  //There is defined the whole SoC stuff
   val system = new ClockingArea(systemClockDomain) {
     val busConfig = SimpleBusConfig(
       addressWidth = 20,
       dataWidth = 32
     )
 
+    //Define the different memory busses and interconnect that will be use in the SoC
     val dBus = SimpleBus(busConfig)
     val iBus = SimpleBus(busConfig)
     val slowBus = SimpleBus(busConfig)
     val interconnect = SimpleBusInterconnect()
 
-
+    //Define slave/peripheral components
     val ram = SimpleBusMultiPortRam(32 kB, portCount = 2)
 
     val peripherals = Peripherals(serialBaudRate = p.ioSerialBaudRate)
@@ -221,13 +235,16 @@ case class Igloo2Perf(p : Igloo2PerfParameters) extends Component {
 
     val flashXip = FlashXpi(addressWidth = 19, slowDownFactor = 3)
 
+    //Map the different slave/peripherals into the interconnect
     interconnect.addSlaves(
-      ram.io.buses(0)         -> SizeMapping(0x00000,  64 kB),
-      ram.io.buses(1)         -> SizeMapping(0x00000,  64 kB),
+      ram.io.buses(0)     -> SizeMapping(0x00000,  64 kB),
+      ram.io.buses(1)     -> SizeMapping(0x00000,  64 kB),
       peripherals.io.bus  -> SizeMapping(0x70000,  64 Byte),
       flashXip.io.bus     -> SizeMapping(0x80000, 512 kB),
       slowBus             -> DefaultMapping
     )
+
+    //Specify which master bus can access to which slave/peripheral
     interconnect.addMasters(
       dBus   -> List(ram.io.buses(0), slowBus),
       iBus   -> List(ram.io.buses(1), slowBus),
@@ -236,7 +253,7 @@ case class Igloo2Perf(p : Igloo2PerfParameters) extends Component {
 
     interconnect.noTransactionLockOn(ram.io.buses)
 
-    //Add pipelining
+    //Add pipelining to busses connections to get a better maximal frequancy
     interconnect.setConnector(dBus, slowBus){(m,s) =>
       m.cmd.halfPipe() >> s.cmd
       m.rsp            << s.rsp
@@ -254,7 +271,7 @@ case class Igloo2Perf(p : Igloo2PerfParameters) extends Component {
       m.rsp << s.rsp
     }
 
-    //Map the CPU into the SoC
+    //Map the CPU into the SoC depending the Plugins used
     val cpu = new VexRiscv(p.toVexRiscvConfig())
     for (plugin <- cpu.plugins) plugin match {
       case plugin : IBusSimplePlugin => iBus << plugin.iBus.toSimpleBus()
@@ -269,6 +286,7 @@ case class Igloo2Perf(p : Igloo2PerfParameters) extends Component {
     }
   }
 
+  //Add the logic required to program the external SPI flash from the uart link.
   val prog = new ClockingArea(progClockDomain){
     val ctrl = SerialRxOutput(p.ioSerialBaudRate, 0x07)
     ctrl.io.serialRx := io.serialRx
@@ -293,12 +311,13 @@ case class Igloo2Perf(p : Igloo2PerfParameters) extends Component {
 
 }
 
+//Igloo2 creative board specific toplevel.
 case class Igloo2PerfCreative(p : Igloo2PerfParameters) extends Component{
   val io = new Bundle {
     val serialTx  = out  Bool()
     val serialRx  = in  Bool()
     val flashSpi  = master(SpiMaster())
-    val probes  = out(Bits(8 bits)) //Used to probe the spiFlash signals
+    val probes  = out(Bits(8 bits)) //Used to probe the spiFlash signals in case of issues
     val leds = out Bits(3 bits)
   }
 
@@ -324,20 +343,22 @@ case class Igloo2PerfCreative(p : Igloo2PerfParameters) extends Component{
   io.probes(7) := True
 }
 
+//Scala main used to generate the Igloo2Perf toplevel
 object Igloo2Perf {
   def main(args: Array[String]): Unit = {
     SpinalRtlConfig().includeSimulation.generateVerilog(Igloo2Perf(Igloo2PerfParameters(
       ioClkFrequency = 114 MHz,
       ioSerialBaudRate = 11400000 //For faster simulation
-    )))
+    ).withArgs(args)))
   }
 }
 
+//Scala main used to generate the Igloo2PerfCreative toplevel
 object Igloo2PerfCreative{
   def main(args: Array[String]) {
     SpinalRtlConfig().generateVerilog(Igloo2PerfCreative(Igloo2PerfParameters(
       ioClkFrequency = 114 MHz,
       ioSerialBaudRate = 115200
-    )))
+    ).withArgs(args)))
   }
 }

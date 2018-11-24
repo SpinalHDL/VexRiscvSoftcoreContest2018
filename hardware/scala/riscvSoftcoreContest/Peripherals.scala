@@ -4,6 +4,7 @@ import spinal.core._
 import spinal.lib._
 import vexriscv.demo.{SimpleBus, SimpleBusSlaveFactory}
 
+//Peripheral component which create a timer, 3 writable leds, 1 UART transmitter
 case class Peripherals(serialBaudRate : Int, smallTimer : Boolean = false) extends Component{
   val io = new Bundle{
     val bus = slave(SimpleBus(6, 32))
@@ -13,8 +14,11 @@ case class Peripherals(serialBaudRate : Int, smallTimer : Boolean = false) exten
   }
 
   val mapper = new SimpleBusSlaveFactory(io.bus)
+
+  //Led logic
   mapper.driveAndRead(io.leds, 0x4, 0) init(0)
 
+  //Uart transmiter logic
   val serialTx = new Area{
     val counter = Counter(12)
     val buffer = Reg(Bits(8 bits))
@@ -32,6 +36,7 @@ case class Peripherals(serialBaudRate : Int, smallTimer : Boolean = false) exten
     mapper.read(busy, 0x0, 0)
   }
 
+  //Timer logic
   val timer = if(!smallTimer) new Area {
     val counter = Reg(UInt(32 bits)) init(0)
     val cmp = Reg(UInt(32 bits)) init(0)
@@ -52,22 +57,5 @@ case class Peripherals(serialBaudRate : Int, smallTimer : Boolean = false) exten
     io.mTimeInterrupt := interrupt
     mapper.read(counter, 0x10)
     mapper.write(cmp, 0x18)
-
-//    val counter = CounterFreeRun(ClockDomain.current.frequency.getValue.toInt/100)
-//    val interrupt = RegInit(False) setWhen(counter.willOverflowIfInc) clearWhen(mapper.isWriting(0x10))
-//    io.mTimeInterrupt := interrupt
-//    mapper.read(counter.value, 0x10)
-
-//    val counter = Reg(UInt(16 bits))
-//    val cmp = Reg(UInt(16 bits))
-//    val hit = counter === cmp
-//    val interrupt = RegInit(False) setWhen(hit) clearWhen(mapper.isWriting(0x10))
-//    counter := counter + U(serialTx.timer.willOverflowIfInc)
-//    when(hit || mapper.isWriting(0x18)){
-//      counter := 0
-//    }
-//    io.mTimeInterrupt := interrupt
-//    mapper.read(counter, 0x10)
-//    mapper.write(cmp, 0x18)
   }
 }

@@ -14,41 +14,66 @@ import vexriscv.plugin._
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
-
+//Class used to store the SoC configur
 case class Up5kAreaParameters(ioClkFrequency : HertzNumber,
                               ioSerialBaudRate : Int,
                               noComplianceOverhead : Boolean = false,
                               withMemoryStage : Boolean = false,
                               withRfBypass : Boolean = false,
                               withPipelining : Boolean = false,
-                              withCsr : Boolean = true){
+                              withCsr : Boolean = true,
+                              withICache : Boolean = false){
 
   def withArgs(args : Seq[String]) = this.copy(
     noComplianceOverhead = args.contains("--noComplianceOverhead"),
     withMemoryStage = args.contains("--withMemoryStage"),
     withRfBypass = args.contains("--withRfBypass"),
     withPipelining = args.contains("--withPipelining"),
-    withCsr = !args.contains("--withoutCsr")
+    withCsr = !args.contains("--withoutCsr"),
+    withICache = args.contains("--withICache")
   )
 
+  assert(!(withICache && !withPipelining), "--withICache require --withPipelining")
+
+  //Create a VexRiscv configuration from the SoC configuration
   def toVexRiscvConfig() = {
     val config = VexRiscvConfig(
       withMemoryStage = withMemoryStage,
       withWriteBackStage = false,
       List(
-        new IBusSimplePlugin(
-          resetVector = 0x000A0000l,
-          cmdForkOnSecondStage = false,
-          cmdForkPersistence = false,
-          prediction = NONE,
-          catchAccessFault = false,
-          compressedGen = false,
-          injectorStage = false,
-          rspHoldValue = !withPipelining,
-          singleInstructionPipeline = !withPipelining,
-          busLatencyMin = 1,
-          pendingMax = if(withPipelining) 3 else 1
-        ),
+        if(!withICache) {
+          new IBusSimplePlugin(
+            resetVector = 0xA0000l,
+            cmdForkOnSecondStage = false,
+            cmdForkPersistence = false,
+            prediction = NONE,
+            catchAccessFault = false,
+            compressedGen = false,
+            injectorStage = false,
+            rspHoldValue = !withPipelining,
+            singleInstructionPipeline = !withPipelining,
+            busLatencyMin = 1,
+            pendingMax = if(withPipelining) 3 else 1
+          )
+        } else {
+          new IBusCachedPlugin(
+            resetVector = 0xA0000l,
+            config = InstructionCacheConfig(
+              cacheSize = 4096,
+              bytePerLine = 32,
+              wayCount = 1,
+              addressWidth = 32,
+              cpuDataWidth = 32,
+              memDataWidth = 32,
+              catchIllegalAccess = false,
+              catchAccessFault = false,
+              catchMemoryTranslationMiss = false,
+              asyncTagMemory = false,
+              twoCycleRam = false,
+              twoCycleCache = true
+            )
+          )
+        },
         new DBusSimplePlugin(
           catchAddressMisaligned = withCsr && !noComplianceOverhead,
           catchAccessFault = false
@@ -83,6 +108,8 @@ case class Up5kAreaParameters(ioClkFrequency : HertzNumber,
         bypassExecute = withRfBypass,
         bypassWriteBackBuffer = withRfBypass
       )
+    } else {
+      config.plugins += new NoHazardPlugin
     }
     if(withCsr) config.plugins += new CsrPlugin(
       if (noComplianceOverhead) new CsrPluginConfig(
@@ -134,7 +161,7 @@ case class Up5kAreaParameters(ioClkFrequency : HertzNumber,
   }
 }
 
-
+//Board agnostic SoC toplevel
 case class Up5kArea(p : Up5kAreaParameters) extends Component {
   val io = new Bundle {
     val clk, reset = in Bool()
@@ -179,6 +206,7 @@ case class Up5kArea(p : Up5kAreaParameters) extends Component {
     )
   )
 
+  //There is defined the whole SoC stuff
   val system = new ClockingArea(systemClockDomain) {
 
     val mainBusConfig = SimpleBusConfig(
@@ -186,12 +214,13 @@ case class Up5kArea(p : Up5kAreaParameters) extends Component {
       dataWidth = 32
     )
 
-
+    //Define the different memory busses and interconnect that will be use in the SoC
     val dBus = SimpleBus(mainBusConfig)
     val iBus = SimpleBus(mainBusConfig)
     val mainBus = SimpleBus(mainBusConfig)
     val interconnect = SimpleBusInterconnect()
 
+    //Define slave/peripheral components
     val ram = Spram()
 
     val peripherals = Peripherals(
@@ -208,18 +237,22 @@ case class Up5kArea(p : Up5kAreaParameters) extends Component {
     RegNext(flashXip.io.flash.mosi) <> io.flash.mosi
     flashXip.io.flash.miso <> io.flash.miso
 
+    //Map the different slave/peripherals into the interconnect
     interconnect.addSlaves(
       ram.io.bus          -> SizeMapping(0x00000,  64 kB),
       peripherals.io.bus  -> SizeMapping(0x70000,  64 kB),
       flashXip.io.bus     -> SizeMapping(0x80000,  512 kB),
       mainBus             -> DefaultMapping
     )
+
+    //Specify which master bus can access to which slave/peripheral
     interconnect.addMasters(
       dBus   -> List(mainBus),
       iBus   -> List(mainBus),
       mainBus-> List(ram.io.bus, peripherals.io.bus, flashXip.io.bus)
     )
 
+    //Add an zero latency buffer to the mainBus connection to avoid that the transaction on the bus changed before its completion
     if(p.withPipelining) {
       interconnect.setConnector(mainBus) { (m, s) =>
         m.cmd.s2mPipe() >> s.cmd
@@ -228,7 +261,7 @@ case class Up5kArea(p : Up5kAreaParameters) extends Component {
     }
 
 
-    //Map the CPU into the SoC
+    //Map the CPU into the SoC depending the Plugins used
     val cpu = new VexRiscv(p.toVexRiscvConfig())
     for (plugin <- cpu.plugins) plugin match {
       case plugin : IBusSimplePlugin => iBus << plugin.iBus.toSimpleBus()
@@ -243,7 +276,7 @@ case class Up5kArea(p : Up5kAreaParameters) extends Component {
   }
 }
 
-
+//Up5kAreaEvn creative board specific toplevel.
 case class Up5kAreaEvn(p : Up5kAreaParameters) extends Component{
   val io = new Bundle {
     val iceClk  = in  Bool()
@@ -278,7 +311,7 @@ case class Up5kAreaEvn(p : Up5kAreaParameters) extends Component{
 }
 
 
-//Main used to generate the SoC design
+//Scala main used to generate the Up5kArea toplevel
 object Up5kArea {
   def main(args: Array[String]): Unit = {
     SpinalRtlConfig().generateVerilog(Up5kArea(Up5kAreaParameters(
@@ -288,6 +321,7 @@ object Up5kArea {
   }
 }
 
+//Scala main used to generate the Up5kAreaEvn toplevel
 object Up5kAreaEvn{
   def main(args: Array[String]) {
     SpinalRtlConfig().generateVerilog(Up5kAreaEvn(Up5kAreaParameters(

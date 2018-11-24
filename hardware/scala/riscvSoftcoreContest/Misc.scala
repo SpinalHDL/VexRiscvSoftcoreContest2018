@@ -9,6 +9,31 @@ object SpinalRtlConfig {
 }
 
 
+
+
+
+case class SimpleBusMultiPortRam(onChipRamSize : BigInt, portCount : Int) extends Component{
+  val io = new Bundle{
+    val buses = Vec(slave(SimpleBus(log2Up(onChipRamSize), 32)), portCount)
+  }
+  val ram = Mem(Bits(32 bits), onChipRamSize / 4).addTag(Verilator.public)
+
+  for(bus <- io.buses) {
+    bus.cmd.ready := True
+    bus.rsp.valid := RegNext(bus.cmd.fire && !bus.cmd.wr) init (False)
+    bus.rsp.data := ram.readWriteSync(
+      address = (bus.cmd.address >> 2).resized,
+      data = bus.cmd.data,
+      enable = bus.cmd.valid,
+      write = bus.cmd.wr,
+      mask = bus.cmd.mask
+    )
+  }
+}
+
+
+
+//on-chip-ram with options to using the falling edge of the clock to move around the timings
 case class SimpleBusRam(onChipRamSize : BigInt, relaxedCmd : Boolean = false, relaxedRsp : Boolean = false) extends Component{
   val io = new Bundle{
     val bus = slave(SimpleBus(log2Up(onChipRamSize), 32))
@@ -55,23 +80,3 @@ case class SimpleBusRam(onChipRamSize : BigInt, relaxedCmd : Boolean = false, re
 }
 
 
-
-
-case class SimpleBusMultiPortRam(onChipRamSize : BigInt, portCount : Int) extends Component{
-  val io = new Bundle{
-    val buses = Vec(slave(SimpleBus(log2Up(onChipRamSize), 32)), portCount)
-  }
-  val ram = Mem(Bits(32 bits), onChipRamSize / 4).addTag(Verilator.public)
-  
-  for(bus <- io.buses) {
-    bus.cmd.ready := True
-    bus.rsp.valid := RegNext(bus.cmd.fire && !bus.cmd.wr) init (False)
-    bus.rsp.data := ram.readWriteSync(
-      address = (bus.cmd.address >> 2).resized,
-      data = bus.cmd.data,
-      enable = bus.cmd.valid,
-      write = bus.cmd.wr,
-      mask = bus.cmd.mask
-    )
-  }
-}

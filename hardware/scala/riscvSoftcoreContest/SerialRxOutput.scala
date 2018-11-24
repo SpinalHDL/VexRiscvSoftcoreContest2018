@@ -3,6 +3,8 @@ package riscvSoftcoreContest
 import spinal.core._
 import spinal.lib._
 
+//Component used to write the SPI flash of the Igloo2Creative board.
+//It basicaly write each byte received by uart to 8 outputs.
 case class SerialRxOutput(serialBaudRate : Int, outputInit : Int) extends Component{
   val io = new Bundle {
     val serialRx = in Bool()

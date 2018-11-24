@@ -14,9 +14,11 @@ import vexriscv.plugin._
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
 
-
+//Class used to store a SoC configuration
 case class Up5kPerfParameters(ioClkFrequency : HertzNumber,
                               ioSerialBaudRate : Int){
+
+  //Create a VexRiscv configuration from the SoC configuration
   def toVexRiscvConfig() = {
     val config = VexRiscvConfig(
       withMemoryStage = true,
@@ -103,7 +105,7 @@ case class Up5kPerfParameters(ioClkFrequency : HertzNumber,
 }
 
 
-
+//Board agnostic SoC toplevel
 case class Up5kPerf(p : Up5kPerfParameters) extends Component {
   val io = new Bundle {
     val clk, reset = in Bool()
@@ -148,17 +150,20 @@ case class Up5kPerf(p : Up5kPerfParameters) extends Component {
     )
   )
 
+  //There is defined the whole SoC stuff
   val system = new ClockingArea(systemClockDomain) {
     val busConfig = SimpleBusConfig(
       addressWidth = 20,
       dataWidth = 32
     )
 
+    //Define the different memory busses and interconnect that will be use in the SoC
     val dBus = SimpleBus(busConfig)
     val iBus = SimpleBus(busConfig)
     val slowBus = SimpleBus(busConfig)
     val interconnect = SimpleBusInterconnect()
 
+    //Define slave/peripheral components
     val iRam = Spram()
     val dRam = Spram()
 
@@ -173,6 +178,8 @@ case class Up5kPerf(p : Up5kPerfParameters) extends Component {
     RegNext(flashXip.io.flash.mosi) <> io.flash.mosi
     flashXip.io.flash.miso <> io.flash.miso
 
+
+    //Map the different slave/peripherals into the interconnect
     interconnect.addSlaves(
       dRam.io.bus         -> SizeMapping(0x00000,  64 kB),
       iRam.io.bus         -> SizeMapping(0x10000,  64 kB),
@@ -180,12 +187,15 @@ case class Up5kPerf(p : Up5kPerfParameters) extends Component {
       flashXip.io.bus     -> SizeMapping(0x80000, 512 kB),
       slowBus             -> DefaultMapping
     )
+
+    //Specify which master bus can access to which slave/peripheral
     interconnect.addMasters(
       dBus   -> List(             dRam.io.bus, slowBus),
       iBus   -> List(iRam.io.bus,              slowBus),
       slowBus-> List(iRam.io.bus, dRam.io.bus,           peripherals.io.bus, flashXip.io.bus)
     )
 
+    //Add pipelining to busses connections to get a better maximal frequancy
     interconnect.setConnector(dBus, slowBus){(m, s) =>
       m.cmd.halfPipe() >> s.cmd
       m.rsp            << s.rsp
@@ -200,7 +210,7 @@ case class Up5kPerf(p : Up5kPerfParameters) extends Component {
       m.rsp << s.rsp.stage()
     }
 
-    //Map the CPU into the SoC
+    //Map the CPU into the SoC depending the Plugins used
     val cpu = new VexRiscv(p.toVexRiscvConfig())
     for (plugin <- cpu.plugins) plugin match {
       case plugin : IBusSimplePlugin => iBus << plugin.iBus.toSimpleBus()
@@ -215,7 +225,7 @@ case class Up5kPerf(p : Up5kPerfParameters) extends Component {
   }
 }
 
-
+//Up5kPerfEvn board specific toplevel.
 case class Up5kPerfEvn(p : Up5kPerfParameters) extends Component{
   val io = new Bundle {
     val iceClk  = in  Bool()
@@ -252,7 +262,7 @@ case class Up5kPerfEvn(p : Up5kPerfParameters) extends Component{
 }
 
 
-//Main used to generate the SoC design
+//Scala main used to generate the Up5kPerf toplevel
 object Up5kPerf {
   def main(args: Array[String]): Unit = {
     SpinalRtlConfig().generateVerilog(Up5kPerf(Up5kPerfParameters(
@@ -262,6 +272,7 @@ object Up5kPerf {
   }
 }
 
+//Scala main used to generate the Up5kPerfEvn toplevel
 object Up5kPerfEvn{
   def main(args: Array[String]) {
     SpinalRtlConfig().generateVerilog(Up5kPerfEvn(Up5kPerfParameters(

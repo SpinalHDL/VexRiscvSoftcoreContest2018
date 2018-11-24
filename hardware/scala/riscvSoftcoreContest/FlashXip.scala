@@ -6,6 +6,8 @@ import spinal.lib.fsm.{State, StateMachine}
 import spinal.lib._
 import vexriscv.demo.SimpleBus
 
+
+//Provide a read-only memory mapped access to the SPI serial flash
 case class FlashXpi(addressWidth : Int, slowDownFactor : Int = 0) extends Component{
   val io = new Bundle {
     val bus = slave(SimpleBus(addressWidth, 32))
