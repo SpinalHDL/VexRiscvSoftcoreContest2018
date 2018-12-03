@@ -33,8 +33,8 @@ LDSCRIPT = mapping.ld
 
 
 CFLAGS += -I${ZEPHYR_SDK_INSTALL_DIR}/sysroots/riscv32-zephyr-elf/usr/include
-LDFLAGS += -L/home/spinalvm/hdl/tools/zephyr-sdk/sysroots/riscv32-zephyr-elf/usr/lib/riscv32-zephyr-elf/6.1.0
-LDFLAGS += -L/home/spinalvm/hdl/tools/zephyr-sdk/sysroots/riscv32-zephyr-elf/usr/lib
+LDFLAGS += -L${ZEPHYR_SDK_INSTALL_DIR}/sysroots/riscv32-zephyr-elf/usr/lib/riscv32-zephyr-elf/6.1.0
+LDFLAGS += -L${ZEPHYR_SDK_INSTALL_DIR}/sysroots/riscv32-zephyr-elf/usr/lib
 
 
 
