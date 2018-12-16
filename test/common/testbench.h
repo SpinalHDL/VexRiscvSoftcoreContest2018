@@ -1,4 +1,5 @@
 #include <verilated_vcd_c.h>
+#include <verilated.h>
 #include <vector>
 
 
